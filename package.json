@@ -1,0 +1,65 @@
+{
+  "name": "@mobilabs/kapp",
+  "version": "0.0.0-alpha.0",
+  "description": "A boilerplate for a slim Node.js App server",
+  "main": "index.js",
+  "bin": {
+    "kapp": "./bin/kapp.js"
+  },
+  "scripts": {
+    "app": "node server/start.js",
+    "test": "cross-env NODE_ENV=test nyc --reporter=lcov mocha ./test/main.js",
+    "check-coverage": "nyc check-coverage --statements 40 --branches 0 --functions 0 --lines 40",
+    "display-coverage": "opener ./coverage/lcov-report/index.html",
+    "report-coverage": "nyc report --reporter=text-lcov | coveralls",
+    "report": "nyc report",
+    "makeprivate": "gulp makeprivate && sh tasks/compress.sh ${npm_package_name} ${npm_package_version} @mobilabs",
+    "doc": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jclo/kapp.git"
+  },
+  "keywords": [],
+  "author": {
+    "name": "jclo",
+    "email": "jclo@mobilabs.fr",
+    "url": "http://www.mobilabs.fr"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jclo/kapp/issues"
+  },
+  "homepage": "https://github.com/jclo/kapp",
+  "dependencies": {
+    "@mobilabs/kzlog": "0.0.3",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "nopt": "^4.0.1",
+    "shelljs": "^0.8.3"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "coveralls": "^3.0.9",
+    "cross-env": "^6.0.3",
+    "del": "^5.1.0",
+    "eslint": "^6.7.2",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.19.1",
+    "gulp": "^4.0.2",
+    "husky": "^3.1.0",
+    "mocha": "^6.2.2",
+    "nyc": "^14.1.1",
+    "opener": "^1.5.1",
+    "request": "^2.88.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run test && npm run check-coverage && npm run report"
+    }
+  }
+}
