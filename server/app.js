@@ -67,7 +67,7 @@ function App() {
 
   routes.start(app);
   servers.startHttp(app);
-  servers.startHttps(app, __dirname);
+  // servers.startHttps(app, __dirname);
 }
 
 
