@@ -3,7 +3,7 @@
 ### 0.0.1 (December 18, 2019)
 
   * Implemented a mechanism to run Kapp on Travis-CI without disabling the https server,
-  * ...,
+  * Release.
 
 
 ### 0.0.0 (December 17, 2019)
