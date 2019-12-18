@@ -21,7 +21,7 @@
 /* eslint no-console: 0 */
 
 /**
- * Sends a GET api and wait for a test response.
+ * Sends a GET api and wait for a text response.
  */
 fetch('/v1/getText')
   .then((resp) => {

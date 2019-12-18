@@ -16,14 +16,23 @@ const app     = require('../server/app')
 
 
 // -- Local constants
-const server = `http://localhost:${config.env.httpport}`
-    ;
 
 
 // -- Local variables
+let server;
 
 
 // -- Main section -
+
+// Set this environment variable orherwise 'request' does not accept self-signed
+// certificates:
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
+if (process.env.TRAVIS || !config.env.https) {
+  server = `http://localhost:${config.env.httpport}`;
+} else {
+  server = `https://localhost:${config.env.httpsport}`;
+}
 
 describe('Test Kapp:', () => {
   describe('Test a connection:', () => {

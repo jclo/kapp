@@ -35,9 +35,17 @@ const config = {
 
   // Environment configuration
   env: {
-    staticpage: 'public',
+    staticpage: '/public',
     httpport: 1080,
     httpsport: 1443,
+    // By default, HTTPS is active and it is used for all the transactions.
+    // It could be disabled for testing purpose.
+    https: true,
+    // By default, the transactions are authorized for the local machine only.
+    // Replace '127.0.0.1' by '0.0.0.0' if you want to authorize the
+    // transactions from all the machines on the nework or by the address
+    // of the authorized machine.
+    network: '127.0.0.1',
   },
 
   // Useful regular expressions

@@ -52,7 +52,7 @@ const { level } = config
  * @returns {Object}        returns the private key and the public certificate,
  * @since 0.0.0
  */
-const _certificates = function(base) {
+const _getCertificates = function(base) {
   return {
     key: fs.readFileSync(`${base}/ssl/server-key.pem`, 'utf8'),
     cert: fs.readFileSync(`${base}/ssl/server-cert.pem`, 'utf8'),
@@ -85,7 +85,7 @@ const servers = {
       // '127.0.0.1' means allowing access to the local machine only. If you
       // want to authorize the server to listen any machines on the
       // network, replace '127.0.0.1' by '0.0.0.0'.
-      .listen(config.env.httpport, '127.0.0.1', () => {
+      .listen(config.env.httpport, config.env.network, () => {
         log.info(`http listening on port ${config.env.httpport}.`);
       });
   },
@@ -101,17 +101,23 @@ const servers = {
    * @since 0.0.0
   */
   startHttps(app, base) {
-    https.createServer(_certificates(base), app)
-      .on('error', (e) => {
-        if (e.code === 'EACCES') {
-          log.error(`You don't have the privileges to listen the port: ${config.env.httpsport}.`);
-        } else {
-          log.error(e);
-        }
-      })
-      .listen(config.env.httpsport, '127.0.0.1', () => {
-        log.info(`https listening on port ${config.env.httpsport}.`);
-      });
+    if (config.env.https && !process.env.TRAVIS) {
+      https.createServer(_getCertificates(base), app)
+        .on('error', (e) => {
+          if (e.code === 'EACCES') {
+            log.error(`You don't have the privileges to listen the port: ${config.env.httpsport}.`);
+          } else {
+            log.error(e);
+          }
+        })
+        .listen(config.env.httpsport, config.env.network, () => {
+          log.info(`https listening on port ${config.env.httpsport}.`);
+        });
+    } else if (!config.env.https) {
+      log.trace('config.env.https is false, the https server is not started!');
+    } else {
+      log.trace('Kapp is runing on TRAVIS-CI, the https server is not started!');
+    }
   },
 };
 

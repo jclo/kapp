@@ -64,7 +64,7 @@ const routes = {
     app.post('/v1/posto', (req, res) => {
       res.send(JSON.stringify(req.body));
       log.info('gets the api: "/v1/post".');
-      log.info('got payload!');
+      log.info('got the payload!');
       console.log(req.body);
     });
   },
