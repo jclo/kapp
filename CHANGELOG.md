@@ -3,7 +3,7 @@
 ### 0.0.2 (December 19, 2019)
 
   * Implemented an optional session login mechanism,
-  * ...,
+  * Release.
 
 
 ### 0.0.1 (December 18, 2019)
