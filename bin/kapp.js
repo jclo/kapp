@@ -249,7 +249,7 @@ function _addSkeleton(base, app, owner, cright) {
  * @returns {}              -,
  */
 function _duplicate(source, dest) {
-  const dupFiles = ['.eslintrc', '.travis.yml', 'gulpfile.js'];
+  const dupFiles = ['.eslintrc', '.travis.yml'];
 
   for (let i = 0; i < dupFiles.length; i++) {
     process.stdout.write(`  copied ${dupFiles[i]}\n`);
@@ -367,6 +367,8 @@ function _addServer(source, dest, folder, app) {
   // Replace '{{app:name}}' by 'app' to app.js and start.js:
   shell.sed('-i', '{{app:name}}', app, `${dest}/${folder}/app.js`);
   shell.sed('-i', '{{app:name}}', app, `${dest}/${folder}/start.js`);
+
+  shell.sed('-i', '{{kapp:version}}', version, `${dest}/${folder}/api/system.js`);
 }
 
 /**

@@ -1,5 +1,6 @@
 # Test
 
   * npm run test,
-  * node test/main.js,
-  * ./test/test.sh,
+  * node test/test.js,
+  * ./test/curl.sh,
+  * ./test/login.sh

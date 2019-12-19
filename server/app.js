@@ -20,19 +20,22 @@
  * @since     0.0.0
  * @version   -
  * ************************************************************************** */
-/* eslint one-var: 0, semi-style: 0 */
+/* eslint one-var: 0, semi-style: 0, no-underscore-dangle: 0 */
 
 
 // -- Node Modules
-const express    = require('express')
-    , bodyParser = require('body-parser')
-    , KZlog      = require('@mobilabs/kzlog');
+const express      = require('express')
+    , bodyParser   = require('body-parser')
+    , cookieParser = require('cookie-parser')
+    , session      = require('express-session')
+    , KZlog        = require('@mobilabs/kzlog');
 
 
 // -- Project Modules
-const config  = require('./config.js')
-    , servers = require('./core/http')
-    , routes  = require('./core/routes')
+const config     = require('./config')
+    , Servers    = require('./core/http')
+    , Routes     = require('./core/routes')
+    , Middleware = require('./middlewares/main')
     ;
 
 
@@ -41,6 +44,27 @@ const { level } = config;
 
 
 // Local variables
+
+
+// -- Private Functions --------------------------------------------------------
+
+/**
+ * Sets the CORS policy.
+ *
+ * @function (arg1)
+ * @private
+ * @param {Object}          the configuration settings object,
+ * @returns {Object}        returns the function to execute for defining the CORS policy,
+ * @since 0.0.0
+ */
+const _cors = function(conf) {
+  return function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', conf.cors.origin);
+    res.header('Access-Control-Allow-Methods', conf.cors.methods);
+    res.header('Access-Control-Allow-Headers', conf.cors.headers);
+    next();
+  };
+};
 
 
 // -- Public -------------------------------------------------------------------
@@ -63,11 +87,30 @@ function App() {
   const app = express();
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
+
+  // This block implements a session connection from a client web app. if
+  // your App doesn't implement a login session, you can safely remove
+  // this block and the modules 'cookieParser' and 'session'.
+  app.use(cookieParser());
+  app.use(session({
+    name: config.session.key,
+    secret: config.session.secret,
+    cookie: { maxAge: config.session.maxAge },
+    saveUninitialized: true,
+    resave: true,
+  }));
+  app.use(_cors(config));
+
+  // Here it is an example of middlware:
+  app.use(Middleware.filterHost());
+
+  // Serve the static pages:
   app.use(express.static(config.env.staticpage));
 
-  routes.start(app);
-  servers.startHttp(app);
-  servers.startHttps(app, __dirname);
+  // Start the HTTP & HTTPS servers:
+  Routes.start(app);
+  Servers.startHttp(app);
+  Servers.startHttps(app, __dirname);
 }
 
 

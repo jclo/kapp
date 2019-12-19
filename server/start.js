@@ -22,7 +22,7 @@
 
 
 // -- Project Modules
-const app    = require('./app');
+const App = require('./app');
 
 
 // -- Local constants
@@ -33,4 +33,4 @@ const app    = require('./app');
 
 // -- Main section -
 
-app();
+App();

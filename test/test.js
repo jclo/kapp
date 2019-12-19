@@ -13,12 +13,11 @@ const config = require('../server/config');
 
 
 // -- Local constants
-const server   = `http://localhost:${config.env.httpport}`
-    ;
 
 
 // -- Local variables
-let url
+let server
+  , url
   , payload
   , resp
   ;
@@ -80,24 +79,24 @@ async function run() {
   }
   process.stdout.write('ok\n');
 
-  process.stdout.write('Request a GET on /v1/getText ... ');
-  url = `${server}/v1/getText`;
+  process.stdout.write('Request a GET on /api/v1/getText ... ');
+  url = `${server}/api/v1/getText`;
   resp = await GET(url);
   if (resp !== 'Hello Text World!') {
     throw new Error('The api /v1/getText did not return the right string!');
   }
   process.stdout.write('ok\n');
 
-  process.stdout.write('Request a GET on /v1/getJSON ... ');
-  url = `${server}/v1/getJSON`;
+  process.stdout.write('Request a GET on /api/v1/getJSON ... ');
+  url = `${server}/api/v1/getJSON`;
   resp = await GET(url);
   if (JSON.parse(resp).a !== 'Hello JSON World!') {
     throw new Error('The api /v1/getJSON did not return the right string!');
   }
   process.stdout.write('ok\n');
 
-  process.stdout.write('Request a POST on /v1/posto ... ');
-  url = `${server}/v1/posto`;
+  process.stdout.write('Request a POST on /api/v1/posto ... ');
+  url = `${server}/api/v1/posto`;
   payload = JSON.stringify({ a: 1, b: 'This is a payload' });
   resp = await POST(url, payload);
   if (JSON.parse(resp).b !== 'This is a payload') {
@@ -110,4 +109,15 @@ async function run() {
 
 
 // -- Main section -
+
+// Set this environment variable orherwise 'request' does not accept self-signed
+// certificates:
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
+if (process.env.TRAVIS || !config.env.https) {
+  server = `http://localhost:${config.env.httpport}`;
+} else {
+  server = `https://localhost:${config.env.httpsport}`;
+}
+
 run();

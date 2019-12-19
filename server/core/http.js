@@ -13,7 +13,7 @@
  *
  *
  *
- * @exports   servers
+ * @exports   Servers
  * @author    -
  * @since     0.0.0
  * @version   -
@@ -29,7 +29,7 @@ const fs      = require('fs')
 
 
 // -- Project Modules
-const config = require('../config.js');
+const config = require('../config');
 
 
 // -- Local constants
@@ -62,7 +62,7 @@ const _getCertificates = function(base) {
 
 // -- Public Methods -----------------------------------------------------------
 
-const servers = {
+const Servers = {
 
   /**
    * Starts the HTTP server.
@@ -114,13 +114,13 @@ const servers = {
           log.info(`https listening on port ${config.env.httpsport}.`);
         });
     } else if (!config.env.https) {
-      log.trace('config.env.https is false, the https server is not started!');
+      log.info('config.env.https is false, the https server is not started!');
     } else {
-      log.trace('Kapp is runing on TRAVIS-CI, the https server is not started!');
+      log.info('Kapp is runing on TRAVIS-CI, the https server is not started!');
     }
   },
 };
 
 
 // -- Export
-module.exports = servers;
+module.exports = Servers;

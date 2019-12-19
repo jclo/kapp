@@ -48,10 +48,10 @@ describe('Test Kapp:', () => {
     });
   });
 
-  describe('Test the api /v1/getText:', () => {
-    const url = `${server}/v1/getText`;
+  describe('Test the api /api/v1/getText:', () => {
+    const url = `${server}/api/v1/getText`;
 
-    it('Expects the api "/v1/getText" to return the string "Hello Text World!"', (done) => {
+    it('Expects the api "/api/v1/getText" to return the string "Hello Text World!"', (done) => {
       request.get({ url }, (error, resp, data) => {
         expect(data).is.a('string').that.is.equal('Hello Text World!');
         done();
@@ -59,10 +59,10 @@ describe('Test Kapp:', () => {
     });
   });
 
-  describe('Test the api /v1/getJSON:', () => {
-    const url = `${server}/v1/getJSON`;
+  describe('Test the api /api/v1/getJSON:', () => {
+    const url = `${server}/api/v1/getJSON`;
 
-    it('Expects the api "/v1/getJSON" to return "{"a":"Hello JSON World!"}"', (done) => {
+    it('Expects the api "/api/v1/getJSON" to return "{"a":"Hello JSON World!"}"', (done) => {
       request.get({ url }, (error, resp, data) => {
         expect(JSON.parse(data).a).is.a('string').that.is.equal('Hello JSON World!');
         done();
@@ -70,10 +70,10 @@ describe('Test Kapp:', () => {
     });
   });
 
-  describe('Test the api /v1/posto:', () => {
-    const url = `${server}/v1/posto`;
+  describe('Test the api /api/v1/posto:', () => {
+    const url = `${server}/api/v1/posto`;
 
-    it('Expects the api "/v1/posto" to return "{"a":1,"b":"This is a payload"}"', (done) => {
+    it('Expects the api "/api/v1/posto" to return "{"a":1,"b":"This is a payload"}"', (done) => {
       request({
         url,
         method: 'POST',

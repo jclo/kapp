@@ -18,7 +18,7 @@ Kapp is a boilerplate to build a slim Node.js App server that serves a web App a
 You need to create a folder that contains your project. Then, at the root level of your project, type:
 
 ```bash
-npm install http://localhost/~dev/privatenpm/kapp/<version>/kapp.tgz
+npm install @mobilabs/kapp
 ```
 
 Once installed, type:

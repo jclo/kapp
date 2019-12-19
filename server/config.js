@@ -35,7 +35,7 @@ const config = {
 
   // Environment configuration
   env: {
-    staticpage: '/public',
+    staticpage: 'public',
     httpport: 1080,
     httpsport: 1443,
     // By default, HTTPS is active and it is used for all the transactions.
@@ -46,6 +46,28 @@ const config = {
     // transactions from all the machines on the nework or by the address
     // of the authorized machine.
     network: '127.0.0.1',
+  },
+
+  // Session configuration
+  // (remove this if your App doesn't require a session login)
+  session: {
+    key: 'app',
+    secret: 'p!550ff',
+    maxAge: null,
+  },
+
+  // CORS Policy
+  // This define the server cors policy. It accepts the methods GET, POST, PUT
+  // and DELETE from any clients on the network. If you want to restrict
+  // the access to a list of domains, you have to implement a middleware
+  // that filters the domain names. The propery hostname is used here as an
+  // example how to filter hosts (refer to the middleware filterHosts).
+  cors: {
+    origin: '*',
+    methods: 'GET, POST, PUT, DELETE',
+    headers: 'X-Requested-With, Content-Type',
+    credentials: true,
+    hostname: ['localhost', 'google.com'],
   },
 
   // Useful regular expressions

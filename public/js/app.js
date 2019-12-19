@@ -23,7 +23,7 @@
 /**
  * Sends a GET api and wait for a text response.
  */
-fetch('/v1/getText')
+fetch('/api/v1/getText')
   .then((resp) => {
     if (resp.ok) {
       return resp.text();
@@ -40,7 +40,7 @@ fetch('/v1/getText')
 /**
  * Sends a GET api and wait for a JSON response.
  */
-fetch('/v1/getJSON')
+fetch('/api/v1/getJSON')
   .then((resp) => {
     if (resp.ok) {
       return resp.json();
@@ -57,7 +57,7 @@ fetch('/v1/getJSON')
 /**
  * Sends a POST api with a payload.
  */
-fetch('/v1/posto', {
+fetch('/api/v1/posto', {
   method: 'POST',
   headers: {
     Accept: 'application/json',

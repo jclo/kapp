@@ -1,6 +1,6 @@
 {
   "name": "@mobilabs/kapp",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A boilerplate for a slim Node.js App server",
   "main": "index.js",
   "bin": {
@@ -9,7 +9,7 @@
   "scripts": {
     "app": "node server/start.js",
     "test": "cross-env NODE_ENV=test nyc --reporter=lcov mocha ./test/main.js",
-    "check-coverage": "nyc check-coverage --statements 40 --branches 0 --functions 0 --lines 40",
+    "check-coverage": "nyc check-coverage --statements 35 --branches 0 --functions 0 --lines 35",
     "display-coverage": "opener ./coverage/lcov-report/index.html",
     "report-coverage": "nyc report --reporter=text-lcov | coveralls",
     "report": "nyc report",
@@ -34,7 +34,9 @@
   "dependencies": {
     "@mobilabs/kzlog": "0.0.3",
     "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.4",
     "express": "^4.17.1",
+    "express-session": "^1.17.0",
     "nopt": "^4.0.1",
     "shelljs": "^0.8.3"
   },
