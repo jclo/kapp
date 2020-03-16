@@ -4,7 +4,7 @@
 
   * Enabled the local connections,
   * Updated the dependencies,
-  * ...,
+  * Release.
 
 
 ### 0.0.2 (December 19, 2019)
