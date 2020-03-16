@@ -24,7 +24,8 @@
 
 
 // -- Node Modules
-const express      = require('express')
+const os           = require('os')
+    , express      = require('express')
     , bodyParser   = require('body-parser')
     , cookieParser = require('cookie-parser')
     , session      = require('express-session')
@@ -66,6 +67,35 @@ const _cors = function(conf) {
   };
 };
 
+/**
+ * Finds the server network I/F.
+ *
+ * @function ()
+ * @private
+ * @param {}                -,
+ * @returns {Object}        returns the server network I/F,
+ * @since 0.0.0
+ */
+const _findLocalIP = function() {
+  const net = os.networkInterfaces();
+  const ifaces = Object.keys(net);
+
+  let ip;
+  let iface;
+  ifaces.forEach((item) => {
+    if (item === 'eth0' || item === 'en0') {
+      for (let i = 0; i < net[item].length; i++) {
+        if (net[item][i].family === 'IPv4') {
+          iface = item;
+          ip = net[item][i].address;
+          break;
+        }
+      }
+    }
+  });
+  return { eth: iface, ip };
+};
+
 
 // -- Public -------------------------------------------------------------------
 
@@ -102,7 +132,7 @@ function App() {
   app.use(_cors(config));
 
   // Here it is an example of middlware:
-  app.use(Middleware.filterHost());
+  app.use(Middleware.filterHost(_findLocalIP()));
 
   // Serve the static pages:
   app.use(express.static(config.env.staticpage));

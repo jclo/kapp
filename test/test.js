@@ -4,7 +4,7 @@
 /* eslint one-var: 0, semi-style: 0 */
 
 // -- Node modules
-const request = require('request')
+const fetch = require('node-fetch')
     ;
 
 
@@ -17,9 +17,6 @@ const config = require('../server/config');
 
 // -- Local variables
 let server
-  , url
-  , payload
-  , resp
   ;
 
 
@@ -28,52 +25,57 @@ let server
 /**
  * GET
  */
-async function GET(lurl) {
-  return new Promise((resolve, reject) => {
-    request({
-      url: lurl,
-      method: 'GET',
-    }, (error, res) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(res.body);
+async function GET(url) {
+  return fetch(url)
+    .then((respo) => {
+      if (respo.ok) {
+        return respo.text();
       }
-    });
-  });
+      return Promise.reject(respo);
+    })
+    .then((data) => [null, data])
+    .catch((err) => [err])
+  ;
 }
 
 /**
  * POST
  */
-async function POST(lurl, pload) {
-  return new Promise((resolve, reject) => {
-    request({
-      url: lurl,
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: pload,
-    }, (error, res) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(res.body);
+async function POST(url, payload) {
+  return fetch(url, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  })
+    .then((respo) => {
+      if (respo.ok) {
+        return respo.json();
       }
-    });
-  });
+      return Promise.reject(respo);
+    })
+    .then((data) => [null, data])
+    .catch((err) => [err])
+  ;
 }
+
 
 /**
  * Run operations sequentially.
  */
 async function run() {
+  let url
+    , err
+    , resp
+    , payload
+    ;
+
   // Connect:
   process.stdout.write('Request the html page ... ');
   url = `${server}/index.html`;
-  resp = await GET(url);
+  [err, resp] = await GET(url);
   if (typeof resp !== 'string') {
     throw new Error('The connection to the server did not return a string!');
   }
@@ -81,7 +83,7 @@ async function run() {
 
   process.stdout.write('Request a GET on /api/v1/getText ... ');
   url = `${server}/api/v1/getText`;
-  resp = await GET(url);
+  [err, resp] = await GET(url);
   if (resp !== 'Hello Text World!') {
     throw new Error('The api /v1/getText did not return the right string!');
   }
@@ -89,7 +91,7 @@ async function run() {
 
   process.stdout.write('Request a GET on /api/v1/getJSON ... ');
   url = `${server}/api/v1/getJSON`;
-  resp = await GET(url);
+  [err, resp] = await GET(url);
   if (JSON.parse(resp).a !== 'Hello JSON World!') {
     throw new Error('The api /v1/getJSON did not return the right string!');
   }
@@ -97,9 +99,10 @@ async function run() {
 
   process.stdout.write('Request a POST on /api/v1/posto ... ');
   url = `${server}/api/v1/posto`;
-  payload = JSON.stringify({ a: 1, b: 'This is a payload' });
-  resp = await POST(url, payload);
-  if (JSON.parse(resp).b !== 'This is a payload') {
+  payload = { a: 1, b: 'This is a payload' };
+
+  [err, resp] = await POST(url, payload);
+  if (resp.b !== 'This is a payload') {
     throw new Error('The api /v1/posto did not return the right payload!');
   }
   process.stdout.write('ok\n');

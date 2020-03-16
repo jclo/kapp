@@ -52,9 +52,19 @@ const Middleware = {
    * @since 0.0.0
    */
 
-  filterHost() {
+  filterHost(net) {
     return function(req, res, next) {
       if (!config.cors && !config.cors.hostname && !Array.isArray(config.cors.hostname)) {
+        log.trace(`The connection is accepted for ${req.hostname}.`);
+        next();
+        return;
+      }
+
+      // By default, authorize the connection from the localhost:
+      if (req.hostname.includes('localhost')
+          || req.hostname === net.ip
+          || req.hostname === '127.0.0.1'
+      ) {
         log.trace(`The connection is accepted for ${req.hostname}.`);
         next();
         return;

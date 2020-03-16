@@ -1,5 +1,12 @@
 ### HEAD
 
+### 0.0.3 (March 16, 2020)
+
+  * Enabled the local connections,
+  * Updated the dependencies,
+  * ...,
+
+
 ### 0.0.2 (December 19, 2019)
 
   * Implemented an optional session login mechanism,

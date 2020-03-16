@@ -67,7 +67,7 @@ const config = {
     methods: 'GET, POST, PUT, DELETE',
     headers: 'X-Requested-With, Content-Type',
     credentials: true,
-    hostname: ['localhost', 'google.com'],
+    hostname: ['google.com'],
   },
 
   // Useful regular expressions
