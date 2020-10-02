@@ -23,16 +23,17 @@
 /* eslint one-var: 0, semi-style: 0, no-underscore-dangle: 0 */
 
 
-// -- Node Modules
+// -- Vendor Modules
 const os           = require('os')
     , express      = require('express')
     , bodyParser   = require('body-parser')
     , cookieParser = require('cookie-parser')
     , session      = require('express-session')
-    , KZlog        = require('@mobilabs/kzlog');
+    , KZlog        = require('@mobilabs/kzlog')
+    ;
 
 
-// -- Project Modules
+// -- Local Modules
 const config     = require('./config')
     , Servers    = require('./core/http')
     , Routes     = require('./core/routes')
@@ -40,11 +41,11 @@ const config     = require('./config')
     ;
 
 
-// -- Local constants
+// -- Local Constants
 const { level } = config;
 
 
-// Local variables
+// -- Local Variables
 
 
 // -- Private Functions --------------------------------------------------------

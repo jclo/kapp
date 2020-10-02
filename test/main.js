@@ -1,24 +1,23 @@
+// ESLint declarations:
 /* global describe, it */
-/* eslint one-var: 0, semi-style: 0, no-unused-vars: 0 */
+/* eslint one-var: 0, semi-style: 0 */
 
-// -- Node modules
-const should     = require('chai').should()
-    , { expect } = require('chai')
+
+// -- Vendor Modules
+const { expect } = require('chai')
     , request    = require('request')
     ;
 
 
-// -- Project modules
-const app     = require('../server/app')
-    , config  = require('../server/config')
-    , release = require('../package.json').version
+// -- Local Modules
+const config = require('../server/config')
     ;
 
 
-// -- Local constants
+// -- Local Constants
 
 
-// -- Local variables
+// -- Local Variables
 let server;
 
 
@@ -36,8 +35,6 @@ if (process.env.TRAVIS || !config.env.https) {
 
 describe('Test Kapp:', () => {
   describe('Test a connection:', () => {
-    let body;
-
     const url = `${server}/index.html`;
     it('Expects the connection to return an HTML page.', (done) => {
       request.get({ url }, (error, resp, data) => {

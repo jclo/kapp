@@ -11,16 +11,16 @@
 /* eslint no-useless-escape: 0 */
 
 
-// -- Node Modules
+// -- Vendor Modules
 
 
-// -- Project Modules
+// -- Local Modules
 
 
 // -- Local Constants
 
 
-// -- Local variables
+// -- Local Variables
 
 
 // -- Main section -

@@ -8,6 +8,9 @@
   /**
    * Set Environnement
    */
+  "env": {
+    "browser": false
+  },
   /**
    * Set globals
    */

@@ -20,18 +20,18 @@
 /* eslint one-var: 0, semi-style: 0 */
 
 
-// -- Node Modules
+// -- Vendor Modules
 
 
-// -- Project Modules
+// -- Local Modules
 const Auth = require('../auth/main')
     ;
 
 
-// -- Local constants
+// -- Local Constants
 
 
-// Local variables
+// -- Local Variables
 
 
 // -- Public -------------------------------------------------------------------

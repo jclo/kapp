@@ -21,24 +21,26 @@
 /* eslint one-var: 0, semi-style: 0, no-underscore-dangle: 0 */
 
 
-// -- Node Modules
+// -- Vendor Modules
 const fs      = require('fs')
     , http    = require('http')
     , https   = require('https')
-    , KZlog   = require('@mobilabs/kzlog');
+    , KZlog   = require('@mobilabs/kzlog')
+    ;
 
 
-// -- Project Modules
-const config = require('../config');
+// -- Local Modules
+const config = require('../config')
+    ;
 
 
-// -- Local constants
+// -- Local Constants
 const { level } = config
     , log       = KZlog('core/http.js', level, false)
     ;
 
 
-// Local variables
+// -- Local Variables
 
 
 // -- Private Functions --------------------------------------------------------

@@ -18,17 +18,18 @@
  * @version   -
  * ************************************************************************** */
 
-// -- Node Modules
+
+// -- Vendor Modules
 
 
-// -- Project Modules
+// -- Local Modules
 const App = require('./app');
 
 
-// -- Local constants
+// -- Local Constants
 
 
-// -- Local variables
+// -- Local Variables
 
 
 // -- Main section -

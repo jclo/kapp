@@ -22,23 +22,24 @@
 /* eslint one-var: 0, semi-style: 0, no-underscore-dangle: 0, no-console: 0 */
 
 
-// -- Node Modules
-const KZlog   = require('@mobilabs/kzlog');
+// -- Vendor Modules
+const KZlog   = require('@mobilabs/kzlog')
+    ;
 
 
-// -- Project Modules
+// -- Local Modules
 const config  = require('../config')
     , Account = require('./account')
     ;
 
 
-// -- Local constants
+// -- Local Constants
 const { level } = config
     , log       = KZlog('auth/main.js', level, false)
     ;
 
 
-// Local variables
+// -- Local Variables
 
 
 // -- Public Methods -----------------------------------------------------------

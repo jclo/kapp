@@ -13,31 +13,68 @@ Kapp is a boilerplate to build a slim Node.js App server that serves a web App a
 
 ## Quick Startup
 
-You need to create a folder that contains your project. Then, at the root level of your project, type:
+You can easily get your first Kapp Server running in a couple of minutes by just typing a few command lines. But first, you need to create an empty folder. It will contain your project.
+
+Then, you just need to create a `package.json` file that contains:
+
+```json
+{
+  "name": "NameOfYourProject",
+  "scripts": {
+    "create": "npm install @mobilabs/kapp && npm run populate",
+    "populate": "kapp populate --name ${npm_package_name} --author \"${npm_package_writer_name}\" --acronym ${npm_package_writer_acronym} --email ${npm_package_writer_email} --url ${npm_package_writer_url} && npm install"
+  },
+  "writer": {
+    "name": "John Doe",
+    "acronym": "jdo",
+    "email": "jdo@johndoe.com",
+    "url": "http://www.johndoe.com/"
+  }
+}
+```
+Replace `NameOfYourProject` by your project name and fill `writer` with your credentials.
+
+And finally, type in the terminal:
 
 ```bash
-npm install @mobilabs/kapp
+npm run create.
 ```
 
-Once installed, type:
+Your project is almost ready. As, Kapp relies on `https`, you have to add your certificates in the folder `server/ssl` or you can disable `https` (not recommended) in `server/config.js`.
 
-```bash
-./node_modules/.bin/kapp create -n <name_of_your_app>
-```
-
-It populates your project with a minimal Node.js server. When it is done, type:
-
-```bash
-npm install
-```
-
-And finally:
+Now you can starts your server by typing:
 
 ```bash
 npm run app
 ```
 
-The file `public/index.html` is displayed in your browser at the address `http://localhost:1080`.
+### Access through a browser
+
+Open your browser and connect to your server with the url `http://localhost:1080` or `https://localhost:1443`.
+
+
+### Through Node.js
+
+Open a terminal and type:
+
+```bash
+node test/test.js
+```
+
+
+### Through Curl
+
+Open a terminal and type:
+
+```bash
+sh test/curl.sh
+```
+
+or:
+
+```bash
+sh test/login.sh
+```
 
 That's all.
 

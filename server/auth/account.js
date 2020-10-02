@@ -21,20 +21,20 @@
   object-curly-newline: 0 */
 
 
-// -- Node Modules
+// -- Vendor Modules
 
 
-// -- Project Modules
+// -- Local Modules
 
 
-// -- Local constants
+// -- Local Constants
 const db = [
   { user_name: 'jdo', user_pwd: 'jdo', first_name: 'John', last_name: 'Doe' },
   { user_name: 'jsn', user_pwd: 'jsn', first_name: 'John', last_name: 'Snow' },
 ];
 
 
-// Local variables
+// -- Local Variables
 
 
 // -- Public Methods -----------------------------------------------------------

@@ -1,4 +1,4 @@
-<!-- Based on HTML5 boilerplate v7.3.0 -->
+<!-- Based on HTML5 boilerplate v8.0.0 -->
 <!doctype html>
 <html class="no-js" lang="">
   <head>
@@ -9,12 +9,29 @@
     <meta name="{{company:name}}" content="{{company:slogan}}" />
     <meta name="copyright" content="{{company:copyright}}" />
 
-    <link rel="manifest" href="site.webmanifest">
-    <link rel="apple-touch-icon" href="img/icon.png">
-    <!-- Place favicon.ico in the root directory -->
-    <link rel="icon" href="favicon.ico" />
+    <!-- Open Graph Protocol markup -->
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
 
-    <link rel="stylesheet" href="css/app.css">
+    <!-- Set your canonical link -->
+    <link rel="canonical" href="{{app:canonical-link}}" />
+
+    <!-- PWA manifest, Web manifest -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="site.webmanifest">
+
+    <!-- Place favicon.ico in the root directory -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+
+    <!-- iOS support -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="{{app:title}}">
+    <link rel="apple-touch-icon" href="img/icons/icon-152x152.png">
+
+    <link rel="stylesheet" href="./css/app.css">
     <meta name="theme-color" content="#fafafa">
   </head>
 
@@ -23,14 +40,27 @@
       <p class="browserupgrade">You are using an <strong>outdated and unsupported</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to benefit of all the features of this web App.</p>
     <![endif]-->
 
+    <!-- Warning message if Javascript isn't enabled -->
+    <noscript>
+      <p style="text-align:center;padding-top:3em;">
+        We are sorry, but this website doesn't work properly without JavaScript enabled!
+      </p>
+    </noscript>
+
     <!-- Add your site or application content here -->
-    <p>Hello world! This is HTML5 Boilerplate.</p>
+    <p style="text-align: center; padding-top: 100px;">
+      Hello world! This is an HTML5 Boilerplate.
+    </p>
 
     <!-- Add your scripts here -->
-    <!-- Cordova reference, this is added to your app when it's built. -->
     <!-- <script src="..."></script> -->
     <script src="js/app.js"></script>
 
     <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+    <script>
+      window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;
+      ga('create', 'UA-XXXXX-Y', 'auto'); ga('set', 'anonymizeIp', true); ga('set', 'transport', 'beacon'); ga('send', 'pageview')
+    </script>
+    <script src="https://www.google-analytics.com/analytics.js" async></script>
   </body>
 </html>
