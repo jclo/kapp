@@ -3,6 +3,7 @@
 ### 1.0.0 (October 2, 2020)
 
   * Updated the project dependencies,
+  * Fixed a regression on test coverage,
   * ...,
 
 

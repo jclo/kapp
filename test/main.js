@@ -10,7 +10,8 @@ const { expect } = require('chai')
 
 
 // -- Local Modules
-const config = require('../server/config')
+const app    = require('../server/app') // this file is required for the test coverage
+    , config = require('../server/config')
     ;
 
 
