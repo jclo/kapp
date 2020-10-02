@@ -1,4 +1,7 @@
 *
+!.eslintrc
+!.travis.yml
+
 !bin/**/*
 !public/**/*
 

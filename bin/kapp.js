@@ -137,7 +137,6 @@ const gitignore = [
   ''].join('\n');
 
 const eslintignore = [
-  '_dist/lib/{{lib:lowname}}.min.*',
   ''].join('\n');
 
 const npmignore = [

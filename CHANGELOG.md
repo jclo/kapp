@@ -4,7 +4,7 @@
 
   * Updated the project dependencies,
   * Fixed a regression on test coverage,
-  * ...,
+  * Release.
 
 
 ### 0.0.4 (August 10, 2020)
