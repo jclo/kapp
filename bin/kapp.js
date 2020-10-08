@@ -347,6 +347,7 @@ function _customize(source, dest, app, owner, boilerlib) {
 
   pack.devDependencies[`@mobilabs/${boilerlib.toLocaleLowerCase()}`] = version;
 
+  delete pack.dependencies['@mobilabs/kasar'];
   delete pack.dependencies.nopt;
   delete pack.dependencies.shelljs;
 

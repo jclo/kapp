@@ -1,6 +1,6 @@
 {
   "name": "@mobilabs/kapp",
-  "version": "1.0.0",
+  "version": "1.0.1-beta.1",
   "description": "A boilerplate for a slim Node.js App server",
   "main": "index.js",
   "bin": {
@@ -31,6 +31,7 @@
   },
   "homepage": "https://github.com/jclo/kapp",
   "dependencies": {
+    "@mobilabs/kasar": "^1.0.2",
     "@mobilabs/kzlog": "^1.0.0",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
@@ -43,7 +44,7 @@
     "chai": "^4.2.0",
     "coveralls": "^3.1.0",
     "cross-env": "^7.0.2",
-    "del": "^5.1.0",
+    "del": "^6.0.0",
     "eslint": "^7.9.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.0",

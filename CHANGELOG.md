@@ -1,5 +1,11 @@
 ### HEAD
 
+### 1.0.1 (October 8, 2020)
+
+  * Added the capability to add a doc through @mobilabs/kasar,
+  * ...,
+  
+
 ### 1.0.0 (October 2, 2020)
 
   * Updated the project dependencies,
