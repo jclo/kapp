@@ -326,6 +326,7 @@ function _customize(source, dest, app, owner, boilerlib) {
     'check-coverage': obj.scripts['check-coverage'],
     'report-coverage': obj.scripts['report-coverage'],
     report: obj.scripts.report,
+    makeprod: 'sh tasks/prod.sh _prod',
     doc: obj.scripts.doc,
   };
   pack.repository = obj.repository;
@@ -385,10 +386,10 @@ function _addPublic(source, dest, folder) {
  * @param {String}          the name of the boilerplate,
  * @returns {}              -,
  */
-function _addTasks(source, dest, folder, app, boilerlib) {
+function _addTasks(source, dest, folder/* , app, boilerlib */) {
   const exclude = []
-      , boiler  = '{{boiler:name}}'
-      , ver     = '{{boiler:name:version}}'
+      // , boiler  = '{{boiler:name}}'
+      // , ver     = '{{boiler:name:version}}'
       ;
 
   process.stdout.write(`  duplicated the contents of ${folder}\n`);
@@ -401,9 +402,9 @@ function _addTasks(source, dest, folder, app, boilerlib) {
 
   // Replace 'boilerlib' by 'app' to config.js and add the version
   // of the boilerplate:
-  shell.sed('-i', boilerlib, app, `${dest}/${folder}/config.js`);
-  shell.sed('-i', boiler, boilerlib, `${dest}/${folder}/config.js`);
-  shell.sed('-i', ver, version, `${dest}/${folder}/config.js`);
+  // shell.sed('-i', boilerlib, app, `${dest}/${folder}/config.js`);
+  // shell.sed('-i', boiler, boilerlib, `${dest}/${folder}/config.js`);
+  // shell.sed('-i', ver, version, `${dest}/${folder}/config.js`);
 }
 
 /**
@@ -530,7 +531,7 @@ function _populate(options) {
   _addServer(baseboiler, baseapp, serverdir, app);
 
   // Add tasks:
-  // _addTasks(baseboiler, baseapp, tasks, app, boilerlib);
+  _addTasks(baseboiler, baseapp, tasks, app, boilerlib);
 
   // Copy Test Files:
   _addTest(baseboiler, baseapp, test, app, boilerlib);
@@ -551,6 +552,7 @@ if (parsed.version) {
 
 if (parsed.argv.remain[0] === 'populate') {
   _populate(parsed);
+  _usage();
 } else {
   _help();
 }

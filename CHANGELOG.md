@@ -1,5 +1,11 @@
 ### HEAD
 
+### 1.0.2 (October 16, 2020)
+
+  * Added the script tasks/prod.sh to build a production version,
+  * ...,
+
+
 ### 1.0.1 (October 8, 2020)
 
   * Added @mobilabs/kasar for the documentation,

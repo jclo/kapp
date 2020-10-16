@@ -1,6 +1,6 @@
 {
   "name": "@mobilabs/kapp",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A boilerplate for a slim Node.js App server",
   "main": "index.js",
   "bin": {
@@ -13,6 +13,7 @@
     "check-coverage": "nyc check-coverage --statements 30 --branches 0 --functions 0 --lines 30",
     "report-coverage": "nyc report --reporter=text-lcov | coveralls",
     "report": "nyc report",
+    "makeprod": "sh tasks/prod.sh _prod",
     "doc": ""
   },
   "repository": {
@@ -45,14 +46,14 @@
     "coveralls": "^3.1.0",
     "cross-env": "^7.0.2",
     "del": "^6.0.0",
-    "eslint": "^7.9.0",
+    "eslint": "^7.11.0",
     "eslint-config-airbnb-base": "^14.2.0",
-    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-import": "^2.22.1",
     "husky": "^4.3.0",
     "mocha": "^8.1.3",
     "node-fetch": "^2.6.1",
     "nyc": "^15.1.0",
-    "open": "^7.2.1",
+    "open": "^7.3.0",
     "opener": "^1.5.2",
     "request": "^2.88.2"
   },
