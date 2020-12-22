@@ -88,8 +88,8 @@ const Auth = {
         log.trace(`req.session.user_id: ${req.session.user_id}.`);
         log.trace('You are now connected!');
       } else {
-        // Wrong username and/or wrong passowrd:
-        res.status(401).send({ status: 'error', message: `${req.body.user} and ${req.body.password} don't match!'` });
+        // Wrong username and/or wrong password:
+        res.status(401).send({ status: 'error', message: `${req.body.user}/${req.body.password} wrong username and/or password!'` });
         log.warn(`${req.body.user} + ' doesn't exist or wrong password.`);
       }
     });

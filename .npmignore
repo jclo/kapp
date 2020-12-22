@@ -8,7 +8,10 @@
 !server/api/**/*
 !server/auth/**/*
 !server/core/**/*
+!server/db/**/*
+!server/i18n/**/*
 !server/middlewares/**/*
+!server/sqlite/**/*
 !server/ssl/README.md
 !server/*.js
 

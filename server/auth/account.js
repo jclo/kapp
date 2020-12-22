@@ -22,16 +22,17 @@
 
 
 // -- Vendor Modules
+const bcrypt = require('bcrypt');
 
 
 // -- Local Modules
+const SQ = require('../sqlite/api')
+    ;
 
 
 // -- Local Constants
-const db = [
-  { user_name: 'jdo', user_pwd: 'jdo', first_name: 'John', last_name: 'Doe' },
-  { user_name: 'jsn', user_pwd: 'jsn', first_name: 'John', last_name: 'Snow' },
-];
+const PATH = './server/db/db.sqlite'
+    ;
 
 
 // -- Local Variables
@@ -52,14 +53,19 @@ const Account = {
    * @returns {}            -,
    * @since 0.0.0
    */
-  getCredentials(user, pass, callback) {
-    for (let i = 0; i < db.length; i++) {
-      if (db[i].user_name === user && db[i].user_pwd === pass) {
-        callback(db[i]);
+  async getCredentials(user, pass, callback) {
+    await SQ.open(PATH);
+    const resp = await SQ.get(`SELECT * FROM users WHERE user_name="${user}"`);
+    if (resp) {
+      const match = await bcrypt.compare(pass, resp.user_hash);
+      if (match) {
+        callback(true);
+        await SQ.close();
         return;
       }
     }
     callback(false);
+    await SQ.close();
   },
 };
 

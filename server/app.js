@@ -38,6 +38,7 @@ const config     = require('./config')
     , Servers    = require('./core/http')
     , Routes     = require('./core/routes')
     , Middleware = require('./middlewares/main')
+    , I18N       = require('./i18n/i18n')
     ;
 
 
@@ -138,8 +139,15 @@ function App() {
   // Serve the static pages:
   app.use(express.static(config.env.staticpage));
 
+  // Initialize the english-x dictionary:
+  const lang = config.i18n && config.i18n.lang ? config.i18n.lang : null;
+  const i18n = I18N(lang);
+  if (lang) {
+    log.info(`Loaded the ${config.i18n.name}.`);
+  }
+
   // Start the HTTP & HTTPS servers:
-  Routes.start(app);
+  Routes.start(app, i18n);
   Servers.startHttp(app);
   Servers.startHttps(app, __dirname);
 }
