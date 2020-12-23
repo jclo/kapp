@@ -8,6 +8,7 @@
   * Updated .travis.yml script,
   * Updated again .travis.yml as the previous wasn't sufficient to repair Travis-CI build,
   * Grrr!
+  * Grrr!
   * ...,
 
 
