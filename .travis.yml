@@ -8,7 +8,9 @@ before_install:
   - npm i -g npm@^2.0.0
 before_script:
   - npm prune
+  - rm -rf ./node_modules package-lock.json
   - npm uninstall -save-dev husky
+  - npm install
 script:
   - npm run app &
   - npm run test
