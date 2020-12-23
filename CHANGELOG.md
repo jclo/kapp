@@ -6,6 +6,7 @@
   * Added an api to access to an sqlite3 database,
   * Stored the credentials into the sqlite db with hashed passwords,
   * Updated .travis.yml script,
+  * Updated again .travis.yml as the previous wasn't sufficient to repair Travis-CI build,
   * ...,
 
 

@@ -8,6 +8,7 @@ before_install:
   - npm i -g npm@^2.0.0
 before_script:
   - npm prune
+  - npm uninstall -save-dev husky
 script:
   - npm run app &
   - npm run test
