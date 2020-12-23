@@ -1,10 +1,11 @@
 ### HEAD
 
-### 1.0.3 (December 22, 2020)
+### 1.0.3 (December 23, 2020)
 
   * Added internationalization capability through a new i18n local module,
   * Added an api to access to an sqlite3 database,
   * Stored the credentials into the sqlite db with hashed passwords,
+  * Updated .travis.yml script,
   * ...,
 
 
