@@ -11,6 +11,7 @@
   * Grrr x 6!
   * Replaced bcrypt by bcryptjs when Kapp is running on Travis-CI as it fails to compile addon,
   * Updated the cookie options,
+  * Second release candidate,
   * ...,
 
 
