@@ -15,4 +15,5 @@
 !server/ssl/README.md
 !server/*.js
 
+!tasks/**/*
 !test/**/*

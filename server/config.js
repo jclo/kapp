@@ -51,9 +51,12 @@ const config = {
   // Session configuration
   // (remove this if your App doesn't require a session login)
   session: {
-    key: 'app',
+    name: 'app',
     secret: 'p!550ff',
+    path: '/',
+    httpOnly: true,
     maxAge: null,
+    secure: false,
   },
 
   // CORS Policy
@@ -88,6 +91,13 @@ const config = {
   //   lang: 'fr',
   //   name: 'English-French Dictionary',
   // },
+
+  // Databases:
+  db: {
+    sqlite: {
+      path: 'server/_khermes/db/db.sqlite',
+    },
+  },
 };
 
 // -- Export

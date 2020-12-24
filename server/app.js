@@ -125,11 +125,16 @@ function App() {
   // this block and the modules 'cookieParser' and 'session'.
   app.use(cookieParser());
   app.use(session({
-    name: config.session.key,
+    name: config.session.name,
     secret: config.session.secret,
-    cookie: { maxAge: config.session.maxAge },
-    saveUninitialized: true,
     resave: true,
+    saveUninitialized: true,
+    cookie: {
+      path: config.session.path,
+      httponly: config.session.httponly,
+      maxAge: config.session.maxAge,
+      secure: config.session.secure,
+    },
   }));
   app.use(_cors(config));
 
