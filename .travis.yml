@@ -8,8 +8,6 @@ notifications:
 before_install:
   - npm i -g npm@^2.0.0
   - npm install -g node-gyp
-  - npm uninstall --save bcrypt
-  - npm install --save bcryptjs
 addons:
   apt:
     sources:
