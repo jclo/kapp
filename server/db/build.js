@@ -25,11 +25,11 @@
 
 
 // -- Vendor Modules
-const bcrypt = require('bcrypt');
 
 
 // -- Local Modules
-const SQ = require('../sqlite/api')
+const crypto = require('../libs/crypto/main')
+    , SQ     = require('../libs/sqlite/api')
     ;
 
 
@@ -104,10 +104,10 @@ const DB = {
     // Fills the 'users ' table:
     SQL = 'INSERT INTO users(user_name, user_hash, first_name, last_name) VALUES(?, ?, ?, ?)';
     let p = people[0];
-    let pwd = await bcrypt.hash(p.user_pwd, saltRounds);
+    let pwd = await crypto.hash(p.user_pwd, saltRounds);
     await SQ.run(SQL, p.user_name, pwd, p.first_name, p.last_name);
     [, p] = people;
-    pwd = await bcrypt.hash(p.user_pwd, saltRounds);
+    pwd = await crypto.hash(p.user_pwd, saltRounds);
     await SQ.run(SQL, p.user_name, pwd, p.first_name, p.last_name);
 
     // Close the database:

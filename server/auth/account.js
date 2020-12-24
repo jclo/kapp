@@ -22,11 +22,11 @@
 
 
 // -- Vendor Modules
-const bcrypt = require('bcrypt');
 
 
 // -- Local Modules
-const SQ = require('../sqlite/api')
+const crypto = require('../libs/crypto/main')
+    , SQ     = require('../libs/sqlite/api')
     ;
 
 
@@ -57,7 +57,7 @@ const Account = {
     await SQ.open(PATH);
     const resp = await SQ.get(`SELECT * FROM users WHERE user_name="${user}"`);
     if (resp) {
-      const match = await bcrypt.compare(pass, resp.user_hash);
+      const match = await crypto.compare(pass, resp.user_hash);
       if (match) {
         callback(true);
         await SQ.close();

@@ -38,7 +38,7 @@ const config     = require('./config')
     , Servers    = require('./core/http')
     , Routes     = require('./core/routes')
     , Middleware = require('./middlewares/main')
-    , I18N       = require('./i18n/i18n')
+    , I18N       = require('./libs/i18n/i18n')
     ;
 
 

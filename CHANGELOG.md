@@ -12,6 +12,8 @@
   * Grrr!
   * Grrr!
   * Grrr!
+  * Grrr!
+  * Replaced bcrypt by bcryptjs when Kapp is running on Travis-CI as it fails to compile addon,
   * ...,
 
 
