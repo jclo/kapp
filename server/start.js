@@ -25,7 +25,7 @@
 
 // -- Local Modules
 const App = require('./app')
-    , DB  = require('./db/build')
+    , DB  = require('../db/build')
     ;
 
 

@@ -3,13 +3,14 @@
 !.travis.yml
 
 !bin/**/*
+!db/**/*
 !public/**/*
 
 !server/api/**/*
 !server/auth/**/*
 !server/core/**/*
 !server/db/**/*
-!server/i18n/**/*
+!server/libs/**/*
 !server/middlewares/**/*
 !server/sqlite/**/*
 !server/ssl/README.md

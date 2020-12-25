@@ -34,7 +34,6 @@ const config = require('../config')
 
 // -- Local Constants
 const { level } = config
-    , log       = KZlog('api/connect.js', level, false)
     // , auth      = Auth.isSession
     ;
 
@@ -71,21 +70,26 @@ function _auth(req, res, next) {
 /**
  * Starts listening for the system APIs.
  *
- * @method (arg1)
+ * @method (arg1, arg2, arg3)
  * @public
  * @param {Object}        the express.js app,
+ * @param {Object}        the message translator,
+ * @param {Object}        the db interface object,
  * @returns {}            -,
  * @since 0.0.0
 */
-const System = function(app) {
-  app.get('/api/v1/sys/getVersion', _auth, (req, res) => {
-    res.status(200).send({ status: 'Ok', message: `${pack.name} v${pack.version}` });
-    log.trace('gets the api: "/api/v1/sys/getVersion".');
+const System = function(app, i18n, dbi) {
+  const log = KZlog('api/connect.js', level, false);
+
+  // GET
+  app.get('/api/v1/system/version', _auth, (req, res) => {
+    res.status(200).send({ status: 200, message: `${pack.name} v${pack.version}` });
+    log.trace('gets the api: "/api/v1/sys/version".');
   });
 
-  app.get('/api/v1/sys/getKappVersion', _auth, (req, res) => {
-    res.status(200).send({ status: 'Ok', message: 'Kapp v{{kapp:version}}' });
-    log.trace('gets the api: "/api/v1/sys/getKappVersion".');
+  app.get('/api/v1/system/kapp-version', _auth, (req, res) => {
+    res.status(200).send({ status: 200, message: 'Kapp v{{kapp:version}}' });
+    log.trace('gets the api: "/api/v1/sys/kapp-version".');
   });
 };
 

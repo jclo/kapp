@@ -1,6 +1,6 @@
 ### HEAD
 
-### 1.0.3 (December 24, 2020)
+### 1.0.3 (December 25, 2020)
 
   * Added internationalization capability through a new i18n local module,
   * Added an api to access to an sqlite3 database,
@@ -12,6 +12,8 @@
   * Replaced bcrypt by bcryptjs when Kapp is running on Travis-CI as it fails to compile addon,
   * Updated the cookie options,
   * Second release candidate,
+  * Added an insulation layer for the calls to the database,
+  * Added more api examples,
   * ...,
 
 

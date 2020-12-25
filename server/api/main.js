@@ -35,7 +35,6 @@ const config  = require('../config')
 
 // -- Local Constants
 const { level } = config
-    , log       = KZlog('api/main.js', level, false)
     // , auth      = Auth.isSession
     ;
 
@@ -74,31 +73,57 @@ const Api = {
   /**
    * Starts listening requests from the client web site.
    *
-   * @method (arg1)
+   * @method (arg1, arg2, arg3)
    * @public
    * @param {Object}        the express.js app,
+   * @param {Object}        the message translator,
+   * @param {Object}        the db interface object,
    * @returns {}            -,
    * @since 0.0.0
   */
-  listen(app) {
-    Connect(app);
-    System(app);
+  listen(app, i18n, dbi) {
+    Connect(app, i18n, dbi);
+    System(app, i18n, dbi);
 
-    app.get('/api/v1/getText', _auth, (req, res) => {
-      res.send('Hello Text World!');
-      log.trace('gets the api: "api/v1/getText".');
+    const log = KZlog('api/main.js', level, false);
+
+    // GET
+    app.get('/api/v1/text', _auth, (req, res) => {
+      res.status(200).send('Hello Text World!');
+      log.trace('Accepted GET api: "api/v1/text".');
     });
 
-    app.get('/api/v1/getJSON', _auth, (req, res) => {
-      res.send(JSON.stringify({ a: 'Hello JSON World!' }));
-      log.trace('gets the api: "api/v1/getJSON".');
+    app.get('/api/v1/json', _auth, (req, res) => {
+      res.status(200).send({ status: 200, message: { a: 'Hello JSON World!' } });
+      log.trace('Accepted GET api: "api/v1/json".');
     });
 
+
+    // GET with queries
+    app.get('/api/v1/users', _auth, (req, res) => {
+      res.status(200).send({ status: 200, url: req.originalUrl, message: { query: req.query } });
+      log.trace('Accepted GET api: "api/v1/users/".');
+      log.trace(`Got the query: ${JSON.stringify(req.query)}.`);
+    });
+
+
+    // Get with variables
+    app.get('/api/v1/users/:id/:name/:other', _auth, (req, res) => {
+      res.status(200).send({
+        status: 200,
+        url: req.originalUrl,
+        message: { variables: req.params },
+      });
+      log.trace('Accepted GET api: "api/v1/users/:id/:name/other".');
+      log.trace(`Got the variables: ${JSON.stringify(req.params)}.`);
+    });
+
+
+    // POST
     app.post('/api/v1/posto', _auth, (req, res) => {
-      res.send(JSON.stringify(req.body));
-      log.trace('gets the api: "api/v1/post".');
+      res.status(200).send({ status: 200, message: req.body });
+      log.trace('Accepted POST api: "api/v1/posto".');
       log.trace('got the payload!');
-      console.log(req.body);
     });
   },
 };

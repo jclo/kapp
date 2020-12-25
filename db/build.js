@@ -28,13 +28,13 @@
 
 
 // -- Local Modules
-const crypto = require('../libs/crypto/main')
-    , SQ     = require('../libs/sqlite/api')
+const crypto = require('../server/libs/crypto/main')
+    , SQ     = require('../server/libs/sqlite/api')
     ;
 
 
 // -- Local Constants
-const PATH       = './server/db/db.sqlite'
+const PATH       = './db/db.sqlite'
     , saltRounds = 10
     ;
 
@@ -99,7 +99,7 @@ const DB = {
     // Get the table structure:
     SQL = 'SELECT sql FROM sqlite_master WHERE name="users"';
     resp = await SQ.get(SQL);
-    // console.log(resp);
+    console.log(resp);
 
     // Fills the 'users ' table:
     SQL = 'INSERT INTO users(user_name, user_hash, first_name, last_name) VALUES(?, ?, ?, ?)';
@@ -109,6 +109,10 @@ const DB = {
     [, p] = people;
     pwd = await crypto.hash(p.user_pwd, saltRounds);
     await SQ.run(SQL, p.user_name, pwd, p.first_name, p.last_name);
+
+    // Dump the content of the users table:
+    resp = await SQ.all('SELECT * FROM users');
+    console.log(resp);
 
     // Close the database:
     await SQ.close();

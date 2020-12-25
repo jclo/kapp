@@ -13,7 +13,7 @@ sleep 2
 curl -X GET -k \
   --cookie "cookie.txt" \
   --cookie-jar "cookie.txt" \
-  https://localhost:1443/api/v1/sys/getVersion
+  https://localhost:1443/api/v1/system/version
 
 echo ''
 sleep 2
@@ -22,7 +22,7 @@ sleep 2
 curl -X GET -k \
   --cookie "cookie.txt" \
   --cookie-jar "cookie.txt" \
-  https://localhost:1443/api/v1/sys/getKappVersion
+  https://localhost:1443/api/v1/system/kapp-version
 
 echo ''
 sleep 2

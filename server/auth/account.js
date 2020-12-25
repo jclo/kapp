@@ -26,13 +26,10 @@
 
 // -- Local Modules
 const crypto = require('../libs/crypto/main')
-    , SQ     = require('../libs/sqlite/api')
     ;
 
 
 // -- Local Constants
-const PATH = './server/db/db.sqlite'
-    ;
 
 
 // -- Local Variables
@@ -45,27 +42,25 @@ const Account = {
   /**
    * Checks if the user has the right credentials.
    *
-   * @method (arg1, arg2, arg3)
+   * @method (arg1, arg2, arg3, arg4)
    * @public
+   * @param {Object}        the database interface object,
    * @param {String}        the user name,
    * @param {String}        the user password,
    * @param {Function}      the function to call at completion,
    * @returns {}            -,
    * @since 0.0.0
    */
-  async getCredentials(user, pass, callback) {
-    await SQ.open(PATH);
-    const resp = await SQ.get(`SELECT * FROM users WHERE user_name="${user}"`);
+  async getCredentials(dbi, user, pass, callback) {
+    const resp = await dbi.getUser(user);
     if (resp) {
       const match = await crypto.compare(pass, resp.user_hash);
       if (match) {
         callback(true);
-        await SQ.close();
         return;
       }
     }
     callback(false);
-    await SQ.close();
   },
 };
 

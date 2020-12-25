@@ -95,7 +95,7 @@ const config = {
   // Databases:
   db: {
     sqlite: {
-      path: 'server/_khermes/db/db.sqlite',
+      path: 'db/db.sqlite',
     },
   },
 };

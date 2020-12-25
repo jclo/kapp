@@ -46,10 +46,10 @@ describe('Test Kapp:', () => {
     });
   });
 
-  describe('Test the api /api/v1/getText:', () => {
-    const url = `${server}/api/v1/getText`;
+  describe('Test the api /api/v1/text:', () => {
+    const url = `${server}/api/v1/text`;
 
-    it('Expects the api "/api/v1/getText" to return the string "Hello Text World!"', (done) => {
+    it('Expects the api "/api/v1/text" to return the string "Hello Text World!"', (done) => {
       request.get({ url }, (error, resp, data) => {
         expect(data).is.a('string').that.is.equal('Hello Text World!');
         done();
@@ -57,12 +57,12 @@ describe('Test Kapp:', () => {
     });
   });
 
-  describe('Test the api /api/v1/getJSON:', () => {
-    const url = `${server}/api/v1/getJSON`;
+  describe('Test the api /api/v1/json:', () => {
+    const url = `${server}/api/v1/json`;
 
-    it('Expects the api "/api/v1/getJSON" to return "{"a":"Hello JSON World!"}"', (done) => {
+    it('Expects the api "/api/v1/json" to return "{"status":200,"message":{"a":"Hello JSON World!"}}"', (done) => {
       request.get({ url }, (error, resp, data) => {
-        expect(JSON.parse(data).a).is.a('string').that.is.equal('Hello JSON World!');
+        expect(JSON.parse(data).message.a).is.a('string').that.is.equal('Hello JSON World!');
         done();
       });
     });
@@ -71,7 +71,7 @@ describe('Test Kapp:', () => {
   describe('Test the api /api/v1/posto:', () => {
     const url = `${server}/api/v1/posto`;
 
-    it('Expects the api "/api/v1/posto" to return "{"a":1,"b":"This is a payload"}"', (done) => {
+    it('Expects the api "/api/v1/posto" to return ""status":200,"message":{"a":1,"b":"This is a payload"}"', (done) => {
       request({
         url,
         method: 'POST',
@@ -81,7 +81,7 @@ describe('Test Kapp:', () => {
         },
         body: JSON.stringify({ a: 1, b: 'This is a payload' }),
       }, (error, resp, data) => {
-        expect(JSON.parse(data).b).is.a('string').that.is.equal('This is a payload');
+        expect(JSON.parse(data).message.b).is.a('string').that.is.equal('This is a payload');
         done();
       });
     });

@@ -39,15 +39,17 @@ const Auth = require('../auth/main')
 /**
  * starts listening for login and logout APIs.
  *
- * @method (arg1)
+ * @method (arg1, arg2, arg3)
  * @public
  * @param {Object}        the express.js app,
+ * @param {Object}        the message translator,
+ * @param {Object}        the db interface object,
  * @returns {}            -,
  * @since 0.0.0
 */
-const Connect = function(app) {
+const Connect = function(app, i18n, dbi) {
   app.post('/api/v1/auth/login', (req, res, next) => {
-    Auth.login(req, res, next);
+    Auth.login(dbi, req, res, next);
   });
 
   app.get('/api/v1/auth/logout', (req, res, next) => {

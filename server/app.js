@@ -39,6 +39,7 @@ const config     = require('./config')
     , Routes     = require('./core/routes')
     , Middleware = require('./middlewares/main')
     , I18N       = require('./libs/i18n/i18n')
+    , DBI        = require('./dbi')
     ;
 
 
@@ -151,8 +152,11 @@ function App() {
     log.info(`Loaded the ${config.i18n.name}.`);
   }
 
+  // Create the database object:
+  const dbi = DBI('sqlite');
+
   // Start the HTTP & HTTPS servers:
-  Routes.start(app, i18n);
+  Routes.start(app, i18n, dbi);
   Servers.startHttp(app);
   Servers.startHttps(app, __dirname);
 }

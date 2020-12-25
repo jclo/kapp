@@ -81,19 +81,19 @@ async function run() {
   }
   process.stdout.write('ok\n');
 
-  process.stdout.write('Request a GET on /api/v1/getText ... ');
-  url = `${server}/api/v1/getText`;
+  process.stdout.write('Request a GET on /api/v1/text ... ');
+  url = `${server}/api/v1/text`;
   [err, resp] = await GET(url);
   if (resp !== 'Hello Text World!') {
-    throw new Error('The api /v1/getText did not return the right string!');
+    throw new Error('The api /v1/text did not return the right string!');
   }
   process.stdout.write('ok\n');
 
-  process.stdout.write('Request a GET on /api/v1/getJSON ... ');
-  url = `${server}/api/v1/getJSON`;
+  process.stdout.write('Request a GET on /api/v1/json ... ');
+  url = `${server}/api/v1/json`;
   [err, resp] = await GET(url);
-  if (JSON.parse(resp).a !== 'Hello JSON World!') {
-    throw new Error('The api /v1/getJSON did not return the right string!');
+  if (JSON.parse(resp).message.a !== 'Hello JSON World!') {
+    throw new Error('The api /v1/json did not return the right string!');
   }
   process.stdout.write('ok\n');
 
@@ -102,7 +102,7 @@ async function run() {
   payload = { a: 1, b: 'This is a payload' };
 
   [err, resp] = await POST(url, payload);
-  if (resp.b !== 'This is a payload') {
+  if (resp.message.b !== 'This is a payload') {
     throw new Error('The api /v1/posto did not return the right payload!');
   }
   process.stdout.write('ok\n');

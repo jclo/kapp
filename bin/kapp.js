@@ -52,6 +52,7 @@ const defBoilerLib  = 'kapp'
     , test        = 'test'
     , tasks       = 'tasks'
     , docs        = 'docs'
+    , db          = 'db'
     // Command line Options
     , opts = {
       help: [Boolean, false],
@@ -464,6 +465,23 @@ function _addServer(source, dest, folder, app) {
 }
 
 /**
+ * Adds the test database.
+ *
+ * @function (arg1, arg2, arg3)
+ * @private
+ * @param {String}          the source path,
+ * @param {String}          the destination path,
+ * @param {String}          the destination folder,
+ * @returns {}              -,
+ */
+function _addDB(source, dest, folder) {
+  process.stdout.write(`  duplicated the contents of ${folder}\n`);
+  shell.mkdir('-p', `${dest}/${folder}`);
+
+  shell.cp('-r', `${source}/${folder}/*`, `${dest}/${folder}/.`);
+}
+
+/**
  * Creates and populates the web app.
  *
  * @function (arg1)
@@ -535,6 +553,9 @@ function _populate(options) {
 
   // Copy Test Files:
   _addTest(baseboiler, baseapp, test, app, boilerlib);
+
+  // Copy DB files:
+  _addDB(baseboiler, baseapp, db, app, boilerlib);
 
   process.stdout.write('Done. Enjoy!\n');
 }

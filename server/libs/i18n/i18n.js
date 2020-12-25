@@ -77,7 +77,7 @@ function _getDictionary(lang, which) {
  * @constructor ()
  * @public
  * @param {}                -,
- * @returns {Object}        returns the ES6Pakket object,
+ * @returns {Object}        returns the i18n object,
  * @since 0.0.0
  */
 const i18N = function(lang) {

@@ -32,7 +32,6 @@ const config = require('../config')
 
 // -- Local Constants
 const { level } = config
-    , log       = KZlog('core/routes.js', level, false)
     ;
 
 
@@ -54,9 +53,11 @@ const Middleware = {
    */
 
   filterHost(net) {
+    const log = KZlog('middlewares/main.js', level, false);
+
     return function(req, res, next) {
       if (!config.cors && !config.cors.hostname && !Array.isArray(config.cors.hostname)) {
-        log.trace(`The connection is accepted for ${req.hostname}.`);
+        log.trace(`1: the connection is accepted for ${req.hostname}.`);
         next();
         return;
       }
@@ -66,19 +67,19 @@ const Middleware = {
           || req.hostname === net.ip
           || req.hostname === '127.0.0.1'
       ) {
-        log.trace(`The connection is accepted for ${req.hostname}.`);
+        log.trace(`2: the connection is accepted for ${req.hostname}.`);
         next();
         return;
       }
 
       for (let i = 0; i < config.cors.hostname.length; i++) {
         if (req.hostname === config.cors.hostname[i]) {
-          log.trace(`The connection is accepted for ${req.hostname}.`);
+          log.trace(`3: the connection is accepted for ${req.hostname}.`);
           next();
           return;
         }
       }
-      res.status(403).send({ status: 'error', message: 'You are not authorized to access to this server!' });
+      res.status(403).send({ status: 403, message: 'You are not authorized to access to this server!' });
       log.warn(`The connection from "${req.hostname}" was rejected!`);
     };
   },

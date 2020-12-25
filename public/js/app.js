@@ -18,62 +18,84 @@
  * @version   -
  * ************************************************************************** */
 /* global fetch */
-/* eslint no-console: 0 */
+/* eslint no-underscore-dangle: 0, no-console: 0 */
 
 /**
- * Sends a GET api and wait for a text response.
+ * Fetch
  */
-fetch('/api/v1/getText')
-  .then((resp) => {
-    if (resp.ok) {
-      return resp.text();
-    }
-    return Promise.reject(resp);
-  })
-  .then((data) => {
-    console.log(data);
-  })
-  .catch((resp) => {
-    console.log(`Fetch does not work for the api "/v1/getText". The server returns: ${resp.statusText}.`);
+function _fetch(url, options, type, callback) {
+  return new Promise((resolve, reject) => {
+    fetch(url, options)
+      .then((resp) => {
+        if (resp.ok) {
+          return type === 'text' ? resp.text() : resp.json();
+        }
+        return Promise.reject(resp);
+      })
+      .then((data) => {
+        resolve(data);
+        if (callback) callback(null, data);
+      })
+      .catch((resp) => {
+        reject(resp);
+        if (callback) callback(resp);
+      });
   });
+}
+
 
 /**
- * Sends a GET api and wait for a JSON response.
+ * Execute calls
  */
-fetch('/api/v1/getJSON')
-  .then((resp) => {
-    if (resp.ok) {
-      return resp.json();
-    }
-    return Promise.reject(resp);
-  })
-  .then((data) => {
-    console.log(data);
-  })
-  .catch((resp) => {
-    console.log(`Fetch does not work for the api "/v1/getJSON". The server returns: ${resp.statusText}.`);
-  });
+async function run() {
+  let resp;
 
-/**
- * Sends a POST api with a payload.
- */
-fetch('/api/v1/posto', {
-  method: 'POST',
-  headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({ a: 1, b: 'This is a payload' }),
-})
-  .then((resp) => {
-    if (resp.ok) {
-      return resp.json();
-    }
-    return Promise.reject(resp);
-  })
-  .then((data) => {
-    console.log(data);
-  })
-  .catch((resp) => {
-    console.log(`Fetch does not work for the api "/v1/posto". The server returns: ${resp.statusText}.`);
+  // GET '/api/v1/text':
+  resp = await _fetch('/api/v1/text', {}, 'text');
+  console.log(resp);
+
+
+  // GET '/api/v1/json':
+  resp = await _fetch('/api/v1/json');
+  console.log(resp);
+
+
+  // POST '/api/v1/posto':
+  resp = await _fetch('/api/v1/posto', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ a: 1, b: 'This is a payload' }),
   });
+  console.log(resp);
+
+
+  // Wrong GET '/api/v1/texto':
+  _fetch('/api/v1/texto', {}, 'text')
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((e) => {
+      console.log(e.status);
+      console.log(e.statusText);
+      console.log(e.url);
+    });
+
+
+  // GET with query
+  resp = await _fetch('/api/v1/users/?id=1&name=Doe');
+  console.log(resp);
+
+
+  // GET with variable(s)
+  resp = await _fetch('/api/v1/users/1/Doe/3');
+  console.log(resp);
+}
+
+
+// -- Main
+run();
+
+/* - */
