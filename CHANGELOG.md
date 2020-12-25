@@ -14,6 +14,7 @@
   * Second release candidate,
   * Added an insulation layer for the calls to the database,
   * Added more api examples,
+  * Third release candidate,
   * ...,
 
 
