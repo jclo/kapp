@@ -1,9 +1,9 @@
 /** ****************************************************************************
  *
- * The French Translation.
- * (contains the translations for the server messages)
+ * List of the available translations.
+ * (contains the translations for the web App connected to this server)
  *
- * i18n.fr.js is just a literal object that contains a set of properties.
+ * i18n.lang.js is just a literal object that contains a set of properties.
  * It can't be instantiated.
  *
  * Private Functions:
@@ -39,11 +39,10 @@
 
 // -- Public -------------------------------------------------------------------
 
-const French = {
-  Hello: 'Bonjour',
-  'Hello %s and %s': 'Bonjour %s et %s',
+const List = {
+  fr: 'French',
 };
 
 
 // -- Export
-module.exports = French;
+module.exports = List;

@@ -59,7 +59,7 @@ const { level } = config
  * @param {Function}      the function to call at the completion,
  * @returns {}            -,
  * @since 0.0.0
-*/
+ */
 function _auth(req, res, next) {
   next();
 }
@@ -77,19 +77,19 @@ function _auth(req, res, next) {
  * @param {Object}        the db interface object,
  * @returns {}            -,
  * @since 0.0.0
-*/
-const System = function(app, i18n, dbi) {
+ */
+const System = function(app /* , i18n, dbi */) {
   const log = KZlog('api/connect.js', level, false);
 
   // GET
   app.get('/api/v1/system/version', _auth, (req, res) => {
     res.status(200).send({ status: 200, message: `${pack.name} v${pack.version}` });
-    log.trace('gets the api: "/api/v1/sys/version".');
+    log.trace('Accepted GET api: "/api/v1/sys/version".');
   });
 
   app.get('/api/v1/system/kapp-version', _auth, (req, res) => {
     res.status(200).send({ status: 200, message: 'Kapp v{{kapp:version}}' });
-    log.trace('gets the api: "/api/v1/sys/kapp-version".');
+    log.trace('Accepted GET api: "/api/v1/sys/kapp-version".');
   });
 };
 

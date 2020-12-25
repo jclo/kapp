@@ -92,6 +92,30 @@ async function run() {
   // GET with variable(s)
   resp = await _fetch('/api/v1/users/1/Doe/3');
   console.log(resp);
+
+
+  // Login
+  resp = await _fetch('/api/v1/auth/login', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ user: 'jdo', password: 'jdo' }),
+  });
+  console.log(resp);
+
+
+  // GET Dictionary list
+  resp = await _fetch('/api/v1/i18n/list');
+  console.log(resp);
+
+
+  // GET English-French Dictionary
+  resp = await _fetch('/api/v1/i18n/fr');
+  console.log(resp);
+  console.log(resp.message);
+  console.log(resp.message['Hello %s and %s']);
 }
 
 

@@ -27,7 +27,7 @@
  * @since        0.0.0
  * @version      -
  * ************************************************************************** */
-/* eslint-disable no-underscore-dangle */
+/* eslint no-underscore-dangle: 0 */
 
 
 // -- Vendor Modules
@@ -135,5 +135,3 @@ methods = {
 
 // -- Export
 module.exports = i18N;
-
-/* - */

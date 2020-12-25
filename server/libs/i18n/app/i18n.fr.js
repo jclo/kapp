@@ -22,7 +22,7 @@
  * @since        0.0.0
  * @version      -
  * ************************************************************************** */
-/* eslint-disable no-underscore-dangle */
+/* eslint */
 
 
 // -- Vendor Modules
@@ -47,5 +47,3 @@ const French = {
 
 // -- Export
 module.exports = French;
-
-/* - */

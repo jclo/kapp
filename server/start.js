@@ -35,7 +35,7 @@ const App = require('./app')
 // -- Local Variables
 
 
-// -- Main section -
+// -- Main Section
 
 // This is for testing purpose. It initializes the SQlite database
 // './db/db.sqlite' with credential for the user authentication.
@@ -44,4 +44,6 @@ const App = require('./app')
 // Starts the server:
 App();
 
-/* - */
+
+// -- Export
+// nothing

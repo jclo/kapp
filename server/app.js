@@ -110,7 +110,7 @@ const _findLocalIP = function() {
  * @param {}                -,
  * @returns {}              -,
  * @since 0.0.0
-*/
+ */
 function App() {
   const log = KZlog('app.js', level, false);
   log.info('starts the app server ...');

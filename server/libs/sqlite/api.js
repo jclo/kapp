@@ -28,7 +28,7 @@
  * @since        0.0.0
  * @version      -
  * ************************************************************************** */
-/* eslint-disable one-var, semi-style, no-underscore-dangle */
+/* eslint one-var: 0, semi-style: 0, no-underscore-dangle: 0 */
 
 
 // -- Vendor Modules
@@ -309,5 +309,3 @@ const SQ = {
 
 // -- Export
 module.exports = SQ;
-
-/* - */

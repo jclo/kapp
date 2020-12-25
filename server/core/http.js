@@ -74,7 +74,7 @@ const Servers = {
    * @param {Object}        the express.js app,
    * @returns {}            -,
    * @since 0.0.0
-  */
+   */
   startHttp(app) {
     http.createServer(app)
       .on('error', (e) => {
@@ -101,7 +101,7 @@ const Servers = {
    * @param {String}        the server root path,
    * @returns {}            -,
    * @since 0.0.0
-  */
+   */
   startHttps(app, base) {
     if (config.env.https && !process.env.TRAVIS) {
       https.createServer(_getCertificates(base), app)

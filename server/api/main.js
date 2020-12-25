@@ -29,6 +29,7 @@ const KZlog   = require('@mobilabs/kzlog')
 const config  = require('../config')
     , Connect = require('./connect')
     , System  = require('./system')
+    , I18N    = require('./i18n')
     // , Auth    = require('../auth/main')
     ;
 
@@ -60,7 +61,7 @@ const { level } = config
  * @param {Function}      the function to call at the completion,
  * @returns {}            -,
  * @since 0.0.0
-*/
+ */
 function _auth(req, res, next) {
   next();
 }
@@ -80,10 +81,11 @@ const Api = {
    * @param {Object}        the db interface object,
    * @returns {}            -,
    * @since 0.0.0
-  */
+   */
   listen(app, i18n, dbi) {
     Connect(app, i18n, dbi);
     System(app, i18n, dbi);
+    I18N(app, i18n, dbi);
 
     const log = KZlog('api/main.js', level, false);
 

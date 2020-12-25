@@ -22,8 +22,8 @@
  * @since        0.0.0
  * @version      -
  * ************************************************************************** */
-/* eslint-disable one-var, semi-style, no-underscore-dangle, global-require,
-  import/no-unresolved */
+/* eslint one-var: 0, semi-style: 0, no-underscore-dangle: 0,
+  global-require: 0, import/no-unresolved: 0 */
 
 
 // -- Vendor Modules
@@ -94,5 +94,3 @@ const Crypto = {
 
 // -- Export
 module.exports = Crypto;
-
-/* - */

@@ -15,6 +15,7 @@
   * Added an insulation layer for the calls to the database,
   * Added more api examples,
   * Third release candidate,
+  * Added an api to load a translation dictionary,
   * ...,
 
 

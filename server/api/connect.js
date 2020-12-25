@@ -46,7 +46,7 @@ const Auth = require('../auth/main')
  * @param {Object}        the db interface object,
  * @returns {}            -,
  * @since 0.0.0
-*/
+ */
 const Connect = function(app, i18n, dbi) {
   app.post('/api/v1/auth/login', (req, res, next) => {
     Auth.login(dbi, req, res, next);
