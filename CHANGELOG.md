@@ -16,6 +16,7 @@
   * Added more api examples,
   * Third release candidate,
   * Added an api to load a translation dictionary,
+  * Fourth release candidate,
   * ...,
 
 
