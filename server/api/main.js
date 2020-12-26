@@ -2,6 +2,8 @@
  *
  * Listens for the messages sent by the client web App.
  *
+ * main.js is just a literal object that contains a set of functions.
+ * It can't be instantiated.
  *
  * Private Methods:
  *  . _auth                       authenticates the sender,
@@ -9,6 +11,19 @@
  *
  * Public Methods:
  *  . listen                      starts listening requests from the client app,
+ *
+ *
+ * GET Api(s):
+ * (for testing and as examples)
+ *  . /api/v1/text                returns a string,
+ *  . /api/v1/json                returns a JSON,
+ *  . /api/v1/users               returns the associated queries,
+ *  . /api/v1/users/:id/:name/:other  returns the associated variables,
+ *
+ *
+ * POST Api(s):
+ * (for testing and as examples)
+ *  . /api/v1/posto               returns a payload,
  *
  *
  *

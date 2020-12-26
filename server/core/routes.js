@@ -2,20 +2,24 @@
  *
  * Listens for messages sent by the client web App.
  *
+ * routes.js is just a literal object that contains a set of functions.
+ * It can't be instantiated.
  *
- * Private Methods:
+ * Private Functions:
  *  . none,
  *
  *
- * Public Methods:
+ * Public Static Methods:
  *  . start                       starts listening requests from the client app,
  *
  *
  *
- * @exports   Routes
- * @author    -
- * @since     0.0.0
- * @version   -
+ * @namespace    -
+ * @dependencies none
+ * @exports      -
+ * @author       -
+ * @since        0.0.0
+ * @version      -
  * ************************************************************************** */
 /* eslint one-var: 0, semi-style: 0, no-underscore-dangle: 0, no-console: 0 */
 

@@ -25,7 +25,6 @@
 
 // -- Local Modules
 const App = require('./app')
-    , DB  = require('../db/build')
     ;
 
 
@@ -37,9 +36,6 @@ const App = require('./app')
 
 // -- Main Section
 
-// This is for testing purpose. It initializes the SQlite database
-// './db/db.sqlite' with credential for the user authentication.
-// DB.init();
 
 // Starts the server:
 App();

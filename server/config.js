@@ -3,10 +3,12 @@
  * Configuration file.
  *
  *
- * @exports   config
- * @author    -
- * @since     0.0.0
- * @version   -
+ * @namespace    -
+ * @dependencies none
+ * @exports      -
+ * @author       -
+ * @since        0.0.0
+ * @version      -
  * ************************************************************************** */
 /* eslint no-useless-escape: 0 */
 

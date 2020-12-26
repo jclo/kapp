@@ -9,10 +9,9 @@
 !server/api/**/*
 !server/auth/**/*
 !server/core/**/*
-!server/db/**/*
+!server/dbi/**/*
 !server/libs/**/*
 !server/middlewares/**/*
-!server/sqlite/**/*
 !server/ssl/README.md
 !server/*.js
 

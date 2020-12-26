@@ -2,20 +2,29 @@
  *
  * Listens for the System APIs.
  *
+ * system.js is just a literal object that contains a set of functions.
+ * It can't be instantiated.
  *
- * Private Methods:
+ * Private Functions:
  *  . _auth                       authenticates the sender,
  *
  *
- * Public Methods:
- *  . Connect                     starts listening for login and logout apis,
+ * Public Function:
+ *  . System                      starts listening for login and logout apis,
+ *
+ *
+ * GET Api(s):
+ *  . /api/v1/system/version      returns the version of the server,
+ *  . /api/v1/system/kapp-version returns the version of Kapp server,
  *
  *
  *
- * @exports   Api
- * @author    -
- * @since     0.0.0
- * @version   -
+ * @namespace    -
+ * @dependencies none
+ * @exports      -
+ * @author       -
+ * @since        0.0.0
+ * @version      -
  * ************************************************************************** */
 /* eslint one-var: 0, semi-style: 0, no-underscore-dangle: 0, no-console: 0 */
 
@@ -28,13 +37,13 @@ const KZlog   = require('@mobilabs/kzlog')
 // -- Local Modules
 const config = require('../config')
     , pack   = require('../../package.json')
-    // , Auth   = require('../auth/main')
+    , Auth   = require('../auth/main')
     ;
 
 
 // -- Local Constants
 const { level } = config
-    // , auth      = Auth.isSession
+    , auth      = Auth.isSession
     ;
 
 
@@ -42,27 +51,6 @@ const { level } = config
 
 
 // -- Private Functions --------------------------------------------------------
-
-/**
- * Authenticates the sender.
- *
- * Nota:
- * This is just an example. The authentication method is not implemented.
- * It is just a bypass. If you want to add a session login, replace the
- * middleware '_auth' by 'auth'. The login session mechanism is implemented
- * in the folder 'auth'.
- *
- * @function (arg1, arg2, arg3)
- * @private
- * @param {Object}        Express.js request object,
- * @param {Object}        Express.js response object,
- * @param {Function}      the function to call at the completion,
- * @returns {}            -,
- * @since 0.0.0
- */
-function _auth(req, res, next) {
-  next();
-}
 
 
 // -- Public -------------------------------------------------------------------
@@ -82,12 +70,12 @@ const System = function(app /* , i18n, dbi */) {
   const log = KZlog('api/connect.js', level, false);
 
   // GET
-  app.get('/api/v1/system/version', _auth, (req, res) => {
+  app.get('/api/v1/system/version', auth, (req, res) => {
     res.status(200).send({ status: 200, message: `${pack.name} v${pack.version}` });
     log.trace('Accepted GET api: "/api/v1/sys/version".');
   });
 
-  app.get('/api/v1/system/kapp-version', _auth, (req, res) => {
+  app.get('/api/v1/system/kapp-version', auth, (req, res) => {
     res.status(200).send({ status: 200, message: 'Kapp v{{kapp:version}}' });
     log.trace('Accepted GET api: "/api/v1/sys/kapp-version".');
   });

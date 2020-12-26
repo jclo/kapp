@@ -2,20 +2,32 @@
  *
  * Listens for the Authentification APIs.
  *
+ * connect.js is just a literal object that contains a set of functions.
+ * It can't be instantiated.
  *
- * Private Methods:
+ * Private Functions:
  *  . none,
  *
  *
- * Public Methods:
+ * Public Function:
  *  . Connect                     starts listening for login and logout apis,
  *
  *
+ * GET Api(s):
+ *  . /api/v1/auth/logout         logout,
  *
- * @exports   Connect
- * @author    -
- * @since     0.0.0
- * @version   -
+ *
+ * POST Api(s):
+ *  . /api/v1/auth/login          login,
+ *
+ *
+ *
+ * @namespace    -
+ * @dependencies none
+ * @exports      -
+ * @author       -
+ * @since        0.0.0
+ * @version      -
  * ************************************************************************** */
 /* eslint one-var: 0, semi-style: 0 */
 
@@ -48,12 +60,15 @@ const Auth = require('../auth/main')
  * @since 0.0.0
  */
 const Connect = function(app, i18n, dbi) {
-  app.post('/api/v1/auth/login', (req, res, next) => {
-    Auth.login(dbi, req, res, next);
-  });
-
+  // GET
   app.get('/api/v1/auth/logout', (req, res, next) => {
     Auth.logout(req, res, next);
+  });
+
+
+  // POST
+  app.post('/api/v1/auth/login', (req, res, next) => {
+    Auth.login(dbi, req, res, next);
   });
 };
 

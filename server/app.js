@@ -5,20 +5,21 @@
  * This server sends the index.html page stored in the 'public' folder and
  * listens for requests sent by the client (see core/routes).
  *
- *
- * Private Methods:
+ * Private Functions:
  *  . none,
  *
  *
- * Public Functions:
+ * Public Function:
  *  . App                         starts the App server,
  *
  *
  *
- * @exports   App
- * @author    -
- * @since     0.0.0
- * @version   -
+ * @namespace    -
+ * @dependencies none
+ * @exports      -
+ * @author       -
+ * @since        0.0.0
+ * @version      -
  * ************************************************************************** */
 /* eslint one-var: 0, semi-style: 0, no-underscore-dangle: 0 */
 
@@ -39,7 +40,7 @@ const config     = require('./config')
     , Routes     = require('./core/routes')
     , Middleware = require('./middlewares/main')
     , I18N       = require('./libs/i18n/i18n')
-    , DBI        = require('./dbi')
+    , DBI        = require('./dbi/dbi')
     ;
 
 
@@ -111,7 +112,7 @@ const _findLocalIP = function() {
  * @returns {}              -,
  * @since 0.0.0
  */
-function App() {
+async function App() {
   const log = KZlog('app.js', level, false);
   log.info('starts the app server ...');
 
@@ -152,8 +153,11 @@ function App() {
     log.info(`Loaded the ${config.i18n.name}.`);
   }
 
-  // Create the database object:
-  const dbi = DBI('sqlite');
+  // Create the database object and create the tables for testing.
+  // dbi.init() must be removed in the production version.
+  log.info('create the table users for testing:');
+  const dbi = await DBI('sqlite', 'db');
+  await dbi.init();
 
   // Start the HTTP & HTTPS servers:
   Routes.start(app, i18n, dbi);

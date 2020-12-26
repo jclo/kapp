@@ -2,20 +2,29 @@
  *
  * Listens for the i18n APIs.
  *
+ * i18n.js is just a literal object that contains a set of functions.
+ * It can't be instantiated.
  *
- * Private Methods:
+ * Private Functions:
  *  . _auth                       authenticates the sender,
  *
  *
- * Public Methods:
+ * Public Function:
  *  . I18N                        starts listening for the calls,
  *
  *
+ * GET Api(s):
+ *  . /api/v1/i18n/list           returns the list of the available dictionaries,
+ *  . /api/v1/i18n/:lang          returns the requested dictionary or empty,
  *
- * @exports   Api
- * @author    -
- * @since     0.0.0
- * @version   -
+ *
+ *
+ * @namespace    -
+ * @dependencies none
+ * @exports      -
+ * @author       -
+ * @since        0.0.0
+ * @version      -
  * ************************************************************************** */
 /* eslint one-var: 0, semi-style: 0, no-underscore-dangle: 0,
   global-require: 0, import/no-dynamic-require: 0 */
