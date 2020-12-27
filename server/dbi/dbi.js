@@ -17,6 +17,9 @@
  *
  *
  * Public Methods:
+ *  . end                         free the database,
+ *
+ *  TO BE REPLACED BY YOUR OWN:
  *  . isEmpty                     checks if the database is empty,
  *  . init                        initializes the database,
  *  . getUser                     returns the user credentials from the database,
@@ -38,7 +41,8 @@
 
 // -- Local Modules
 const SQlite = require('./sqlite')
-    // , MySQL  = require('./mysql')
+    , MySQL  = require('./mysql')
+    , { db } = require('../config')
     ;
 
 
@@ -91,8 +95,9 @@ function _get(type) {
   switch (type) {
     case 'sqlite':
       return [SQlite.Cstor, SQlite.methods];
-    // case 'mysql':
-    //   return [MySQL.Cstor, MySQL.methods];
+
+    case 'mysql':
+      return [MySQL.Cstor, MySQL.methods];
 
     default:
       throw new Error(`The database server ${type} is not defined yet!`);
@@ -112,11 +117,10 @@ function _get(type) {
  * @returns {Object}        returns the DB object,
  * @since 0.0.0
  */
-const DBI = function(type, ...args) {
+const DBI = function(type) {
   const [Cstor, exmethods] = _get(type);
   const obj = Object.create(_extend(methods, exmethods));
-  Cstor.call(obj, ...args);
-  obj._db_server = type;
+  Cstor.call(obj, db[type]);
   return obj;
 };
 
@@ -126,13 +130,34 @@ const DBI = function(type, ...args) {
 methods = {
 
   /**
+   * Free the database.
+   * (could be be overwritten)
+   *
+   * @method ()
+   * @public
+   * @param {}              -,
+   * @returns {Boolean}     returns true if the database is released,
+   * @since 0.0.0
+   */
+  async end() {
+    //
+  },
+
+
+  // The methods below are given as examples how to interact with the
+  // database to check it, add contents and retrieve data.
+  //
+  // You can delete and replace them by your methods.
+  // Only the constructor and the method 'end' are mandatory.
+
+  /**
    * Checks if the database is empty.
    * (must be overwritten)
    *
    * @method ()
    * @public
    * @param {}              -,
-   * @returns {Boolean}     returns true if empty otherwis false,
+   * @returns {Boolean}     returns true if empty otherwise false,
    * @since 0.0.0
    */
   async isEmpty() {

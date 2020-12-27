@@ -154,9 +154,9 @@ async function App() {
   }
 
   // Create the database object and create the tables for testing.
-  // dbi.init() must be removed in the production version.
-  log.info('create the table users for testing:');
-  const dbi = await DBI('sqlite', 'db');
+  // dbi.init() must be removed for the production version.
+  log.info('create the users table for testing:');
+  const dbi = await DBI('sqlite');
   await dbi.init();
 
   // Start the HTTP & HTTPS servers:

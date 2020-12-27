@@ -1,20 +1,21 @@
 /** ****************************************************************************
  *
- * Interfaces SQLite database.
+ * Interfaces MySQL database.
  *
- * sqlite.js is built upon the Prototypal Instantiation pattern. It
+ * mysql.js is built upon the Prototypal Instantiation pattern. It
  * returns an object by calling its constructor. It doesn't use the new
  * keyword.
  *
  * Private Functions:
- *  . _countTables                returns the number of tables set in the db,
+ *  . _isEmpty                    checks if the db is empty,
  *
  *
  * Constructor:
- *  . SQLite                      creates the database interface object,
+ *  . MySQL                       creates the database interface object,
  *
  *
  * Public Methods:
+ *  . end                         free the pool of connections to the database,
  *
  *  TO BE REPLACED BY YOUR OWN:
  *  . isEmpty                     checks if the database is empty,
@@ -37,7 +38,7 @@
 
 
 // -- Local Modules
-const SQ     = require('../libs/sqlite/api')
+const MQ     = require('../libs/mysql/api')
     , crypto = require('../libs/crypto/main')
     ;
 
@@ -52,7 +53,7 @@ const SQ     = require('../libs/sqlite/api')
 
 const users = `
   CREATE TABLE users(
-    id                            INTEGER        PRIMARY KEY AUTOINCREMENT,
+    id                            INTEGER        PRIMARY KEY AUTO_INCREMENT,
     user_name                     VARCHAR(100)   DEFAULT NULL,
     user_hash                     VARCHAR(100)   DEFAULT NULL,
     first_name                    VARCHAR(100)   DEFAULT NULL,
@@ -67,27 +68,26 @@ const people = [
   /* eslint-enable object-curly-newline */
 ];
 
-
 /**
- * Returns the number of tables set in the db.
+ * Check if the database is empty.
  *
- * @function ()
+ * @function (arg1)
  * @private
- * @param {}                -,
- * @returns {Number}        the number of tables,
+ * @param {Object}          the connection to the db object,
+ * @returns {Number}        return the number of tables,
  * @since 0.0.0
  */
-async function _countTables() {
-  const SQL = 'SELECT count(*) FROM sqlite_master WHERE type = "table"';
-  const resp = await SQ.get(SQL);
-  return resp['count(*)'];
+async function _isEmpty(cn) {
+  const SQL = 'SELECT COUNT(DISTINCT `table_name`) AS TotalNumberOfTables FROM `information_schema`.`columns` WHERE `table_schema` = ?';
+  const resp = await MQ.query(cn, SQL, ['kapp']);
+  return resp[0].TotalNumberOfTables === 0;
 }
 
 
 // -- Public -------------------------------------------------------------------
 
 /**
- * Defines SQLite constructor.
+ * Defines MySQL constructor.
  * (do not modify it)
  *
  * @constructor (arg1)
@@ -96,15 +96,36 @@ async function _countTables() {
  * @returns {}              -,
  * @since 0.0.0
  */
-const SQLite = function(params) {
-  this._name = 'sqlite';
+const MySQL = function(params) {
+  this._name = 'mysql';
   this._db = params.database;
+  MQ.createPool(
+    params.host,
+    params.connectionLimit,
+    params.database,
+    params.user,
+    params.password,
+  );
 };
 
 
 // -- Public Methods -----------------------------------------------------------
 
 const methods = {
+
+  /**
+   * Free the pool of connections to the database.
+   * (mandatory - don't modify it)
+   *
+   * @method ()
+   * @public
+   * @param {}              -,
+   * @returns {Boolean}     returns true if the database is released,
+   * @since 0.0.0
+   */
+  end() {
+    return MQ.end();
+  },
 
 
   // The methods below are given as examples how to interact with the
@@ -119,26 +140,26 @@ const methods = {
    * @method ()
    * @public
    * @param {}              -,
-   * @returns {Boolean}     returns true if empty otherwis false,
+   * @returns {Boolean}     returns true if empty otherwise false,
    * @since 0.0.0
    */
   async isEmpty() {
     // The basic principe is to start each method by asking a
-    // connection to the database.
-    // When a connection is established perform a query or a set of queries
-    // to the database.
+    // connection to the database from the pool of connections. See
+    // the documentation of the node module mysql for more
+    // explanations.
+    // When a connection is returned use this connection to perform
+    // a query or a set of queries to the database.
     // And when the job is done release the connection before
     // exiting the method.
 
-    // Ask for an access to the database:
-    await SQ.open(this._db);
-
-    // Perform query(ies)
-    const count = await _countTables();
-
-    // Close the connection to the database and leave.
-    await SQ.close();
-    return count === 0;
+    // Ask for a connection to the MySQL pool of connections.
+    const cn = await MQ.getConnection();
+    // Process the database query:
+    const result = _isEmpty(cn);
+    // Free the connection when the query is done.
+    await MQ.release(cn);
+    return result;
   },
 
   /**
@@ -151,39 +172,39 @@ const methods = {
    * @since 0.0.0
    */
   async init() {
-    await SQ.open(this._db);
+    const cn = await MQ.getConnection();
 
     // Check if the db has already been initialized with the
-    // 'users table':
-    let SQL = 'SELECT name FROM sqlite_master WHERE type="table" AND name="users"';
-    let resp = await SQ.get(SQL);
-    if (resp && resp.name === 'users') {
-      await SQ.run('DROP TABLE users');
+    // 'users table'. If it is the case, erase the previous content:
+    let sql = 'SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?';
+    let resp = await MQ.query(cn, sql, ['kapp', 'users']);
+    if (resp.length > 0) {
+      await MQ.query(cn, 'DROP TABLE users');
     }
 
     // Create a fresh 'users' table:
-    resp = await SQ.run(users);
-    // Get the table structure:
-    SQL = 'SELECT sql FROM sqlite_master WHERE name="users"';
-    resp = await SQ.get(SQL);
+    resp = await MQ.query(cn, users);
+    // Dump the table structure:
+    sql = 'SELECT COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, COLUMN_DEFAULT, EXTRA FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?';
+    resp = await MQ.query(cn, sql, ['kapp', 'users']);
     console.log(resp);
 
     // Fills the 'users' table:
-    SQL = 'INSERT INTO users(user_name, user_hash, first_name, last_name) VALUES(?, ?, ?, ?)';
+    sql = 'INSERT INTO users(user_name, user_hash, first_name, last_name) VALUES(?, ?, ?, ?)';
     let p = people[0];
     let pwd = await crypto.hash(p.user_pwd);
-    await SQ.run(SQL, p.user_name, pwd, p.first_name, p.last_name);
+    await MQ.query(cn, sql, [p.user_name, pwd, p.first_name, p.last_name]);
 
     [, p] = people;
     pwd = await crypto.hash(p.user_pwd);
-    await SQ.run(SQL, p.user_name, pwd, p.first_name, p.last_name);
-
+    await MQ.query(cn, sql, [p.user_name, pwd, p.first_name, p.last_name]);
 
     // Dump the content of the users table:
-    resp = await SQ.all('SELECT * FROM users');
+    resp = await MQ.query(cn, 'SELECT * FROM users');
     console.log(resp);
 
-    await SQ.close();
+    // Free the connection when the task is completed.
+    await MQ.release(cn);
   },
 
   /**
@@ -196,13 +217,14 @@ const methods = {
    * @since 0.0.0
    */
   async getUser(username) {
-    await SQ.open(this._db);
-    const resp = await SQ.get(`SELECT * FROM users WHERE user_name="${username}"`);
-    await SQ.close();
-    return resp;
+    const cn = await MQ.getConnection();
+    const sql = 'SELECT * FROM users WHERE user_name = ?';
+    const resp = await MQ.query(cn, sql, [username]);
+    await MQ.release(cn);
+    return resp[0];
   },
 };
 
 
 // -- Export
-module.exports = { Cstor: SQLite, methods };
+module.exports = { Cstor: MySQL, methods };

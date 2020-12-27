@@ -97,7 +97,14 @@ const config = {
   // Databases:
   db: {
     sqlite: {
-      path: 'db/db.sqlite',
+      database: './db/db.sqlite',
+    },
+    mysql: {
+      host: 'server domain name',
+      connectionLimit: 'number of simultaneous connections (number)',
+      database: 'database name',
+      user: 'username with the privileges to access to the database',
+      password: 'username password',
     },
   },
 };

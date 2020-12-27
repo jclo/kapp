@@ -1,6 +1,6 @@
 ### HEAD
 
-### 1.0.3 (December 26, 2020)
+### 1.0.3 (December 27, 2020)
 
   * Added internationalization capability through a new i18n local module,
   * Added an api to access to an sqlite3 database,
@@ -18,6 +18,7 @@
   * Added an api to load a translation dictionary,
   * Fourth release candidate,
   * Unified the file headers,
+  * Extended the support to MySQL/MariaDB databases,
   * ...,
 
 
