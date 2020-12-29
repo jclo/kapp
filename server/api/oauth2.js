@@ -13,6 +13,9 @@
  *  . OAuth                       starts listening for login and logout apis,
  *
  *
+ * GET Api(s):
+ *  . api/v1/oauth2/revoke        revokes the current access token,
+ *
  * POST Api(s):
  *  . /api/v1/oauth2/token        request for a token or a new token,
  *
@@ -36,6 +39,7 @@ const KZlog   = require('@mobilabs/kzlog')
 // -- Local Modules
 const config = require('../config')
     , COAuth = require('../controllers/oauth2')
+    , MAuth  = require('../middlewares/auth/main')
     ;
 
 
@@ -67,9 +71,29 @@ const { level } = config
  * @since 0.0.0
  */
 function OAuth(app, i18n, dbi, dbn) {
+  // Gets the middleware that check if the client is
+  // connected by opening a session through a login or by requesting
+  // a token.
+  const auth = MAuth(dbi, dbn);
+
+  // GET
+  app.get('/api/v1/oauth2/revoke', auth, (req, res) => {
+    COAuth.revoke(dbi, dbn, req, res, (err, resp) => {
+      if (err) {
+        res.status(401).send({ status: 401, message: err });
+        log.trace('Refused POST api: "api/v1/api/v1/oauth2/revoke".');
+        log.info(err);
+      } else {
+        res.status(200).send({ status: 200, message: resp });
+        log.trace('Accepted GET api: "api/v1/api/v1/oauth2/revoke".');
+      }
+    });
+  });
+
+
   // POST
   app.post('/api/v1/oauth2/token', (req, res) => {
-    COAuth(dbi, dbn, req, res, (err, token) => {
+    COAuth.get(dbi, dbn, req, res, (err, token) => {
       if (err) {
         res.status(401).send({ status: 401, message: err });
         log.trace('Refused POST api: "api/v1/api/v1/oauth2/token".');

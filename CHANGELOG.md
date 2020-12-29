@@ -20,6 +20,7 @@
   * Unified the file headers,
   * Extended the support to MySQL/MariaDB databases,
   * Added the support of oauth tokens,
+  * Added the option to revoke an access token,
   * ...,
 
 

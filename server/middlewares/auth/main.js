@@ -80,11 +80,19 @@ function MAuth(dbi, dbn) {
         if (resp.length === 0) {
           res.status(401).send({ status: 401, message: 'Your token is NOT valid!' });
           log.warn(`The token ${auth[1]} is NOT valid!`);
+          return;
         }
 
         if (resp[0].token.expires_at < Date.now()) {
-          res.status(401).send({ status: 401, message: 'Your token has expired!' });
+          res.status(401).send({ status: 401, message: 'Your token is expired!' });
           log.warn(`The token ${auth[1]} is expired!`);
+          return;
+        }
+
+        if (resp[0].token.is_access_token_revoked) {
+          res.status(401).send({ status: 401, message: 'Your token is revoked!' });
+          log.warn(`The token ${auth[1]} is revoked!`);
+          return;
         }
 
         // It seems that this token is valid!

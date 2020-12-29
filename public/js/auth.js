@@ -95,13 +95,37 @@ function getVersion() {
 }
 
 
+/**
+ * Logout.
+ */
+function logout() {
+  const url = '/api/v1/oauth2/revoke';
+
+  const options = {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  };
+
+  _fetch(url, options, 'json')
+    .then((resp) => {
+      console.log(resp.message);
+    })
+    .catch((e) => {
+      console.log(e.statusText);
+    });
+}
+
+
 // -- Main
 
 // List for a click event:
 window.addEventListener('click', (e) => {
   if (e.target.className === 'logout') {
-    accessToken = '';
-    console.log('clear the access token');
+    logout();
     return;
   }
 

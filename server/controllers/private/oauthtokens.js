@@ -108,6 +108,7 @@ const TOK = {
       access_token: _createToken(TK.length),
       expires_in: TK.lifetime * 1000,
       expires_at: Date.now() + TK.lifetime * 1000,
+      is_access_token_revoked: false,
       refresh_token: _createToken(TK.length),
       refresh_expires_at: Date.now() + TK.refreshTokenLifetime * 1000,
     };
