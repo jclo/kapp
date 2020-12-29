@@ -31,6 +31,7 @@ const os           = require('os')
     , cookieParser = require('cookie-parser')
     , session      = require('express-session')
     , KZlog        = require('@mobilabs/kzlog')
+    , PicoDB       = require('picodb')
     ;
 
 
@@ -38,7 +39,7 @@ const os           = require('os')
 const config     = require('./config')
     , Servers    = require('./core/http')
     , Routes     = require('./core/routes')
-    , Middleware = require('./middlewares/main')
+    , FilterIP   = require('./middlewares/ip/main')
     , I18N       = require('./libs/i18n/i18n')
     , DBI        = require('./dbi/dbi')
     ;
@@ -141,7 +142,7 @@ async function App() {
   app.use(_cors(config));
 
   // Here it is an example of middlware:
-  app.use(Middleware.filterHost(_findLocalIP()));
+  app.use(FilterIP(_findLocalIP()));
 
   // Serve the static pages:
   app.use(express.static(config.env.staticpage));
@@ -159,8 +160,14 @@ async function App() {
   const dbi = await DBI('sqlite');
   await dbi.init();
 
+  // Create a in-memory database to store the token and refresh token.
+  // It means that if the server crashes the tokens are lost and
+  // the user needs to login again. On the other side, it is almost
+  // impossible to stole them.
+  const dbn = PicoDB();
+
   // Start the HTTP & HTTPS servers:
-  Routes.start(app, i18n, dbi);
+  Routes.start(app, i18n, dbi, dbn);
   Servers.startHttp(app);
   Servers.startHttps(app, __dirname);
 }

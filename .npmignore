@@ -7,7 +7,7 @@
 !public/**/*
 
 !server/api/**/*
-!server/auth/**/*
+!server/controllers/**/*
 !server/core/**/*
 !server/dbi/**/*
 !server/libs/**/*

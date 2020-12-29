@@ -37,6 +37,7 @@ const config = require('../config')
 
 // -- Local Constants
 const { level } = config
+    , log       = KZlog('core/routes.js', level, false)
     ;
 
 
@@ -50,17 +51,16 @@ const Routes = {
   /**
    * Starts listening requests from the client web site.
    *
-   * @method (arg1, arg2, arg3)
+   * @method (arg1, arg2, arg3, arg4)
    * @public
    * @param {Object}        the express.js app,
    * @param {Object}        the message translator,
    * @param {Object}        the db interface object,
+   * @param {Object}        the db for storing doc in memory,
    * @returns {}            -,
    * @since 0.0.0
    */
-  start(app, i18n, dbi) {
-    const log = KZlog('core/routes.js', level, false);
-
+  start(app, i18n, dbi, dbn) {
     // Check if it is an https request:
     app.all('/api/*', (req, res, next) => {
       if (!config.env.https) {
@@ -79,7 +79,7 @@ const Routes = {
     });
 
     // Listen for the implemented api routes:
-    Api.listen(app, i18n, dbi);
+    Api.listen(app, i18n, dbi, dbn);
 
     // Unknown api:
     app.all('/api/*', (req, res) => {

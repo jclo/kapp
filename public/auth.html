@@ -1,0 +1,86 @@
+<!-- Based on HTML5 boilerplate v8.0.0 -->
+<!doctype html>
+<html class="no-js" lang="">
+  <head>
+    <meta charset="utf-8">
+    <title>{{app:title}}</title>
+    <meta name="description" content="{{app:description}}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="{{company:name}}" content="{{company:slogan}}" />
+    <meta name="copyright" content="{{company:copyright}}" />
+
+    <!-- Open Graph Protocol markup -->
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+
+    <!-- Set your canonical link -->
+    <link rel="canonical" href="{{app:canonical-link}}" />
+
+    <!-- PWA manifest, Web manifest -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="site.webmanifest">
+
+    <!-- Place favicon.ico in the root directory -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+
+    <!-- iOS support -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="{{app:title}}">
+    <link rel="apple-touch-icon" href="img/icons/icon-152x152.png">
+
+    <link rel="stylesheet" href="./css/app.css">
+    <meta name="theme-color" content="#fafafa">
+  </head>
+
+  <body>
+    <!--[if IE]>
+      <p class="browserupgrade">You are using an <strong>outdated and unsupported</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to benefit of all the features of this web App.</p>
+    <![endif]-->
+
+    <!-- Warning message if Javascript isn't enabled -->
+    <noscript>
+      <p style="text-align:center;padding-top:3em;">
+        We are sorry, but this website doesn't work properly without JavaScript enabled!
+      </p>
+    </noscript>
+
+    <!-- Add your site or application content here -->
+    <p style="text-align: center; padding-top: 100px;">
+      Hello world! This is an HTML5 Boilerplate.
+    </p>
+    <div id="app" class="container">
+      <!-- Everything will fit here: header, main section, footer -->
+      <h1>Login</h1>
+      <form>
+        Username:<br>
+        <input type="text" name="user"><br>
+        Password:<br>
+        <input type="password" name="password"><br>
+        <input type="submit" value="Submit"><br>
+      </form>
+      <p class="resp"></p>
+
+      <br>
+      <button type="button" class="logout">logout</button>
+      <p class="reslogout"></p>
+
+      <br>
+      <button type="button" class="version">getVersion</button>
+      <p class="resversion"></p>
+    </div><!-- /.container -->
+
+    <!-- Add your scripts here -->
+    <!-- <script src="..."></script> -->
+    <script src="js/auth.js"></script>
+
+    <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+    <script>
+      window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;
+      ga('create', 'UA-XXXXX-Y', 'auto'); ga('set', 'anonymizeIp', true); ga('set', 'transport', 'beacon'); ga('send', 'pageview')
+    </script>
+    <script src="https://www.google-analytics.com/analytics.js" async></script>
+  </body>
+</html>

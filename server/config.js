@@ -107,6 +107,14 @@ const config = {
       password: 'username password',
     },
   },
+
+  // Token
+  // (lifetime is expressed in seconds)
+  token: {
+    length: 32,
+    lifetime: 30 * 60,
+    refreshTokenLifetime: 24 * 60 * 60,
+  },
 };
 
 // -- Export

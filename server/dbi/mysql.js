@@ -1,6 +1,6 @@
 /** ****************************************************************************
  *
- * Interfaces MySQL database.
+ * Interfaces MySQL/MariaDB database.
  *
  * mysql.js is built upon the Prototypal Instantiation pattern. It
  * returns an object by calling its constructor. It doesn't use the new

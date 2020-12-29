@@ -37,15 +37,14 @@ const KZlog   = require('@mobilabs/kzlog')
 
 // -- Local Modules
 const config = require('../config')
-    , Auth   = require('../auth/main')
-    , list   = require('../libs/i18n/app/i18n.lang')
+    , CI18N  = require('../controllers/i18n')
+    , MAuth = require('../middlewares/auth/main')
     ;
 
 
 // -- Local Constants
-const PATH      = '../libs/i18n/app'
-    , { level } = config
-    , auth      = Auth.isSession
+const { level } = config
+    , log       = KZlog('api/i18n.js', level, false)
     ;
 
 
@@ -53,25 +52,6 @@ const PATH      = '../libs/i18n/app'
 
 
 // -- Private Functions --------------------------------------------------------
-
-/**
- * Loads the requested dictionary or an empty one.
- *
- * @method (arg1)
- * @public
- * @param {String}        the requested dictionary,
- * @returns {Object}      the avaiable dictionary or an empty one,
- * @since 0.0.0
- */
-function _get(lang) {
-  let dic;
-  try {
-    dic = require(`${PATH}/i18n.${lang}`);
-  } catch (e) {
-    dic = { message: 'This translation dictionary is not available yet!' };
-  }
-  return dic;
-}
 
 
 // -- Public -------------------------------------------------------------------
@@ -81,23 +61,29 @@ function _get(lang) {
  *
  * @method (arg1, arg2, arg3)
  * @public
- * @param {Object}        the express.js app,
- * @param {Object}        the message translator,
- * @param {Object}        the db interface object,
- * @returns {}            -,
+ * @param {Object}          the express.js app,
+ * @param {Object}          the message translator,
+ * @param {Object}          the db interface object,
+ * @returns {}              -,
  * @since 0.0.0
  */
-const I18N = function(app /* , i18n, dbi */) {
-  const log = KZlog('api/i18n.js', level, false);
+const I18N = function(app, i18n, dbi, dbn) {
+  // Gets the middleware that check if the client is
+  // connected by opening a session through a login or by requesting
+  // a token.
+  const auth = MAuth(dbi, dbn);
+
 
   // GET
   app.get('/api/v1/i18n/list', auth, (req, res) => {
+    const list = CI18N.getDictionaryList();
     res.status(200).send({ status: 200, message: list });
     log.trace('Accepted GET api: "/api/v1/i18n/list".');
   });
 
   app.get('/api/v1/i18n/:lang', auth, (req, res) => {
-    res.status(200).send({ status: 200, message: _get(req.params.lang) });
+    const dico = CI18N.getDictionary(req, res);
+    res.status(200).send({ status: 200, message: dico });
     log.trace('Accepted GET api: "/api/v1/i18n/:lang".');
   });
 };
