@@ -135,6 +135,7 @@ const gitignore = [
   '.nyc_output',
   'coverage',
   'node_modules',
+  '.env.js',
   ''].join('\n');
 
 const eslintignore = [
@@ -289,12 +290,14 @@ function _addSkeleton(base, app, owner, cright) {
  * @returns {}              -,
  */
 function _duplicate(source, dest) {
-  const dupFiles = ['.eslintrc', '.travis.yml'/* , 'gulpfile.js' */];
+  const dupFiles = ['.eslintrc', '.travis.yml', 'demo.env.js'/* , 'gulpfile.js' */];
 
   for (let i = 0; i < dupFiles.length; i++) {
     process.stdout.write(`  copied ${dupFiles[i]}\n`);
     shell.cp(`${source}/${dupFiles[i]}`, `${dest}/.`);
   }
+
+  shell.mv(`${dest}/demo.env.js`, `${dest}/.env.js`);
 }
 
 /**
@@ -478,7 +481,10 @@ function _addDB(source, dest, folder) {
   process.stdout.write(`  duplicated the contents of ${folder}\n`);
   shell.mkdir('-p', `${dest}/${folder}`);
 
-  shell.cp('-r', `${source}/${folder}/*`, `${dest}/${folder}/.`);
+  shell.cp('-r', `${source}/${folder}/*.md`, `${dest}/${folder}/.`);
+
+  // Create an empty database:
+  shell.exec(`sqlite3 ${dest}/${folder}/db.sqlite 'VACUUM'`);
 }
 
 /**

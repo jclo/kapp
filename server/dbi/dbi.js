@@ -42,7 +42,7 @@
 // -- Local Modules
 const SQlite = require('./sqlite')
     , MySQL  = require('./mysql')
-    , { db } = require('../config')
+    , { db } = require('../../.env')
     ;
 
 

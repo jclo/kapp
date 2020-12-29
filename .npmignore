@@ -1,9 +1,10 @@
 *
 !.eslintrc
 !.travis.yml
+!demo.env.js
 
 !bin/**/*
-!db/**/*
+!db/README.md
 !public/**/*
 
 !server/api/**/*
