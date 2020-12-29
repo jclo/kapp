@@ -2,6 +2,7 @@
 !.eslintrc
 !.travis.yml
 !demo.env.js
+!.env.travis.js
 
 !bin/**/*
 !db/README.md

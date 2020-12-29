@@ -290,7 +290,7 @@ function _addSkeleton(base, app, owner, cright) {
  * @returns {}              -,
  */
 function _duplicate(source, dest) {
-  const dupFiles = ['.eslintrc', '.travis.yml', 'demo.env.js'/* , 'gulpfile.js' */];
+  const dupFiles = ['.eslintrc', '.travis.yml', '.env.travis.js', 'demo.env.js'/* , 'gulpfile.js' */];
 
   for (let i = 0; i < dupFiles.length; i++) {
     process.stdout.write(`  copied ${dupFiles[i]}\n`);

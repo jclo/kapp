@@ -10,6 +10,7 @@ before_install:
   - npm install -g node-gyp
   - npm uninstall --save bcrypt
   - npm install --save bcryptjs
+  - mv .env.travis.js .env.js
 addons:
   apt:
     sources:

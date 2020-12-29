@@ -22,6 +22,7 @@
   * Added the support of oauth tokens,
   * Added the option to revoke an access token,
   * Added an hidden environment file to save the database credentials,
+  * Created a specific environment file for Travis-CI,
   * ...,
 
 
