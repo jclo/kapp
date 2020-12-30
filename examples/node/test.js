@@ -9,7 +9,7 @@ const fetch = require('node-fetch')
 
 
 // -- Project modules
-const config = require('../server/config');
+const config = require('../../server/config');
 
 
 // -- Local constants

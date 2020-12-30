@@ -151,7 +151,7 @@ const methods = {
    * @returns {}            -,
    * @since 0.0.0
    */
-  async init() {
+  async init(callback) {
     await SQ.open(this._db);
 
     // Check if the db has already been initialized with the
@@ -167,7 +167,7 @@ const methods = {
     // Get the table structure:
     SQL = 'SELECT sql FROM sqlite_master WHERE name="users"';
     resp = await SQ.get(SQL);
-    console.log(resp);
+    // console.log(resp);
 
     // Fills the 'users' table:
     SQL = 'INSERT INTO users(user_name, user_hash, first_name, last_name) VALUES(?, ?, ?, ?)';
@@ -182,9 +182,10 @@ const methods = {
 
     // Dump the content of the users table:
     resp = await SQ.all('SELECT * FROM users');
-    console.log(resp);
+    // console.log(resp);
 
     await SQ.close();
+    if (callback) callback();
   },
 
   /**

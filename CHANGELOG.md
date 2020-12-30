@@ -1,6 +1,6 @@
 ### HEAD
 
-### 1.0.3 (December 29, 2020)
+### 1.0.3 (December 30, 2020)
 
   * Added internationalization capability through a new i18n local module,
   * Added an api to access to an sqlite3 database,
@@ -23,6 +23,8 @@
   * Added the option to revoke an access token,
   * Added an hidden environment file to save the database credentials,
   * Created a specific environment file for Travis-CI,
+  * Added a few examples of transactions based on curl and Node.js,
+  * Updated the infrastructure for the unitary tests,
   * ...,
 
 

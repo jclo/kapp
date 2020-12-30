@@ -6,6 +6,7 @@
 
 !bin/**/*
 !db/README.md
+!examples/**/*
 !public/**/*
 
 !server/api/**/*

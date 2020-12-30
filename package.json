@@ -8,13 +8,22 @@
   },
   "scripts": {
     "app": "node server/start.js",
-    "test": "cross-env NODE_ENV=test nyc --reporter=lcov mocha ./test/main.js",
+    "test": "cross-env NODE_ENV=test nyc --reporter=lcov mocha ./test/main.js --exit",
     "display-coverage": "opener ./coverage/lcov-report/index.html",
-    "check-coverage": "nyc check-coverage --statements 20 --branches 0 --functions 0 --lines 20",
+    "check-coverage": "nyc check-coverage --statements 10 --branches 10 --functions 20 --lines 30",
     "report-coverage": "nyc report --reporter=text-lcov | coveralls",
     "report": "nyc report",
     "makeprod": "sh tasks/prod.sh _prod",
     "doc": ""
+  },
+  "nyc": {
+    "include": [
+      "server/**/*.js"
+    ],
+    "exclude": [
+      "server/config.js"
+    ],
+    "all": true
   },
   "repository": {
     "type": "git",
@@ -47,6 +56,7 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "coveralls": "^3.1.0",
     "cross-env": "^7.0.3",
     "del": "^6.0.0",
@@ -58,8 +68,7 @@
     "node-fetch": "^2.6.1",
     "nyc": "^15.1.0",
     "open": "^7.3.0",
-    "opener": "^1.5.2",
-    "request": "^2.88.2"
+    "opener": "^1.5.2"
   },
   "publishConfig": {
     "access": "public"

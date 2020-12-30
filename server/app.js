@@ -113,7 +113,7 @@ const _findLocalIP = function() {
  * @returns {}              -,
  * @since 0.0.0
  */
-async function App() {
+function App() {
   const log = KZlog('app.js', level, false);
   log.info('starts the app server ...');
 
@@ -157,8 +157,8 @@ async function App() {
   // Create the database object and create the tables for testing.
   // dbi.init() must be removed for the production version.
   log.info('create the users table for testing:');
-  const dbi = await DBI('sqlite');
-  await dbi.init();
+  const dbi = DBI('sqlite');
+  dbi.init();
 
   // Create a in-memory database to store the token and refresh token.
   // It means that if the server crashes the tokens are lost and
