@@ -87,12 +87,8 @@ const config = {
     ipv4: '/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/',
   },
 
-  // Language
+  // Language for the server (if not english):
   i18n: null,
-  // i18n: {
-  //   lang: 'fr',
-  //   name: 'English-French Dictionary',
-  // },
 
   // Databases:
   // See the file './.env.js'

@@ -58,6 +58,7 @@ const users = `
     user_hash                     VARCHAR(100)   DEFAULT NULL,
     first_name                    VARCHAR(100)   DEFAULT NULL,
     last_name                     VARCHAR(100)   DEFAULT NULL
+    is_locked                     BIT(1)         NOT NULL DEFAULT 0
   )
 `;
 
@@ -65,6 +66,7 @@ const people = [
   /* eslint-disable object-curly-newline */
   { user_name: 'jdo', user_pwd: 'jdo', first_name: 'John', last_name: 'Doe' },
   { user_name: 'jsn', user_pwd: 'jsn', first_name: 'John', last_name: 'Snow' },
+  { user_name: 'jhe', user_pwd: 'jhe', first_name: 'John', last_name: 'Headache' },
   /* eslint-enable object-curly-newline */
 ];
 
@@ -190,14 +192,18 @@ const methods = {
     console.log(resp);
 
     // Fills the 'users' table:
-    sql = 'INSERT INTO users(user_name, user_hash, first_name, last_name) VALUES(?, ?, ?, ?)';
+    sql = 'INSERT INTO users(user_name, user_hash, first_name, last_name, is_locked) VALUES(?, ?, ?, ?, ?)';
     let p = people[0];
     let pwd = await crypto.hash(p.user_pwd);
-    await MQ.query(cn, sql, [p.user_name, pwd, p.first_name, p.last_name]);
+    await MQ.query(cn, sql, [p.user_name, pwd, p.first_name, p.last_name, 0]);
 
     [, p] = people;
     pwd = await crypto.hash(p.user_pwd);
-    await MQ.query(cn, sql, [p.user_name, pwd, p.first_name, p.last_name]);
+    await MQ.query(cn, sql, [p.user_name, pwd, p.first_name, p.last_name, 0]);
+
+    [,, p] = people;
+    pwd = await crypto.hash(p.user_pwd);
+    await MQ.query(cn, sql, [p.user_name, pwd, p.first_name, p.last_name, 1]);
 
     // Dump the content of the users table:
     resp = await MQ.query(cn, 'SELECT * FROM users');

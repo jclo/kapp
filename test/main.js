@@ -1,22 +1,30 @@
 // ESLint declarations:
-/* global describe, it */
+/* global describe */
 /* eslint one-var: 0, semi-style: 0 */
 
 
 // -- Vendor Modules
-const chai       = require('chai')
-    , { expect } = require('chai')
-    , chaiHttp   = require('chai-http')
+const chai     = require('chai')
+    , chaiHttp = require('chai-http')
     ;
 
 
 // -- Local Modules
-const app    = require('../server/start')
-    , config = require('../server/config')
+const app     = require('../server/start')
+    , config  = require('../server/config')
+
+    , apiex   = require('./int/api-examples')
+    , apiauth = require('./int/api-auth')
+    , apisys  = require('./int/api-sys')
+    , apii18n = require('./int/api-i18n')
+    , apitok  = require('./int/api-token')
     ;
 
 
 // -- Local Constants
+// used for login
+const user = { user: 'jdo', password: 'jdo' }
+    ;
 
 
 // -- Local Variables
@@ -41,23 +49,12 @@ chai.use(chaiHttp);
 // Create the request object:
 const request = chai.request.agent(server);
 
-
 describe('Test Kapp:', () => {
-  describe('Test a connection:', () => {
-    // request
-    //   .get('/')
-    //   .end((err, res) => {
-    //     // console.log(res);
-    //   });
+  apiex(request);
+  apiauth(request, user);
+  apisys(request, user);
+  apii18n(request, user);
+  apitok(request, user);
 
-    it('Should return "index.html" file.', (done) => {
-      request
-        .get('/')
-        .end((err, res) => {
-          expect(res).to.have.status(200);
-          expect(res.text).to.contain('HTML5 boilerplate');
-          done();
-        });
-    });
-  });
+  //
 });

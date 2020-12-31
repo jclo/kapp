@@ -168,6 +168,7 @@ const TOK = {
     token.access_token = _createToken(TK.length);
     token.expires_in = TK.lifetime * 1000;
     token.expires_at = Date.now() + TK.lifetime * 1000;
+    token.is_access_token_revoked = false;
     doc = await dbn.updateOne({ username }, { $set: { token } });
 
     // Send only the renewed token:

@@ -65,6 +65,7 @@ const people = [
   /* eslint-disable object-curly-newline */
   { user_name: 'jdo', user_pwd: 'jdo', first_name: 'John', last_name: 'Doe' },
   { user_name: 'jsn', user_pwd: 'jsn', first_name: 'John', last_name: 'Snow' },
+  { user_name: 'jhe', user_pwd: 'jhe', first_name: 'John', last_name: 'Headache' },
   /* eslint-enable object-curly-newline */
 ];
 
@@ -167,22 +168,25 @@ const methods = {
     // Get the table structure:
     SQL = 'SELECT sql FROM sqlite_master WHERE name="users"';
     resp = await SQ.get(SQL);
-    // console.log(resp);
+    console.log(resp);
 
     // Fills the 'users' table:
-    SQL = 'INSERT INTO users(user_name, user_hash, first_name, last_name) VALUES(?, ?, ?, ?)';
+    SQL = 'INSERT INTO users(user_name, user_hash, first_name, last_name, is_locked) VALUES(?, ?, ?, ?, ?)';
     let p = people[0];
     let pwd = await crypto.hash(p.user_pwd);
-    await SQ.run(SQL, p.user_name, pwd, p.first_name, p.last_name);
+    await SQ.run(SQL, p.user_name, pwd, p.first_name, p.last_name, 0);
 
     [, p] = people;
     pwd = await crypto.hash(p.user_pwd);
-    await SQ.run(SQL, p.user_name, pwd, p.first_name, p.last_name);
+    await SQ.run(SQL, p.user_name, pwd, p.first_name, p.last_name, 0);
 
+    [,, p] = people;
+    pwd = await crypto.hash(p.user_pwd);
+    await SQ.run(SQL, p.user_name, pwd, p.first_name, p.last_name, 1);
 
     // Dump the content of the users table:
     resp = await SQ.all('SELECT * FROM users');
-    // console.log(resp);
+    console.log(resp);
 
     await SQ.close();
     if (callback) callback();

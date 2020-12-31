@@ -15,6 +15,7 @@
  *
  *
  * Public Methods:
+ *  . getList                     returns the list of available dictionaries,
  *  .load                         returns the requested dictionary,
  *  . s                           returns the translated passed-in message,
  *
@@ -34,6 +35,7 @@
 
 
 // -- Local Modules
+const list = require('./app/i18n.lang');
 
 
 // -- Local Constants
@@ -90,6 +92,19 @@ const i18N = function(lang) {
 // -- Public Methods -----------------------------------------------------------
 
 methods = {
+
+  /**
+   * Returns the list of available dictionaries.
+   *
+   * @method ()
+   * @public
+   * @param {}              -,
+   * @returns {Object}      returns the list of available dictionaries,
+   * @since 0.0.0
+   */
+  getList() {
+    return list;
+  },
 
   /**
    * Returns the requested dictionary or null.

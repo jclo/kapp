@@ -155,10 +155,8 @@ function App() {
   }
 
   // Create the database object and create the tables for testing.
-  // dbi.init() must be removed for the production version.
   log.info('create the users table for testing:');
   const dbi = DBI('sqlite');
-  dbi.init();
 
   // Create a in-memory database to store the token and refresh token.
   // It means that if the server crashes the tokens are lost and
@@ -170,6 +168,10 @@ function App() {
   Routes.start(app, i18n, dbi, dbn);
   Servers.startHttp(app);
   Servers.startHttps(app, __dirname);
+
+  // It returns the db object only for testing purpose. With this object,
+  // './server/start' scripts creates a testing sqlite database.
+  return dbi;
 }
 
 

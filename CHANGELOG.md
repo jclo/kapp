@@ -1,6 +1,6 @@
 ### HEAD
 
-### 1.0.3 (December 30, 2020)
+### 1.0.3 (December 31, 2020)
 
   * Added internationalization capability through a new i18n local module,
   * Added an api to access to an sqlite3 database,
@@ -25,6 +25,7 @@
   * Created a specific environment file for Travis-CI,
   * Added a few examples of transactions based on curl and Node.js,
   * Updated the infrastructure for the unitary tests,
+  * Added a first set of unitary tests,
   * ...,
 
 

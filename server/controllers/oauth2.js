@@ -159,7 +159,7 @@ const OAuth = {
    */
   async revoke(dbi, dbn, req, res, callback) {
     // Gets the access token:
-    // (if we are here it means that the access token has been recgnized
+    // (if we are here it means that the access token has been recognized
     // by the authentication middleware. So, the right access token is
     // available inside the header)
     const auth = req.header('Authorization').split(' ');

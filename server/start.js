@@ -38,7 +38,11 @@ const App = require('./app')
 
 
 // Starts the server:
-App();
+const dbi = App();
+
+// This is only used for creating the testing database. Uncomment the next
+// line if you want to recreate the testing database only.
+// dbi.init();
 
 
 // -- Export

@@ -6,7 +6,7 @@
  * It can't be instantiated.
  *
  * Private Functions:
- *  . _get                        loads the requested dictionary or an empty one,
+ *  . none,
  *
  *
  * Public Methods:
@@ -30,38 +30,16 @@
 
 
 // -- Local Modules
-const list   = require('../libs/i18n/app/i18n.lang')
-    ;
 
 
 // -- Local Constants
-const PATH = '../libs/i18n/app'
-    ;
 
 
 // -- Local Variables
 
 
 // -- Private Functions --------------------------------------------------------
-
-/**
- * Loads the requested dictionary or an empty one.
- *
- * @method (arg1)
- * @public
- * @param {String}          the requested dictionary,
- * @returns {Object}        the avaiable dictionary or an empty one,
- * @since 0.0.0
- */
-function _get(lang) {
-  let dic;
-  try {
-    dic = require(`${PATH}/i18n.${lang}`);
-  } catch (e) {
-    dic = { message: 'This translation dictionary is not available yet!' };
-  }
-  return dic;
-}
+// none,
 
 
 // -- Public Methods -----------------------------------------------------------
@@ -78,8 +56,8 @@ const I18N = {
    * @returns {Object}      returns the list of available dictionaries,
    * @since 0.0.0
    */
-  getDictionaryList() {
-    return list;
+  getDictionaryList(i18n) {
+    return i18n.getList();
   },
 
   /**
@@ -92,8 +70,9 @@ const I18N = {
    * @returns {Object}      returns the requested dictionary or empty,
    * @since 0.0.0
    */
-  getDictionary(req /* , res */) {
-    return _get(req.params.lang);
+  load(i18n, req /* , res */) {
+    const dic = i18n.load(req.params.lang);
+    return dic || { message: 'This translation dictionary is not available yet!' };
   },
 };
 
