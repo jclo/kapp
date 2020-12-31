@@ -10,7 +10,7 @@
     "app": "node server/start.js",
     "test": "cross-env NODE_ENV=test nyc --reporter=lcov mocha ./test/main.js --exit",
     "display-coverage": "opener ./coverage/lcov-report/index.html",
-    "check-coverage": "nyc check-coverage --statements 70 --branches 45 --functions 70 --lines 70",
+    "check-coverage": "nyc check-coverage --statements 65 --branches 45 --functions 65 --lines 65",
     "report-coverage": "nyc report --reporter=text-lcov | coveralls",
     "report": "nyc report",
     "makeprod": "sh tasks/prod.sh _prod",
