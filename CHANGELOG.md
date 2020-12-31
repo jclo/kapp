@@ -28,6 +28,7 @@
   * Added a first set of unitary tests,
   * Set to print error logs only,
   * Added sqlite test database to git otherwise Travis can't run the tests,
+  * Added the missing test database,
   * ...,
 
 
