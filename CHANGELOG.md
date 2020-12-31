@@ -26,6 +26,7 @@
   * Added a few examples of transactions based on curl and Node.js,
   * Updated the infrastructure for the unitary tests,
   * Added a first set of unitary tests,
+  * Set to print error logs only,
   * ...,
 
 
