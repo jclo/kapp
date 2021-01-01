@@ -1,6 +1,6 @@
 ### HEAD
 
-### 1.0.3 (December 31, 2020)
+### 1.0.3 (January 1, 2021)
 
   * Added internationalization capability through a new i18n local module,
   * Added an api to access to an sqlite3 database,
@@ -30,6 +30,7 @@
   * Added sqlite test database to git otherwise Travis can't run the tests,
   * Added the missing test database,
   * Reduced the threshold for the test results as the results on travis are lower than local,
+  * Fixed a minor issue linked to mysql,
   * ...,
 
 

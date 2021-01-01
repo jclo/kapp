@@ -57,8 +57,8 @@ const users = `
     user_name                     VARCHAR(100)   DEFAULT NULL,
     user_hash                     VARCHAR(100)   DEFAULT NULL,
     first_name                    VARCHAR(100)   DEFAULT NULL,
-    last_name                     VARCHAR(100)   DEFAULT NULL
-    is_locked                     BIT(1)         NOT NULL DEFAULT 0
+    last_name                     VARCHAR(100)   DEFAULT NULL,
+    is_locked                     TINYINT(1)     NOT NULL DEFAULT 0
   )
 `;
 
