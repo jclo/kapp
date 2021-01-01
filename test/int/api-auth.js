@@ -17,7 +17,7 @@ const { expect } = require('chai')
 
 
 // -- Main section -
-module.exports = (request, user) => {
+module.exports = (request, user, pack) => {
   describe('Test the Authentication APIs:', () => {
     it('Expects "POST /api/v1/auth/login" with a wrong username to be refused.', (done) => {
       request
@@ -61,7 +61,7 @@ module.exports = (request, user) => {
         .get('/api/v1/system/version')
         .end((err, res) => {
           expect(res).to.have.status(200);
-          expect(res.text).to.contain('@mobilabs/kapp');
+          expect(res.text).to.contain(pack.name);
           done();
         });
     });

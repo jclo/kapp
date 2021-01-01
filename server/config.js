@@ -33,7 +33,7 @@ const config = {
   base: __dirname,
 
   // Logging Level
-  level: 'error',
+  level: 'trace',
 
   // Environment configuration
   env: {

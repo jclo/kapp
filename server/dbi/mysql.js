@@ -38,8 +38,9 @@
 
 
 // -- Local Modules
-const MQ     = require('../libs/mysql/api')
-    , crypto = require('../libs/crypto/main')
+const MQ       = require('../libs/mysql/api')
+    , crypto   = require('../libs/crypto/main')
+    , pmethods = require('../_custom/mysql/api')
     ;
 
 
@@ -233,4 +234,4 @@ const methods = {
 
 
 // -- Export
-module.exports = { Cstor: MySQL, methods };
+module.exports = { Cstor: MySQL, methods, pmethods };

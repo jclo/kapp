@@ -17,8 +17,8 @@ const { expect } = require('chai')
 
 
 // -- Main section -
-module.exports = (request, user, pack) => {
-  describe('Test the System APIs:', () => {
+module.exports = (request, user) => {
+  describe('Test the users APIs:', () => {
     it('Expects "POST /api/v1/auth/login" to return a successful authentication.', (done) => {
       request
         .post('/api/v1/auth/login')
@@ -31,22 +31,27 @@ module.exports = (request, user, pack) => {
         });
     });
 
-    it('Expects "GET /api/v1/system/version" to return the app version.', (done) => {
+    it('Expects "GET /api/v1/users?id=1&name=Doe" to return "{..., message: {query: {id: "1", name: "Doe"}}}" .', (done) => {
       request
-        .get('/api/v1/system/version')
+        .get('/api/v1/users?id=1&name=Doe')
         .end((err, res) => {
           expect(res).to.have.status(200);
-          expect(res.text).to.contain(pack.name);
+          expect(res.body).to.be.a('object');
+          expect(res.body.message.query.id).to.be.a('string').that.is.equal('1');
+          expect(res.body.message.query.name).to.be.a('string').that.is.equal('Doe');
           done();
         });
     });
 
-    it('Expects "GET /api/v1/system/kapp-version" to return the Kapp version.', (done) => {
+    it('Expects "GET /api/v1/users/:id/:name/:other" to return "{..., message: {variables: {id: "1", name: "Doe", other: "3"}}}" .', (done) => {
       request
-        .get('/api/v1/system/kapp-version')
+        .get('/api/v1/users/1/Doe/3')
         .end((err, res) => {
           expect(res).to.have.status(200);
-          expect(res.text).to.contain('Kapp');
+          expect(res.body).to.be.a('object');
+          expect(res.body.message.variables.id).to.be.a('string').that.is.equal('1');
+          expect(res.body.message.variables.name).to.be.a('string').that.is.equal('Doe');
+          expect(res.body.message.variables.other).to.be.a('string').that.is.equal('3');
           done();
         });
     });

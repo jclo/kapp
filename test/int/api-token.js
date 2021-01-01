@@ -17,7 +17,7 @@ const { expect } = require('chai')
 
 
 // -- Main section -
-module.exports = (request, user) => {
+module.exports = (request, user, pack) => {
   describe('Test the token APIs:', () => {
     // This is what should be returned:
     /*
@@ -56,7 +56,7 @@ module.exports = (request, user) => {
         .set('Authorization', `Bearer ${token.access_token}`)
         .end((err, res) => {
           expect(res).to.have.status(200);
-          expect(res.text).to.contain('@mobilabs/kapp');
+          expect(res.text).to.contain(pack.name);
           done();
         });
     });
@@ -120,7 +120,7 @@ module.exports = (request, user) => {
         .set('Authorization', `Bearer ${newtoken.access_token}`)
         .end((err, res) => {
           expect(res).to.have.status(200);
-          expect(res.text).to.contain('@mobilabs/kapp');
+          expect(res.text).to.contain(pack.name);
           done();
         });
     });

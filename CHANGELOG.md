@@ -32,6 +32,7 @@
   * Reduced the threshold for the test results as the results on travis are lower than local,
   * Fixed a minor issue linked to mysql,
   * Fifth release candidate,
+  * Added a folder that contains the project code,
   * ...,
 
 

@@ -37,8 +37,9 @@
 
 
 // -- Local Modules
-const SQ     = require('../libs/sqlite/api')
-    , crypto = require('../libs/crypto/main')
+const SQ       = require('../libs/sqlite/api')
+    , crypto   = require('../libs/crypto/main')
+    , pmethods = require('../_custom/sqlite/api')
     ;
 
 
@@ -211,4 +212,4 @@ const methods = {
 
 
 // -- Export
-module.exports = { Cstor: SQLite, methods };
+module.exports = { Cstor: SQLite, methods, pmethods };

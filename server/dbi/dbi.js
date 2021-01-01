@@ -40,9 +40,10 @@
 
 
 // -- Local Modules
-const SQlite = require('./sqlite')
-    , MySQL  = require('./mysql')
-    , { db } = require('../../.env')
+const SQlite   = require('./sqlite')
+    , MySQL    = require('./mysql')
+    , { db }   = require('../../.env')
+    , pmethods = require('../_custom/dbi')
     ;
 
 
@@ -94,10 +95,10 @@ function _extend(...args) {
 function _get(type) {
   switch (type) {
     case 'sqlite':
-      return [SQlite.Cstor, SQlite.methods];
+      return [SQlite.Cstor, SQlite.methods, SQlite.pmethods];
 
     case 'mysql':
-      return [MySQL.Cstor, MySQL.methods];
+      return [MySQL.Cstor, MySQL.methods, MySQL.pmethods];
 
     default:
       throw new Error(`The database server ${type} is not defined yet!`);
@@ -118,8 +119,8 @@ function _get(type) {
  * @since 0.0.0
  */
 const DBI = function(type) {
-  const [Cstor, exmethods] = _get(type);
-  const obj = Object.create(_extend(methods, exmethods));
+  const [Cstor, exmethods, expmethods] = _get(type);
+  const obj = Object.create(_extend(methods, pmethods, exmethods, expmethods));
   Cstor.call(obj, db[type]);
   return obj;
 };

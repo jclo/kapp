@@ -17,8 +17,6 @@
  * (for testing and as examples)
  *  . /api/v1/text                returns a string,
  *  . /api/v1/json                returns a JSON,
- *  . /api/v1/users               returns the associated queries,
- *  . /api/v1/users/:id/:name/:other  returns the associated variables,
  *
  *
  * POST Api(s):
@@ -43,9 +41,10 @@ const KZlog   = require('@mobilabs/kzlog')
 // -- Local Modules
 const config = require('../config')
     , Auth   = require('./auth')
-    , OAuth2  = require('./oauth2')
-    , System  = require('./system')
-    , I18N    = require('./i18n')
+    , OAuth2 = require('./oauth2')
+    , System = require('./system')
+    , I18N   = require('./i18n')
+    , CAPIS  = require('../_custom/api/v1/main')
     ;
 
 
@@ -104,6 +103,7 @@ const Api = {
     OAuth2(app, i18n, dbi, dbn);
     System(app, i18n, dbi, dbn);
     I18N(app, i18n, dbi, dbn);
+    CAPIS(app, i18n, dbi, dbn);
 
 
     // These are a few examples of apis. For the sake of simplicity,
@@ -126,25 +126,6 @@ const Api = {
       res.status(200).send({ status: 200, message: { a: 'Hello JSON World!' } });
       log.trace('Accepted GET api: "api/v1/json".');
     });
-
-    // This GET api includes queries. It returns them.
-    app.get('/api/v1/users', _auth, (req, res) => {
-      res.status(200).send({ status: 200, url: req.originalUrl, message: { query: req.query } });
-      log.trace('Accepted GET api: "api/v1/users/".');
-      log.trace(`Got the query: ${JSON.stringify(req.query)}.`);
-    });
-
-    // This GET api includes variables. They are returned in an object.
-    app.get('/api/v1/users/:id/:name/:other', _auth, (req, res) => {
-      res.status(200).send({
-        status: 200,
-        url: req.originalUrl,
-        message: { variables: req.params },
-      });
-      log.trace('Accepted GET api: "api/v1/users/:id/:name/other".');
-      log.trace(`Got the variables: ${JSON.stringify(req.params)}.`);
-    });
-
 
     // POST
     // This POST api sends a payload in the body. The payload is

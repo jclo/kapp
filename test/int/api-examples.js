@@ -49,31 +49,6 @@ module.exports = (request) => {
         });
     });
 
-    it('Expects "GET /api/v1/users?id=1&name=Doe" to return "{..., message: {query: {id: "1", name: "Doe"}}}" .', (done) => {
-      request
-        .get('/api/v1/users?id=1&name=Doe')
-        .end((err, res) => {
-          expect(res).to.have.status(200);
-          expect(res.body).to.be.a('object');
-          expect(res.body.message.query.id).to.be.a('string').that.is.equal('1');
-          expect(res.body.message.query.name).to.be.a('string').that.is.equal('Doe');
-          done();
-        });
-    });
-
-    it('Expects "GET /api/v1/users/:id/:name/:other" to return "{..., message: {variables: {id: "1", name: "Doe", other: "3"}}}" .', (done) => {
-      request
-        .get('/api/v1/users/1/Doe/3')
-        .end((err, res) => {
-          expect(res).to.have.status(200);
-          expect(res.body).to.be.a('object');
-          expect(res.body.message.variables.id).to.be.a('string').that.is.equal('1');
-          expect(res.body.message.variables.name).to.be.a('string').that.is.equal('Doe');
-          expect(res.body.message.variables.other).to.be.a('string').that.is.equal('3');
-          done();
-        });
-    });
-
     it('Expects "POST /api/v1/posto" to return the payload "{ a: 1, b: "This is a payload" }" .', (done) => {
       request
         .post('/api/v1/posto')

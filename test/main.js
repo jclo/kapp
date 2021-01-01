@@ -12,12 +12,14 @@ const chai     = require('chai')
 // -- Local Modules
 const app     = require('../server/start')
     , config  = require('../server/config')
+    , pack    = require('../package.json')
 
     , apiex   = require('./int/api-examples')
     , apiauth = require('./int/api-auth')
     , apisys  = require('./int/api-sys')
     , apii18n = require('./int/api-i18n')
     , apitok  = require('./int/api-token')
+    , apiuser = require('./int/api-users')
     ;
 
 
@@ -51,10 +53,12 @@ const request = chai.request.agent(server);
 
 describe('Test Kapp:', () => {
   apiex(request);
-  apiauth(request, user);
-  apisys(request, user);
+  apiauth(request, user, pack);
+  apisys(request, user, pack);
   apii18n(request, user);
-  apitok(request, user);
+  apitok(request, user, pack);
+
+  apiuser(request, user);
 
   //
 });

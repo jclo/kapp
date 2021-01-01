@@ -51,7 +51,7 @@ const defBoilerLib  = 'kapp'
     , serverdir   = 'server'
     , test        = 'test'
     , tasks       = 'tasks'
-    , docs        = 'docs'
+    // , docs        = 'docs'
     , db          = 'db'
     , examples    = 'examples'
     // Command line Options
@@ -424,7 +424,7 @@ function _addTasks(source, dest, folder/* , app, boilerlib */) {
  * @param {String}          the name of the boilerplate,
  * @returns {}              -,
  */
-function _addTest(source, dest, folder, app, boilerlib) {
+function _addTest(source, dest, folder /* , app, boilerlib */) {
   const exclude = [];
 
   process.stdout.write(`  duplicated the contents of ${folder}\n`);
@@ -436,11 +436,11 @@ function _addTest(source, dest, folder, app, boilerlib) {
   }
 
   // Replace the name 'boilerlib' by 'app' to dest:
-  const re = new RegExp(boilerlib, 'g');
-  const f = shell.find(`${dest}/${folder}`).filter((file) => file.match(/\.js$/));
-  for (let i = 0; i < f.length; i++) {
-    shell.sed('-i', re, app, f[i]);
-  }
+  // const re = new RegExp(boilerlib, 'g');
+  // const f = shell.find(`${dest}/${folder}`).filter((file) => file.match(/\.js$/));
+  // for (let i = 0; i < f.length; i++) {
+  //   shell.sed('-i', re, app, f[i]);
+  // }
 }
 
 /**
