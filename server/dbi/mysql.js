@@ -35,16 +35,22 @@
 
 
 // -- Vendor Modules
+const KZlog   = require('@mobilabs/kzlog')
+    ;
 
 
 // -- Local Modules
-const MQ       = require('../libs/mysql/api')
+const config   = require('../config')
+    , MQ       = require('../libs/mysql/api')
     , crypto   = require('../libs/crypto/main')
     , pmethods = require('../_custom/mysql/api')
     ;
 
 
 // -- Local Constants
+const { level } = config
+    , log       = KZlog('dbi/sqlite.js', level, false)
+    ;
 
 
 // -- Local Variables
@@ -80,9 +86,9 @@ const people = [
  * @returns {Number}        return the number of tables,
  * @since 0.0.0
  */
-async function _isEmpty(cn) {
+async function _isEmpty(cn, lib) {
   const SQL = 'SELECT COUNT(DISTINCT `table_name`) AS TotalNumberOfTables FROM `information_schema`.`columns` WHERE `table_schema` = ?';
-  const resp = await MQ.query(cn, SQL, ['kapp']);
+  const resp = await lib.query(cn, SQL, ['kapp']);
   return resp[0].TotalNumberOfTables === 0;
 }
 
@@ -102,6 +108,7 @@ async function _isEmpty(cn) {
 const MySQL = function(params) {
   this._name = 'mysql';
   this._db = params.database;
+  this._lib = MQ;
   MQ.createPool(
     params.host,
     params.connectionLimit,
@@ -127,7 +134,7 @@ const methods = {
    * @since 0.0.0
    */
   end() {
-    return MQ.end();
+    return this._lib.end();
   },
 
 
@@ -157,11 +164,11 @@ const methods = {
     // exiting the method.
 
     // Ask for a connection to the MySQL pool of connections.
-    const cn = await MQ.getConnection();
+    const cn = await this._lib.getConnection();
     // Process the database query:
-    const result = _isEmpty(cn);
+    const result = _isEmpty(cn, this._lib);
     // Free the connection when the query is done.
-    await MQ.release(cn);
+    await this._lib.release(cn);
     return result;
   },
 
@@ -175,43 +182,48 @@ const methods = {
    * @since 0.0.0
    */
   async init() {
-    const cn = await MQ.getConnection();
+    const lib = this._lib;
+    const cn = await lib.getConnection();
 
     // Check if the db has already been initialized with the
     // 'users table'. If it is the case, erase the previous content:
     let sql = 'SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?';
-    let resp = await MQ.query(cn, sql, ['kapp', 'users']);
+    let resp = await lib.query(cn, sql, ['kapp', 'users']);
     if (resp.length > 0) {
-      await MQ.query(cn, 'DROP TABLE users');
+      log.info('The database is already filled.');
+      await lib.release(cn);
+      return;
     }
 
     // Create a fresh 'users' table:
-    resp = await MQ.query(cn, users);
+    log.info('The database is empty.)');
+    resp = await lib.query(cn, users);
     // Dump the table structure:
     sql = 'SELECT COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, COLUMN_DEFAULT, EXTRA FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?';
-    resp = await MQ.query(cn, sql, ['kapp', 'users']);
+    resp = await lib.query(cn, sql, ['kapp', 'users']);
     console.log(resp);
 
     // Fills the 'users' table:
     sql = 'INSERT INTO users(user_name, user_hash, first_name, last_name, is_locked) VALUES(?, ?, ?, ?, ?)';
     let p = people[0];
     let pwd = await crypto.hash(p.user_pwd);
-    await MQ.query(cn, sql, [p.user_name, pwd, p.first_name, p.last_name, 0]);
+    await lib.query(cn, sql, [p.user_name, pwd, p.first_name, p.last_name, 0]);
 
     [, p] = people;
     pwd = await crypto.hash(p.user_pwd);
-    await MQ.query(cn, sql, [p.user_name, pwd, p.first_name, p.last_name, 0]);
+    await lib.query(cn, sql, [p.user_name, pwd, p.first_name, p.last_name, 0]);
 
     [,, p] = people;
     pwd = await crypto.hash(p.user_pwd);
-    await MQ.query(cn, sql, [p.user_name, pwd, p.first_name, p.last_name, 1]);
+    await lib.query(cn, sql, [p.user_name, pwd, p.first_name, p.last_name, 1]);
 
     // Dump the content of the users table:
-    resp = await MQ.query(cn, 'SELECT * FROM users');
+    resp = await lib.query(cn, 'SELECT * FROM users');
     console.log(resp);
+    log.info('We created the users table.)');
 
     // Free the connection when the task is completed.
-    await MQ.release(cn);
+    await lib.release(cn);
   },
 
   /**
@@ -224,10 +236,10 @@ const methods = {
    * @since 0.0.0
    */
   async getUser(username) {
-    const cn = await MQ.getConnection();
+    const cn = await this._lib.getConnection();
     const sql = 'SELECT * FROM users WHERE user_name = ?';
-    const resp = await MQ.query(cn, sql, [username]);
-    await MQ.release(cn);
+    const resp = await this._lib.query(cn, sql, [username]);
+    await this._lib.release(cn);
     return resp[0];
   },
 };

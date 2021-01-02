@@ -9,6 +9,7 @@
 !examples/**/*
 !public/**/*
 
+!server/_custom/**/*
 !server/api/**/*
 !server/controllers/**/*
 !server/core/**/*

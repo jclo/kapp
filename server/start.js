@@ -40,9 +40,10 @@ const App = require('./app')
 // Starts the server:
 const dbi = App();
 
-// This is only used for creating the testing database. Uncomment the next
-// line if you want to recreate the testing database only.
-// dbi.init();
+// This is used for filling the database. if the database already contains
+// tables nothing is done. The only way to initialize a database is to drop
+// its contents by hand.
+dbi.init();
 
 
 // -- Export

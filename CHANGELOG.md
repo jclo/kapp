@@ -1,6 +1,6 @@
 ### HEAD
 
-### 1.0.3 (January 1, 2021)
+### 1.0.3 (January 2, 2021)
 
   * Added internationalization capability through a new i18n local module,
   * Added an api to access to an sqlite3 database,
@@ -33,6 +33,7 @@
   * Fixed a minor issue linked to mysql,
   * Fifth release candidate,
   * Added a folder that contains the project code,
+  * Made a few small changes in the way to handle the test table,
   * ...,
 
 

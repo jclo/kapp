@@ -34,16 +34,22 @@
 
 
 // -- Vendor Modules
+const KZlog   = require('@mobilabs/kzlog')
+    ;
 
 
 // -- Local Modules
-const SQ       = require('../libs/sqlite/api')
+const config   = require('../config')
+    , SQ       = require('../libs/sqlite/api')
     , crypto   = require('../libs/crypto/main')
     , pmethods = require('../_custom/sqlite/api')
     ;
 
 
 // -- Local Constants
+const { level } = config
+    , log       = KZlog('dbi/sqlite.js', level, false)
+    ;
 
 
 // -- Local Variables
@@ -58,7 +64,7 @@ const users = `
     user_hash                     VARCHAR(100)   DEFAULT NULL,
     first_name                    VARCHAR(100)   DEFAULT NULL,
     last_name                     VARCHAR(100)   DEFAULT NULL,
-    is_locked                     BIT(1)         NOT NULL DEFAULT 0
+    is_locked                     TINYINT(1)     NOT NULL DEFAULT 0
   )
 `;
 
@@ -80,9 +86,9 @@ const people = [
  * @returns {Number}        the number of tables,
  * @since 0.0.0
  */
-async function _countTables() {
+async function _countTables(lib) {
   const SQL = 'SELECT count(*) FROM sqlite_master WHERE type = "table"';
-  const resp = await SQ.get(SQL);
+  const resp = await lib.get(SQL);
   return resp['count(*)'];
 }
 
@@ -102,6 +108,7 @@ async function _countTables() {
 const SQLite = function(params) {
   this._name = 'sqlite';
   this._db = params.database;
+  this._lib = SQ;
 };
 
 
@@ -134,13 +141,13 @@ const methods = {
     // exiting the method.
 
     // Ask for an access to the database:
-    await SQ.open(this._db);
+    await this._lib.open(this._db);
 
     // Perform query(ies)
-    const count = await _countTables();
+    const count = await _countTables(this._lib);
 
     // Close the connection to the database and leave.
-    await SQ.close();
+    await this._lib.close();
     return count === 0;
   },
 
@@ -154,42 +161,47 @@ const methods = {
    * @since 0.0.0
    */
   async init(callback) {
-    await SQ.open(this._db);
+    const lib = this._lib;
+    await lib.open(this._db);
 
     // Check if the db has already been initialized with the
     // 'users table':
     let SQL = 'SELECT name FROM sqlite_master WHERE type="table" AND name="users"';
-    let resp = await SQ.get(SQL);
+    let resp = await lib.get(SQL);
     if (resp && resp.name === 'users') {
-      await SQ.run('DROP TABLE users');
+      await lib.close();
+      log.info('The database is already filled.');
+      if (callback) callback();
     }
 
     // Create a fresh 'users' table:
-    resp = await SQ.run(users);
+    log.info('The database is empty.)');
+    resp = await lib.run(users);
     // Get the table structure:
     SQL = 'SELECT sql FROM sqlite_master WHERE name="users"';
-    resp = await SQ.get(SQL);
+    resp = await lib.get(SQL);
     console.log(resp);
 
     // Fills the 'users' table:
     SQL = 'INSERT INTO users(user_name, user_hash, first_name, last_name, is_locked) VALUES(?, ?, ?, ?, ?)';
     let p = people[0];
     let pwd = await crypto.hash(p.user_pwd);
-    await SQ.run(SQL, p.user_name, pwd, p.first_name, p.last_name, 0);
+    await lib.run(SQL, p.user_name, pwd, p.first_name, p.last_name, 0);
 
     [, p] = people;
     pwd = await crypto.hash(p.user_pwd);
-    await SQ.run(SQL, p.user_name, pwd, p.first_name, p.last_name, 0);
+    await lib.run(SQL, p.user_name, pwd, p.first_name, p.last_name, 0);
 
     [,, p] = people;
     pwd = await crypto.hash(p.user_pwd);
-    await SQ.run(SQL, p.user_name, pwd, p.first_name, p.last_name, 1);
+    await lib.run(SQL, p.user_name, pwd, p.first_name, p.last_name, 1);
 
     // Dump the content of the users table:
-    resp = await SQ.all('SELECT * FROM users');
+    resp = await lib.all('SELECT * FROM users');
     console.log(resp);
 
-    await SQ.close();
+    log.info('We created the users table.)');
+    await lib.close();
     if (callback) callback();
   },
 
@@ -203,9 +215,9 @@ const methods = {
    * @since 0.0.0
    */
   async getUser(username) {
-    await SQ.open(this._db);
-    const resp = await SQ.get(`SELECT * FROM users WHERE user_name="${username}"`);
-    await SQ.close();
+    await this._lib.open(this._db);
+    const resp = await this._lib.get(`SELECT * FROM users WHERE user_name="${username}"`);
+    await this._lib.close();
     return resp;
   },
 };
