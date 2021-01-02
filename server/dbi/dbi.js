@@ -197,7 +197,7 @@ dbimethods = {
    * @method ()
    * @public
    * @param {}              -,
-   * @returns {Boolean}     returns true if empty otherwis false,
+   * @returns {Boolean}     returns true if empty otherwise false,
    * @since 0.0.0
    */
   async isTableEmpty(table) {

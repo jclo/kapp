@@ -35,6 +35,7 @@
   * Added a folder that contains the project code,
   * Made a few small changes in the way to handle the test table,
   * Transferred DBI testing methods in separate files for both SQlite and MySQL,
+  * Added a few DBI primitives methods,
   * ...,
 
 

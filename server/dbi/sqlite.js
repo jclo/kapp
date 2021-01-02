@@ -115,7 +115,34 @@ const methods = {
    * @since 0.0.0
    */
   async getTableStructure(table) {
-    return this._lib.all(`pragma table_info(${table})`);
+    const r = await this._lib.all(`pragma table_info(${table})`);
+    const struct = [];
+
+    // Standardize:
+    for (let i = 0; i < r.length; i++) {
+      let def;
+      switch (r[i].dflt_value) {
+        case 'NULL':
+          def = 'NULL';
+          break;
+        case null:
+          def = 'None';
+          break;
+        default:
+          def = r[i].dflt_value;
+      }
+      struct.push({
+        column: r[i].cid,
+        name: r[i].name,
+        type: r[i].type,
+        notNULL: r[i].notnull === 0 ? 'No' : 'Yes',
+        default: def,
+        key: r[i].pk === 1 ? 'primary' : '',
+        extra: '',
+      });
+    }
+
+    return struct;
   },
 
   /**
@@ -124,7 +151,7 @@ const methods = {
    * @method ()
    * @public
    * @param {}              -,
-   * @returns {Boolean}     returns true if empty otherwis false,
+   * @returns {Boolean}     returns true if empty otherwise false,
    * @since 0.0.0
    */
   async isTableEmpty(table) {
