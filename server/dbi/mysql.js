@@ -16,11 +16,10 @@
  *
  * Public Methods:
  *  . end                         free the pool of connections to the database,
- *
- *  TO BE REPLACED BY YOUR OWN:
- *  . isEmpty                     checks if the database is empty,
- *  . init                        initialize the users table,
- *  . getUser                     returns the user credentials from the database,
+ *  . isDbEmpty                   returns true if the database is empty,
+ *  . isTable                     returns true if the table exists,
+ *  . getTableStructure           returns the table structure,
+ *  . isTableEmpty                checks if the table is empty,
  *
  *
  *
@@ -35,62 +34,23 @@
 
 
 // -- Vendor Modules
-const KZlog   = require('@mobilabs/kzlog')
-    ;
 
 
 // -- Local Modules
-const config   = require('../config')
-    , MQ       = require('../libs/mysql/api')
-    , crypto   = require('../libs/crypto/main')
+const MQ       = require('../libs/mysql/api')
+    , tmethods = require('./test/mysql')
     , pmethods = require('../_custom/mysql/api')
     ;
 
 
 // -- Local Constants
-const { level } = config
-    , log       = KZlog('dbi/sqlite.js', level, false)
-    ;
 
 
 // -- Local Variables
 
 
 // -- Private Functions --------------------------------------------------------
-
-const users = `
-  CREATE TABLE users(
-    id                            INTEGER        PRIMARY KEY AUTO_INCREMENT,
-    user_name                     VARCHAR(100)   DEFAULT NULL,
-    user_hash                     VARCHAR(100)   DEFAULT NULL,
-    first_name                    VARCHAR(100)   DEFAULT NULL,
-    last_name                     VARCHAR(100)   DEFAULT NULL,
-    is_locked                     TINYINT(1)     NOT NULL DEFAULT 0
-  )
-`;
-
-const people = [
-  /* eslint-disable object-curly-newline */
-  { user_name: 'jdo', user_pwd: 'jdo', first_name: 'John', last_name: 'Doe' },
-  { user_name: 'jsn', user_pwd: 'jsn', first_name: 'John', last_name: 'Snow' },
-  { user_name: 'jhe', user_pwd: 'jhe', first_name: 'John', last_name: 'Headache' },
-  /* eslint-enable object-curly-newline */
-];
-
-/**
- * Check if the database is empty.
- *
- * @function (arg1)
- * @private
- * @param {Object}          the connection to the db object,
- * @returns {Number}        return the number of tables,
- * @since 0.0.0
- */
-async function _isEmpty(cn, lib) {
-  const SQL = 'SELECT COUNT(DISTINCT `table_name`) AS TotalNumberOfTables FROM `information_schema`.`columns` WHERE `table_schema` = ?';
-  const resp = await lib.query(cn, SQL, ['kapp']);
-  return resp[0].TotalNumberOfTables === 0;
-}
+// none,
 
 
 // -- Public -------------------------------------------------------------------
@@ -137,12 +97,9 @@ const methods = {
     return this._lib.end();
   },
 
-
-  // The methods below are given as examples how to interact with the
-  // database to check it, add contents and retrieve data.
-  //
-  // You can delete and replace them by your methods.
-  // Only the constructor and the method 'end' are mandatory.
+  // The methods are primitive methods. They perform a simple but usefull
+  // operation. Thus, they must be called inside another method as
+  // they don't open and close the database.
 
   /**
    * Checks if the database is empty.
@@ -153,97 +110,58 @@ const methods = {
    * @returns {Boolean}     returns true if empty otherwise false,
    * @since 0.0.0
    */
-  async isEmpty() {
-    // The basic principe is to start each method by asking a
-    // connection to the database from the pool of connections. See
-    // the documentation of the node module mysql for more
-    // explanations.
-    // When a connection is returned use this connection to perform
-    // a query or a set of queries to the database.
-    // And when the job is done release the connection before
-    // exiting the method.
-
-    // Ask for a connection to the MySQL pool of connections.
-    const cn = await this._lib.getConnection();
-    // Process the database query:
-    const result = _isEmpty(cn, this._lib);
-    // Free the connection when the query is done.
-    await this._lib.release(cn);
-    return result;
+  async isDbEmpty() {
+    return true;
   },
 
   /**
-   * Initialize the users table.
+   * Checks if the table exists.
+   * (must be be overwritten)
+   *
+   * @method (arg1)
+   * @public
+   * @param {String}        the name of the table,
+   * @returns {Boolean}     returns true if the table exists otherwise false,
+   * @since 0.0.0
+   */
+  async isTable(table) {
+    return table;
+  },
+
+  /**
+   * Returns the table structure.
+   * (must be be overwritten)
+   *
+   * @method (arg1)
+   * @public
+   * @param {String}        the name of the table,
+   * @returns {Array}       returns the structure of the table,
+   * @since 0.0.0
+   */
+  async getTableStructure(table) {
+    return table;
+  },
+
+  /**
+   * Checks if the table is empty.
+   * (must be be overwritten)
    *
    * @method ()
    * @public
    * @param {}              -,
-   * @returns {}            -,
+   * @returns {Boolean}     returns true if empty otherwis false,
    * @since 0.0.0
    */
-  async init() {
-    const lib = this._lib;
-    const cn = await lib.getConnection();
-
-    // Check if the db has already been initialized with the
-    // 'users table'. If it is the case, erase the previous content:
-    let sql = 'SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?';
-    let resp = await lib.query(cn, sql, ['kapp', 'users']);
-    if (resp.length > 0) {
-      log.info('The database is already filled.');
-      await lib.release(cn);
-      return;
-    }
-
-    // Create a fresh 'users' table:
-    log.info('The database is empty.)');
-    resp = await lib.query(cn, users);
-    // Dump the table structure:
-    sql = 'SELECT COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, COLUMN_DEFAULT, EXTRA FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?';
-    resp = await lib.query(cn, sql, ['kapp', 'users']);
-    console.log(resp);
-
-    // Fills the 'users' table:
-    sql = 'INSERT INTO users(user_name, user_hash, first_name, last_name, is_locked) VALUES(?, ?, ?, ?, ?)';
-    let p = people[0];
-    let pwd = await crypto.hash(p.user_pwd);
-    await lib.query(cn, sql, [p.user_name, pwd, p.first_name, p.last_name, 0]);
-
-    [, p] = people;
-    pwd = await crypto.hash(p.user_pwd);
-    await lib.query(cn, sql, [p.user_name, pwd, p.first_name, p.last_name, 0]);
-
-    [,, p] = people;
-    pwd = await crypto.hash(p.user_pwd);
-    await lib.query(cn, sql, [p.user_name, pwd, p.first_name, p.last_name, 1]);
-
-    // Dump the content of the users table:
-    resp = await lib.query(cn, 'SELECT * FROM users');
-    console.log(resp);
-    log.info('We created the users table.)');
-
-    // Free the connection when the task is completed.
-    await lib.release(cn);
-  },
-
-  /**
-   * Returns the user credentials from the database.
-   *
-   * @method (arg1)
-   * @public
-   * @param {String}        the username,
-   * @returns {Object}      returns the user credentials or undefined,
-   * @since 0.0.0
-   */
-  async getUser(username) {
-    const cn = await this._lib.getConnection();
-    const sql = 'SELECT * FROM users WHERE user_name = ?';
-    const resp = await this._lib.query(cn, sql, [username]);
-    await this._lib.release(cn);
-    return resp[0];
+  async isTableEmpty(table) {
+    return table;
   },
 };
 
 
 // -- Export
-module.exports = { Cstor: MySQL, methods, pmethods };
+module.exports = {
+  Cstor: MySQL,
+  methods,
+  tmethods,
+  pmethods,
+};

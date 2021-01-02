@@ -17,12 +17,12 @@
  *
  *
  * Public Methods:
- *  . end                         free the database,
+ *  . end                         free the database (specific to mysql),
  *
- *  TO BE REPLACED BY YOUR OWN:
- *  . isEmpty                     checks if the database is empty,
- *  . init                        initializes the database,
- *  . getUser                     returns the user credentials from the database,
+ *  . isDbEmpty                   returns true if the database is empty,
+ *  . isTable                     returns true if the table exists,
+ *  . getTableStructure           returns the table structure,
+ *  . isTableEmpty                checks if the table is empty,
  *
  *
  *
@@ -40,10 +40,10 @@
 
 
 // -- Local Modules
-const SQlite   = require('./sqlite')
-    , MySQL    = require('./mysql')
-    , { db }   = require('../../.env')
-    , pmethods = require('../_custom/dbi')
+const SQlite      = require('./sqlite')
+    , MySQL       = require('./mysql')
+    , { db }      = require('../../.env')
+    , pdbimethods = require('../_custom/dbi')
     ;
 
 
@@ -51,7 +51,7 @@ const SQlite   = require('./sqlite')
 
 
 // -- Local Variables
-let methods;
+let dbimethods;
 
 
 // -- Private Functions --------------------------------------------------------
@@ -95,10 +95,10 @@ function _extend(...args) {
 function _get(type) {
   switch (type) {
     case 'sqlite':
-      return [SQlite.Cstor, SQlite.methods, SQlite.pmethods];
+      return [SQlite.Cstor, _extend(SQlite.methods, SQlite.tmethods, SQlite.pmethods)];
 
     case 'mysql':
-      return [MySQL.Cstor, MySQL.methods, MySQL.pmethods];
+      return [MySQL.Cstor, _extend(MySQL.methods, MySQL.tmethods, MySQL.pmethods)];
 
     default:
       throw new Error(`The database server ${type} is not defined yet!`);
@@ -119,8 +119,8 @@ function _get(type) {
  * @since 0.0.0
  */
 const DBI = function(type) {
-  const [Cstor, exmethods, expmethods] = _get(type);
-  const obj = Object.create(_extend(methods, pmethods, exmethods, expmethods));
+  const [Cstor, libmethods] = _get(type);
+  const obj = Object.create(_extend(dbimethods, pdbimethods, libmethods));
   Cstor.call(obj, db[type]);
   return obj;
 };
@@ -128,7 +128,7 @@ const DBI = function(type) {
 
 // -- Public Methods -----------------------------------------------------------
 
-methods = {
+dbimethods = {
 
   /**
    * Free the database.
@@ -145,15 +145,12 @@ methods = {
   },
 
 
-  // The methods below are given as examples how to interact with the
-  // database to check it, add contents and retrieve data.
-  //
-  // You can delete and replace them by your methods.
-  // Only the constructor and the method 'end' are mandatory.
+  // The methods are primitive methods. They perform a simple but usefull
+  // operation. Thus, they must be called inside another method as
+  // they don't open and close the database.
 
   /**
    * Checks if the database is empty.
-   * (must be overwritten)
    *
    * @method ()
    * @public
@@ -161,36 +158,50 @@ methods = {
    * @returns {Boolean}     returns true if empty otherwise false,
    * @since 0.0.0
    */
-  async isEmpty() {
-    //
+  async isDbEmpty() {
+    return true;
   },
 
   /**
-   * Initializes the database.
-   * (must be overwritten)
+   * Checks if the table exists.
+   * (must be be overwritten)
+   *
+   * @method (arg1)
+   * @public
+   * @param {String}        the name of the table,
+   * @returns {Boolean}     returns true if the table exists otherwise false,
+   * @since 0.0.0
+   */
+  async isTable(table) {
+    return table;
+  },
+
+  /**
+   * Returns the table structure.
+   * (must be be overwritten)
+   *
+   * @method (arg1)
+   * @public
+   * @param {String}        the name of the table,
+   * @returns {Array}       returns the structure of the table,
+   * @since 0.0.0
+   */
+  async getTableStructure(table) {
+    return table;
+  },
+
+  /**
+   * Checks if the table is empty.
+   * (must be be overwritten)
    *
    * @method ()
    * @public
    * @param {}              -,
-   * @returns {}            -,
+   * @returns {Boolean}     returns true if empty otherwis false,
    * @since 0.0.0
    */
-  async init() {
-    //
-  },
-
-  /**
-   * Returns the user credentials from the database.
-   * (must be overwritten)
-   *
-   * @method (arg1)
-   * @public
-   * @param {String}        the username,
-   * @returns {Object}      returns the user credentials or undefined,
-   * @since 0.0.0
-   */
-  async getUser() {
-    //
+  async isTableEmpty(table) {
+    return table;
   },
 };
 
