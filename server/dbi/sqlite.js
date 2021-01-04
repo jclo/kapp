@@ -38,7 +38,6 @@
 // -- Local Modules
 const SQ       = require('../libs/sqlite/api')
     , tmethods = require('./test/sqlite')
-    , pmethods = require('../_custom/sqlite/api')
     ;
 
 
@@ -163,9 +162,4 @@ const methods = {
 
 
 // -- Export
-module.exports = {
-  Cstor: SQLite,
-  methods,
-  tmethods,
-  pmethods,
-};
+module.exports = { Cstor: SQLite, methods, tmethods };

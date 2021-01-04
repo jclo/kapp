@@ -39,7 +39,6 @@
 // -- Local Modules
 const MQ       = require('../libs/mysql/api')
     , tmethods = require('./test/mysql')
-    , pmethods = require('../_custom/mysql/api')
     ;
 
 
@@ -189,9 +188,4 @@ const methods = {
 
 
 // -- Export
-module.exports = {
-  Cstor: MySQL,
-  methods,
-  tmethods,
-  pmethods,
-};
+module.exports = { Cstor: MySQL, methods, tmethods };
