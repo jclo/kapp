@@ -43,9 +43,9 @@
 const SQlite         = require('./sqlite')
     , MySQL          = require('./mysql')
     , { db }         = require('../../.env')
-    , pdbimethods    = require('../_custom/dbi')
-    , sqlitepmethods = require('../_custom/sqlite/api')
-    , mysqlpmethods  = require('../_custom/mysql/api')
+    , pdbimethods    = require('../_custom/dbi/dbi')
+    , sqlitepmethods = require('../_custom/dbi/sqlite/api')
+    , mysqlpmethods  = require('../_custom/dbi/mysql/api')
     ;
 
 

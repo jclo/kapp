@@ -112,7 +112,7 @@ const methods = {
    * @since 0.0.0
    */
   async isDbEmpty(cn, db) {
-    const SQL = 'SELECT COUNT(DISTINCT `table_name`) AS TotalNumberOfTablesFROM `information_schema`.`columns` WHERE `table_schema` = ?';
+    const SQL = 'SELECT COUNT(DISTINCT `TABLE_NAME`) AS anyAliasName FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `table_schema` = ?;';
     const resp = await this._lib.query(cn, SQL, [db]);
     return resp[0].TotalNumberOfTables === 0;
   },

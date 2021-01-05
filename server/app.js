@@ -42,6 +42,7 @@ const config     = require('./config')
     , FilterIP   = require('./middlewares/ip/main')
     , I18N       = require('./libs/i18n/i18n')
     , DBI        = require('./dbi/dbi')
+    , env        = require('../.env')
     ;
 
 
@@ -156,7 +157,7 @@ function App() {
 
   // Create the database object and create the tables for testing.
   log.info('create the users table for testing:');
-  const dbi = DBI('sqlite');
+  const dbi = DBI(env.db.active);
 
   // Create a in-memory database to store the token and refresh token.
   // It means that if the server crashes the tokens are lost and
