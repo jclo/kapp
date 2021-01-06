@@ -1,6 +1,6 @@
 ### HEAD
 
-### 1.0.3 (January 5, 2021)
+### 1.0.3 (January 6, 2021)
 
   * Added internationalization capability through a new i18n local module,
   * Added an api to access to an sqlite3 database,
@@ -38,6 +38,7 @@
   * Added a few DBI primitives methods,
   * Fixed a few minor issues,
   * Made a few minor changes,
+  * Fixed a wrong Travis-CI configuration,
   * ...,
 
 

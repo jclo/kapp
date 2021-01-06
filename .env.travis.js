@@ -19,6 +19,7 @@ const env = {
   // Define here the credentials to access your database. This hidden file
   // is declared not to be exported in '.gitignore'.
   db: {
+    active: 'sqlite',
     sqlite: {
       database: './db/db.sqlite',
     },
