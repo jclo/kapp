@@ -55,6 +55,7 @@ const users = `
     user_hash                     VARCHAR(100)   DEFAULT NULL,
     first_name                    VARCHAR(100)   DEFAULT NULL,
     last_name                     VARCHAR(100)   DEFAULT NULL,
+    is_deleted                    TINYINT(1)     NOT NULL DEFAULT 0,
     is_locked                     TINYINT(1)     NOT NULL DEFAULT 0
   )
 `;
@@ -135,12 +136,12 @@ const methods = {
    * @returns {Object}      returns the user credentials or undefined,
    * @since 0.0.0
    */
-  async getUser(username) {
+  async userGetMe(username) {
     const cn = await this._lib.getConnection();
     const sql = 'SELECT * FROM users WHERE user_name = ?';
-    const resp = await this._lib.query(cn, sql, [username]);
+    const [user] = await this._lib.query(cn, sql, [username]);
     await this._lib.release(cn);
-    return resp[0];
+    return [null, user];
   },
 };
 

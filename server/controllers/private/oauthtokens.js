@@ -84,7 +84,7 @@ const TOK = {
    * @since 0.0.0
    */
   async get(dbi, dbn, username, pwd, callback) {
-    const user = await dbi.getUser(username);
+    const [, user] = await dbi.userGetMe(username);
     if (!user) {
       callback(`The username "${username}" is unknown!`);
       return;
@@ -93,6 +93,11 @@ const TOK = {
     const match = await Crypto.compare(pwd, user.user_hash);
     if (!match) {
       callback('You provided a wrong password!');
+      return;
+    }
+
+    if (user.is_deleted === 1) {
+      callback('Your account is deleted!');
       return;
     }
 
@@ -139,18 +144,26 @@ const TOK = {
    * @since 0.0.0
    */
   async refresh(dbi, dbn, username, pwd, refreshToken, callback) {
-    const user = await dbi.getUser(username);
+    const [, user] = await dbi.userGetMe(username);
     if (!user) {
       callback(`The username "${username}" is unknown!`);
+      return;
     }
 
     const match = await Crypto.compare(pwd, user.user_hash);
     if (!match) {
       callback('You provided a wrong password!');
+      return;
+    }
+
+    if (user.is_deleted === 1) {
+      callback('Your account is locked!');
+      return;
     }
 
     if (user.is_locked === 1) {
       callback('Your account is locked!');
+      return;
     }
 
     // Does the refresh token belongs to 'username' and still valid?

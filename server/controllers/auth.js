@@ -57,7 +57,7 @@ const Auth = {
    * @since 0.0.0
    */
   async login(dbi, req, callback) {
-    const user = await dbi.getUser(req.body.user);
+    const [, user] = await dbi.userGetMe(req.body.user);
     if (!user) {
       callback('You are NOT a referenced user!');
       return;
@@ -66,6 +66,11 @@ const Auth = {
     const match = await Crypto.compare(req.body.password, user.user_hash);
     if (!match) {
       callback('You provided a wrong password!');
+      return;
+    }
+
+    if (user.is_deleted === 1) {
+      callback('Your account is deleted!');
       return;
     }
 

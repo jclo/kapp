@@ -54,6 +54,7 @@ const users = `
     user_hash                     VARCHAR(100)   DEFAULT NULL,
     first_name                    VARCHAR(100)   DEFAULT NULL,
     last_name                     VARCHAR(100)   DEFAULT NULL,
+    is_deleted                    TINYINT(1)     NOT NULL DEFAULT 0,
     is_locked                     TINYINT(1)     NOT NULL DEFAULT 0
   )
 `;
@@ -67,60 +68,9 @@ const people = [
 ];
 
 
-/**
- * Returns the number of tables set in the db.
- *
- * @function ()
- * @private
- * @param {}                -,
- * @returns {Number}        the number of tables,
- * @since 0.0.0
- */
-// async function _countTables(lib) {
-//   const SQL = 'SELECT count(*) FROM sqlite_master WHERE type = "table"';
-//   const resp = await lib.get(SQL);
-//   return resp['count(*)'];
-// }
-
-
 // -- Public Methods -----------------------------------------------------------
 
 const methods = {
-
-
-  // // The methods below are given as examples how to interact with the
-  // // database to check it, add contents and retrieve data.
-  // //
-  // // You can delete and replace them by your methods.
-  // // Only the constructor and the method 'end' are mandatory.
-  //
-  // /**
-  //  * Checks if the database is empty.
-  //  *
-  //  * @method ()
-  //  * @public
-  //  * @param {}              -,
-  //  * @returns {Boolean}     returns true if empty otherwis false,
-  //  * @since 0.0.0
-  //  */
-  // async isEmpty() {
-  //   // The basic principe is to start each method by asking a
-  //   // connection to the database.
-  //   // When a connection is established perform a query or a set of queries
-  //   // to the database.
-  //   // And when the job is done release the connection before
-  //   // exiting the method.
-  //
-  //   // Ask for an access to the database:
-  //   await this._lib.open(this._db);
-  //
-  //   // Perform query(ies)
-  //   const count = await _countTables(this._lib);
-  //
-  //   // Close the connection to the database and leave.
-  //   await this._lib.close();
-  //   return count === 0;
-  // },
 
   /**
    * Initialize the users table.
@@ -186,11 +136,11 @@ const methods = {
    * @returns {Object}      returns the user credentials or undefined,
    * @since 0.0.0
    */
-  async getUser(username) {
+  async userGetMe(username) {
     await this._lib.open(this._db);
-    const resp = await this._lib.get(`SELECT * FROM users WHERE user_name="${username}"`);
+    const user = await this._lib.get(`SELECT * FROM users WHERE user_name="${username}"`);
     await this._lib.close();
-    return resp;
+    return [null, user];
   },
 };
 
