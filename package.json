@@ -55,7 +55,7 @@
     "nopt": "^5.0.0",
     "picodb": "^1.0.0",
     "shelljs": "^0.8.4",
-    "sqlite3": "^5.0.0"
+    "sqlite3": "5.0.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
@@ -63,14 +63,14 @@
     "coveralls": "^3.1.0",
     "cross-env": "^7.0.3",
     "del": "^6.0.0",
-    "eslint": "^7.16.0",
+    "eslint": "^7.18.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",
-    "husky": "^4.3.6",
+    "husky": "^4.3.8",
     "mocha": "^8.2.1",
     "node-fetch": "^2.6.1",
     "nyc": "^15.1.0",
-    "open": "^7.3.0",
+    "open": "^7.3.1",
     "opener": "^1.5.2"
   },
   "publishConfig": {
