@@ -119,12 +119,10 @@ const TOK = {
     };
 
     // We store this new token into the in-memory database:
-    const docs = await dbn.find({ username }).toArray();
-    if (docs.length === 0) {
-      await dbn.insertOne({ username, token: newtoken });
-    } else {
-      await dbn.updateOne({ username }, { $set: { token: newtoken } });
-    }
+    user.token = newtoken;
+    const [suser] = await dbn.find({ user_name: username }).toArray();
+    if (suser) await dbn.deleteOne({ user_name: username });
+    await dbn.insertOne(user);
 
     callback(null, newtoken);
   },
@@ -167,25 +165,25 @@ const TOK = {
     }
 
     // Does the refresh token belongs to 'username' and still valid?
-    let doc = await dbn.find({ username }).toArray();
-    if (refreshToken !== doc[0].token.refresh_token) {
+    let [suser] = await dbn.find({ user_name: username }).toArray();
+    if (refreshToken !== suser.token.refresh_token) {
       callback('You are NOT the owner of this refresh token!');
     }
 
-    if (Date.now() > doc[0].token.refresh_expires_at) {
+    if (Date.now() > suser.token.refresh_expires_at) {
       callback('Your refresh token has expired. You must reconnect!');
     }
 
     // Update the token:
-    let { token } = doc[0];
+    let { token } = suser;
     token.access_token = _createToken(TK.length);
     token.expires_in = TK.lifetime * 1000;
     token.expires_at = Date.now() + TK.lifetime * 1000;
     token.is_access_token_revoked = false;
-    doc = await dbn.updateOne({ username }, { $set: { token } });
+    [suser] = await dbn.updateOne({ user_name: username }, { $set: { token } });
 
     // Send only the renewed token:
-    token = doc[0].token;
+    token = suser.token;
     delete token.refresh_token;
     delete token.refresh_expires_at;
     callback(null, token);

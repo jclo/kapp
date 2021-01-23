@@ -50,13 +50,16 @@ const Auth = {
   /**
    * Processes the api 'api/v1/auth/login'.
    *
-   * @function (arg1, arg2, arg3)
+   * @function (arg1, arg2, arg3, arg4)
    * @public
-   * @param {Object}        -,
+   * @param {Object}        the db object,
+   * @param {Object}        the in-memory db object,
+   * @param {Object}        express.js request object,
+   * @param {Function}      the function to call at the completion,
    * @return {}             -,
    * @since 0.0.0
    */
-  async login(dbi, req, callback) {
+  async login(dbi, dbn, req, callback) {
     const [, user] = await dbi.userGetMe(req.body.user);
     if (!user) {
       callback('You are NOT a referenced user!');
@@ -81,20 +84,26 @@ const Auth = {
 
     // Ok. Register this new session:
     req.session.user_id = req.body.user;
+    const [suser] = await dbn.find({ user_name: req.body.user }).toArray();
+    if (suser) await dbn.deleteOne({ user_name: req.body.user });
+    await dbn.insertOne(user);
     callback(null);
   },
 
   /**
    * Processes the api 'api/v1/auth/logout'.
    *
-   * @function (arg1)
+   * @function (arg1, arg2)
    * @public
-   * @param {Object}        express.js request,
+   * @param {Object}        the in-memory db object,
+   * @param {Object}        express.js request object,
    * @return {}             -,
    * @since 0.0.0
    */
-  logout(req) {
+  async logout(dbn, req, callback) {
+    await dbn.deleteOne({ user_name: req.session.user_id });
     delete req.session.user_id;
+    callback(null);
   },
 };
 

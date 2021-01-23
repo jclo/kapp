@@ -43,6 +43,7 @@
   * Added the sqlite method "query" to micmic mysql library "query" method,
   * Reverted to sqlite3@5.0.0 as pre-built version does not exist for 5.0.1,
   * Made some minor changes to the login/logout procedure,
+  * Stored the credentials of the connected users into the in-memory db,
   * ...,
 
 
