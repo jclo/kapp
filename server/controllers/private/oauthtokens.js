@@ -9,7 +9,7 @@
  *  . _createToken                returns the newly generated token,
  *
  *
- * Public Methods:
+ * Public Static Methods:
  *  . get                         returns a new token for the passed-in user,
  *  . refresh                     returns a new token from the refresh token,
  *
@@ -66,7 +66,7 @@ function _createToken(l) {
 }
 
 
-// -- Public Methods -----------------------------------------------------------
+// -- Public Static Methods ----------------------------------------------------
 
 const TOK = {
 

@@ -9,7 +9,7 @@
  *  . none,
  *
  *
- * Public Static Methods:
+ * Public Function:
  *  . filterHost                  restricts the access to the server,
  *
  *

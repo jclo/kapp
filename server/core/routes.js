@@ -44,7 +44,7 @@ const { level } = config
 // -- Local Variables
 
 
-// -- Public Methods -----------------------------------------------------------
+// -- Public Static Methods ----------------------------------------------------
 
 const Routes = {
 

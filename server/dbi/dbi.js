@@ -23,6 +23,7 @@
  *  . isTable                     returns true if the table exists,
  *  . getTableStructure           returns the table structure,
  *  . isTableEmpty                checks if the table is empty,
+ *  . count                       returns the number of tables or rows or columns,
  *
  *
  *
@@ -203,6 +204,20 @@ dbimethods = {
    * @since 0.0.0
    */
   async isTableEmpty(table) {
+    return table;
+  },
+
+  /**
+   * Counts the number of tables or the number of rows and columns.
+   * (must be be overwritten)
+   *
+   * @method (arg1, arg2)
+   * @public
+   * @param {String}        what to count ('tables', 'rows', columns),
+   * @returns {Number}      returns the counted number,
+   * @since 0.0.0
+   */
+  async count(what, table) {
     return table;
   },
 };

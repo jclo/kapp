@@ -9,7 +9,7 @@
  *  . none,
  *
  *
- * Public Methods:
+ * Public Static Methods:
  *  . zzz                         ...,
  *
  *
@@ -40,7 +40,7 @@
 // none,
 
 
-// -- Public Methods -----------------------------------------------------------
+// -- Public Static Methods ----------------------------------------------------
 
 const Users = {
 

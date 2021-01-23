@@ -9,7 +9,7 @@
  *  . _auth                       extracts from the header the user credentials,
  *
  *
- * Public Methods:
+ * Public Static Methods:
  *  . get                         returns a new token or renew it,
  *  . revoke                      revokes the current access token,
  *
@@ -59,7 +59,7 @@ function _auth(req) {
 }
 
 
-// -- Public Methods -----------------------------------------------------------
+// -- Public Static Methods ----------------------------------------------------
 
 const OAuth = {
 

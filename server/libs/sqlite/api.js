@@ -304,6 +304,14 @@ const SQ = {
       });
     });
   },
+
+
+  query(cn, query, ...args) {
+    if (query.trim().startsWith('SELECT')) {
+      return this.all(query, ...args);
+    }
+    return this.run(query, ...args);
+  },
 };
 
 

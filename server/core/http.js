@@ -66,7 +66,7 @@ const _getCertificates = function(base) {
 };
 
 
-// -- Public Methods -----------------------------------------------------------
+// -- Public Static Methods ----------------------------------------------------
 
 const Servers = {
 

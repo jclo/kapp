@@ -9,7 +9,7 @@
  *  . none,
  *
  *
- * Public Methods:
+ * Public Static Methods:
  *  . login                       processes the api 'api/v1/auth/login',
  *  . logout                      processes the api 'api/v1/auth/logout',
  *
@@ -43,7 +43,7 @@ const Crypto = require('../libs/crypto/main')
 // none,
 
 
-// -- Public Methods -----------------------------------------------------------
+// -- Public Static Methods ----------------------------------------------------
 
 const Auth = {
 

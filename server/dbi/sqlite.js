@@ -19,6 +19,7 @@
  *  . isTable                     returns true if the table exists,
  *  . getTableStructure           returns the table structure,
  *  . isTableEmpty                checks if the table is empty,
+ *  . count                       counts the number of tables, rows, columns,
  *
  *
  *
@@ -154,9 +155,52 @@ const methods = {
    * @since 0.0.0
    */
   async isTableEmpty(table) {
-    const sql = `select count(*) from ${table}`;
+    const sql = `SELECT count(*) FROM ${table}`;
     const r = await this._lib.get(sql);
     return r['count(*)'] === 0;
+  },
+
+  /**
+   * Counts the number of tables, rows, columns.
+   *
+   * @method (arg1, arg2)
+   * @public
+   * @param {String}        what to count ('tables', 'rows', columns'),
+   * @param {String}        the concerned table for rows or columns count,
+   * @returns {Boolean}     returns true if empty otherwise false,
+   * @since 0.0.0
+   */
+  async count(what, table) {
+    let sql
+      , res
+      ;
+
+    switch (what) {
+      case 'tables':
+        sql = `
+          SELECT count(*) FROM SQLITE_MASTER
+            WHERE TYPE = 'table'
+        `;
+        res = await this._lib.all(sql);
+        return res[0]['count(*)'] - 1;
+
+      case 'columns':
+        sql = `
+          SELECT * FROM pragma_table_info('${table}')
+        `;
+        res = await this._lib.all(sql);
+        return res.length;
+
+      case 'rows':
+        sql = `
+        SELECT count(*) FROM ${table}
+        `;
+        res = await this._lib.all(sql);
+        return res[0]['count(*)'];
+
+      default:
+        return null;
+    }
   },
 };
 

@@ -9,7 +9,7 @@
  *  . none,
  *
  *
- * Public Methods:
+ * Public Static Methods:
  *  . getDictionaryList           returns the list of the available dictionaries,
  *  . getDictionary               returns the requested dictionary,
  *
@@ -42,7 +42,7 @@
 // none,
 
 
-// -- Public Methods -----------------------------------------------------------
+// -- Public Static Methods ----------------------------------------------------
 
 const I18N = {
 

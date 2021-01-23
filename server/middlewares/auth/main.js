@@ -97,7 +97,7 @@ function MAuth(dbi, dbn) {
 
         // It seems that this token is valid!
         next();
-        log.trace(`The connection is accepted for the access token: ${auth[1]}`);
+        log.trace(`The connection is accepted for the access token: ${auth[1]}.`);
       });
       return;
     }
@@ -107,7 +107,7 @@ function MAuth(dbi, dbn) {
     if (req.session.user_id) {
       // Ok. It's an open session with cookies. Let's go on!
       next();
-      log.trace(`The connection is accepted for the user: ${req.session.user_id}`);
+      log.trace(`The connection is accepted for the user: ${req.session.user_id}.`);
       return;
     }
 

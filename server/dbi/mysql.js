@@ -20,6 +20,7 @@
  *  . isTable                     returns true if the table exists,
  *  . getTableStructure           returns the table structure,
  *  . isTableEmpty                checks if the table is empty,
+ *  . count                       counts the number of tables, rows, columns,
  *
  *
  *
@@ -181,8 +182,55 @@ const methods = {
    * @since 0.0.0
    */
   async isTableEmpty(cn, table) {
-    const resp = await this._lib.query(cn, `select count(*) from ${table}`);
+    const resp = await this._lib.query(cn, `SELECT count(*) FROM ${table}`);
     return resp[0]['count(*)'] === 0;
+  },
+
+  /**
+   * Counts the number of tables, rows, columns.
+   *
+   * @method (arg1, arg2, arg3)
+   * @public
+   * @param {Object}        the database connection,
+   * @param {String}        what to count ('tables', 'rows', columns'),
+   * @param {String}        the concerned table for rows or columns count,
+   * @returns {Boolean}     returns true if empty otherwise false,
+   * @since 0.0.0
+   */
+  async count(cn, what, table) {
+    let sql
+      , params
+      ;
+
+    switch (what) {
+      case 'tables':
+        sql = `
+          SELECT count(*) FROM INFORMATION_SCHEMA.TABLES
+            WHERE TABLE_SCHEMA = ?
+        `;
+        params = [this._db];
+        break;
+
+      case 'columns':
+        sql = `
+          SELECT count(*) FROM INFORMATION_SCHEMA.COLUMNS
+            WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?
+        `;
+        params = [this._db, table];
+        break;
+
+      case 'rows':
+        sql = `
+        SELECT count(*) FROM ${table}
+        `;
+        params = [];
+        break;
+
+      default:
+        return null;
+    }
+    const res = await this._lib.query(cn, sql, params);
+    return res[0]['count(*)'];
   },
 };
 
