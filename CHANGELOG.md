@@ -40,6 +40,7 @@
   * Made a few minor changes,
   * Fixed a wrong Travis-CI configuration,
   * Made some cosmetics changes,
+  * Added the sqlite method "query" to micmic mysql library "query" method,
   * ...,
 
 

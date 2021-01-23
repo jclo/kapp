@@ -18,6 +18,7 @@
  *  . all                         returns all the matching rows,
  *  . each                        returns the matching db rows one by one,
  *  . close                       closes the database,
+ *  . query                       queries the database (as mysql lib),
  *
  *
  *
@@ -305,7 +306,17 @@ const SQ = {
     });
   },
 
-
+  /**
+   * Queries the database as MySQL library.
+   *
+   * @method ([arg1], arg2, [...args])
+   * @public
+   * @param {Object}        the MySQL connexion object (not used here),
+   * @param {String}        the SQL query
+   * @param {Function}      the function to call at the completion,
+   * @returns {Object}      returns a promise,
+   * @since 0.0.0
+   */
   query(cn, query, ...args) {
     if (query.trim().startsWith('SELECT')) {
       return this.all(query, ...args);
