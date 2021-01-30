@@ -168,10 +168,12 @@ const TOK = {
     let [suser] = await dbn.find({ user_name: username }).toArray();
     if (refreshToken !== suser.token.refresh_token) {
       callback('You are NOT the owner of this refresh token!');
+      return;
     }
 
     if (Date.now() > suser.token.refresh_expires_at) {
       callback('Your refresh token has expired. You must reconnect!');
+      return;
     }
 
     // Update the token:

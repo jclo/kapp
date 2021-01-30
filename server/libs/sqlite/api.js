@@ -164,13 +164,13 @@ const SQ = {
    */
   open(path, callback) {
     return new Promise((resolve, reject) => {
-      this.db = new sqlite3.Database(path, (err) => {
+      const cn = new sqlite3.Database(path, (err) => {
         if (err) {
           reject(err);
           if (callback) callback(err);
         } else {
-          resolve(true);
-          if (callback) callback(null, true);
+          resolve(cn);
+          if (callback) callback(null, cn);
         }
       });
     });
@@ -192,18 +192,19 @@ const SQ = {
    *      - db.run('UPDATE tbl SET name = $name WHERE id = $id',
    *          { $id: 2, $name: 'bar' });
    *
-   * @method (arg1, [arg 2 to n], [arg n + 1])
+   * @method (arg1, arg2, [arg 3 to n], [arg n + 1])
    * @public
+   * @param {Object}        the connection to the db,
    * @param {String}        the SQL query,
    * @param {...}           the list of params,
    * @param {Function}      the function to call at the completion,
    * @returns {Object}      returns a promise,
    * @since 0.0.0
    */
-  run(query, ...args) {
+  run(cn, query, ...args) {
     const [params, callback] = _getArgs(...args);
     return new Promise((resolve, reject) => {
-      this.db.run(query, params, (err) => {
+      cn.run(query, params, (err) => {
         if (err) {
           reject(err);
           if (callback) callback(err);
@@ -218,18 +219,19 @@ const SQ = {
   /**
    * Returns the first matching row.
    *
-   * @method (arg1, [arg 2 to n], [arg n + 1])
+   * @method (arg1, arg2, [arg n to n], [arg n + 1])
    * @public
+   * @param {Object}        the connection to the db,
    * @param {String}        the SQL query,
    * @param {...}           the list of params,
    * @param {Function}      the function to call at the completion,
    * @returns {Object}      returns a promise,
    * @since 0.0.0
    */
-  get(query, ...args) {
+  get(cn, query, ...args) {
     const [params, callback] = _getArgs(...args);
     return new Promise((resolve, reject) => {
-      this.db.get(query, params, (err, data) => {
+      cn.get(query, params, (err, data) => {
         if (err) {
           reject(err);
         } else {
@@ -243,18 +245,19 @@ const SQ = {
   /**
    * Returns all the matching rows.
    *
-   * @method (arg1, [arg 2 to n], [arg n + 1])
+   * @method (arg1, arg2, [arg n to n], [arg n + 1])
    * @public
+   * @param {Object}        the connection to the db,
    * @param {String}        the SQL query,
    * @param {...}           the list of params,
    * @param {Function}      the function to call at the completion,
    * @returns {Object}      returns a promise,
    * @since 0.0.0
    */
-  all(query, ...args) {
+  all(cn, query, ...args) {
     const [params, callback] = _getArgs(...args);
     return new Promise((resolve, reject) => {
-      this.db.all(query, params, (err, data) => {
+      cn.all(query, params, (err, data) => {
         if (err) {
           reject(err);
         } else {
@@ -272,29 +275,31 @@ const SQ = {
    * The first callback returns the matching rows one by one. And, the
    * second callback returns the number of matching rows at the completion.
    *
-   * @method (arg1, ...args)
+   * @method (arg1, arg2, ...args)
    * @public
+   * @param {Object}        the connection to the db,
    * @param {String}        the SQL query,
    * @param {Array}         the SQL query params and the callback(s),
    * @returns {Object}      returns a promise,
    * @since 0.0.0
    */
-  each(query, ...args) {
-    return _each(this.db, query, ...args);
+  each(cn, query, ...args) {
+    return _each(cn, query, ...args);
   },
 
   /**
    * Closes the database.
    *
-   * @method ([arg1])
+   * @method (arg1, [arg2])
    * @public
+   * @param {Object}        the connection to the db,
    * @param {Function}      the function to call at the completion,
    * @returns {Object}      returns a promise,
    * @since 0.0.0
    */
-  close(callback) {
+  close(cn, callback) {
     return new Promise((resolve, reject) => {
-      this.db.close((err) => {
+      cn.close((err) => {
         if (err) {
           reject(err);
           if (callback) callback(err);
@@ -309,9 +314,9 @@ const SQ = {
   /**
    * Queries the database as MySQL library.
    *
-   * @method ([arg1], arg2, [...args])
+   * @method (arg1, arg2, [...args])
    * @public
-   * @param {Object}        the MySQL connexion object (not used here),
+   * @param {Object}        the connexion object,
    * @param {String}        the SQL query
    * @param {Function}      the function to call at the completion,
    * @returns {Object}      returns a promise,
@@ -319,9 +324,9 @@ const SQ = {
    */
   query(cn, query, ...args) {
     if (query.trim().startsWith('SELECT')) {
-      return this.all(query, ...args);
+      return this.all(cn, query, ...args);
     }
-    return this.run(query, ...args);
+    return this.run(cn, query, ...args);
   },
 };
 

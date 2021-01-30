@@ -22,6 +22,7 @@ const env = {
     active: 'sqlite',
     sqlite: {
       database: './db/db.sqlite',
+      testdb: './db/testdb.sqlite',
     },
   },
 };

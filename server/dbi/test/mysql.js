@@ -6,13 +6,12 @@
  * It can't be instantiated.
  *
  * Private Functions:
- *  . _isEmpty                    checks if the db is empty,
+ *  . none,
  *
  *
  * Public Methods:
- *  . isEmpty                     checks if the database is empty,
  *  . init                        initialize the users table,
- *  . getUser                     returns the user credentials from the database,
+ *  . userGetMe                   returns the user credentials from the database,
  *
  *
  *

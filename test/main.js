@@ -10,8 +10,7 @@ const chai     = require('chai')
 
 
 // -- Local Modules
-const app     = require('../server/start')
-    , config  = require('../server/config')
+const config  = require('../server/config')
     , pack    = require('../package.json')
 
     , apiex   = require('./int/api-examples')
@@ -35,9 +34,13 @@ let server;
 
 // -- Main section -
 
-// Set this environment variable orherwise 'request' does not accept self-signed
-// certificates:
+// Set this environment variable otherwise 'request' does not accept
+// self-signed certificates:
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
+// Set test mode for using the test db:
+process.env.KAPP_TEST_MODE = 1;
+
 
 if (process.env.TRAVIS || !config.env.https) {
   server = `http://localhost:${config.env.httpport}`;
@@ -50,6 +53,10 @@ chai.use(chaiHttp);
 
 // Create the request object:
 const request = chai.request.agent(server);
+
+// Start the server:
+const app = require('../server/start')
+
 
 describe('Test Kapp:', () => {
   apiex(request);

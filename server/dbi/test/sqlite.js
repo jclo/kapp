@@ -6,12 +6,12 @@
  * It can't be instantiated.
  *
  * Private Functions:
- *  . _countTables                returns the number of tables set in the db,
+ *  . none,
  *
  *
  * Public Methods:
  *  . init                        initialize the users table,
- *  . getUser                     returns the user credentials from the database,
+ *  . userGetMe                   returns the user credentials from the database,
  *
  *
  *
@@ -83,14 +83,14 @@ const methods = {
    */
   async init(callback) {
     const lib = this._lib;
-    await lib.open(this._db);
+    const cn = await lib.open(this._db);
 
     // Check if the db has already been initialized with the
     // 'users table':
     let SQL = 'SELECT name FROM sqlite_master WHERE type="table" AND name="users"';
-    let resp = await lib.get(SQL);
+    let resp = await lib.get(cn, SQL);
     if (resp && resp.name === 'users') {
-      await lib.close();
+      await lib.close(cn);
       log.info('The database is already filled.');
       if (callback) callback();
       return;
@@ -98,32 +98,32 @@ const methods = {
 
     // Create a fresh 'users' table:
     log.info('The database is empty.)');
-    resp = await lib.run(users);
+    resp = await lib.run(cn, users);
     // Get the table structure:
     SQL = 'SELECT sql FROM sqlite_master WHERE name="users"';
-    resp = await lib.get(SQL);
+    resp = await lib.get(cn, SQL);
     console.log(resp);
 
     // Fills the 'users' table:
     SQL = 'INSERT INTO users(user_name, user_hash, first_name, last_name, is_locked) VALUES(?, ?, ?, ?, ?)';
     let p = people[0];
     let pwd = await crypto.hash(p.user_pwd);
-    await lib.run(SQL, p.user_name, pwd, p.first_name, p.last_name, 0);
+    await lib.run(cn, SQL, p.user_name, pwd, p.first_name, p.last_name, 0);
 
     [, p] = people;
     pwd = await crypto.hash(p.user_pwd);
-    await lib.run(SQL, p.user_name, pwd, p.first_name, p.last_name, 0);
+    await lib.run(cn, SQL, p.user_name, pwd, p.first_name, p.last_name, 0);
 
     [,, p] = people;
     pwd = await crypto.hash(p.user_pwd);
-    await lib.run(SQL, p.user_name, pwd, p.first_name, p.last_name, 1);
+    await lib.run(cn, SQL, p.user_name, pwd, p.first_name, p.last_name, 1);
 
     // Dump the content of the users table:
-    resp = await lib.all('SELECT * FROM users');
+    resp = await lib.all(cn, 'SELECT * FROM users');
     console.log(resp);
 
     log.info('We created the users table.)');
-    await lib.close();
+    await lib.close(cn);
     if (callback) callback();
   },
 
@@ -137,9 +137,9 @@ const methods = {
    * @since 0.0.0
    */
   async userGetMe(username) {
-    await this._lib.open(this._db);
-    const user = await this._lib.get(`SELECT * FROM users WHERE user_name="${username}"`);
-    await this._lib.close();
+    const cn = await this._lib.open(this._db);
+    const user = await this._lib.get(cn, `SELECT * FROM users WHERE user_name="${username}"`);
+    await this._lib.close(cn);
     return [null, user];
   },
 };

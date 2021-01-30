@@ -67,7 +67,7 @@ const MQ       = require('../libs/mysql/api')
  */
 const MySQL = function(params) {
   this._name = 'mysql';
-  this._db = params.database;
+  this._db = process.env.KAPP_TEST_MODE ? params.testdb : params.database;
   this._lib = MQ;
   MQ.createPool(
     params.host,

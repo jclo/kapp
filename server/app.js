@@ -156,7 +156,7 @@ function App() {
   }
 
   // Create the database object and create the tables for testing.
-  log.info('create the users table for testing:');
+  log.info('create the dabase object ...');
   const dbi = DBI(env.db.active);
 
   // Create a in-memory database to store the token and refresh token.

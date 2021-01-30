@@ -1,6 +1,6 @@
 ### HEAD
 
-### 1.0.3 (January 23, 2021)
+### 1.0.3 (January 30, 2021)
 
   * Added internationalization capability through a new i18n local module,
   * Added an api to access to an sqlite3 database,
@@ -45,6 +45,9 @@
   * Made some minor changes to the login/logout procedure,
   * Stored the credentials of the connected users into the in-memory db,
   * Nopt,
+  * Fixed an issue preventing multiple connections to sqlite db,
+  * Added an option to select a test db for testing,
+  * Fixed a few typos,
   * ...,
 
 

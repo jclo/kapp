@@ -484,8 +484,9 @@ function _addDB(source, dest, folder) {
 
   shell.cp('-r', `${source}/${folder}/*.md`, `${dest}/${folder}/.`);
 
-  // Create an empty database:
+  // Create empties test and regular databases:
   shell.exec(`sqlite3 ${dest}/${folder}/db.sqlite 'VACUUM'`);
+  shell.exec(`sqlite3 ${dest}/${folder}/testdb.sqlite 'VACUUM'`);
 }
 
 /**
