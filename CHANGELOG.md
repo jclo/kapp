@@ -48,6 +48,7 @@
   * Fixed an issue preventing multiple connections to sqlite db,
   * Added an option to select a test db for testing,
   * Fixed a few typos,
+  * Updated the project dependencies,
   * ...,
 
 
