@@ -70,7 +70,8 @@ const Routes = {
         log.info('Kapp is running on Travis-CI, HTTP accesses are exceptionally authorized!');
         next();
       } else if (!req.secure) {
-        res.status(401).send({ status: 401, message: 'HTTP accesses are not authorized!' });
+        res.statusMessage = 'HTTP accesses are not authorized!';
+        res.status(401).end(res.statusMessage);
         log.warn('HTTP accesses are not authorized!');
       } else {
         log.trace('It is an HTTPS request. Authorize it.');
@@ -83,13 +84,15 @@ const Routes = {
 
     // Unknown api:
     app.all('/api/*', (req, res) => {
-      res.status(403).send({ status: 401, message: `${req.method} api "${req.url}" does not exist!` });
+      res.statusMessage = `${req.method} api "${req.url}" does not exist!`;
+      res.status(403).end(res.statusMessage);
       log.warn(`${req.method} api "${req.url}" does not exist!`);
     });
 
     // Forbidden routes:
     app.all('/*', (req, res) => {
-      res.status(403).send({ status: 401, message: 'This route is forbidden!' });
+      res.statusMessage = 'This route is forbidden!';
+      res.status(403).end(res.statusMessage);
       log.warn('This route is forbidden!');
     });
   },

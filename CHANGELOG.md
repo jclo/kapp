@@ -1,6 +1,6 @@
 ### HEAD
 
-### 1.0.3 (January 30, 2021)
+### 1.0.3 (February 6, 2021)
 
   * Added internationalization capability through a new i18n local module,
   * Added an api to access to an sqlite3 database,
@@ -49,6 +49,7 @@
   * Added an option to select a test db for testing,
   * Fixed a few typos,
   * Updated the project dependencies,
+  * Modified the structure of the returned data (not anymore inside an object),
   * ...,
 
 

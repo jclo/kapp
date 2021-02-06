@@ -10,7 +10,7 @@ token_jdo=$(curl -X POST --insecure --silent \
   --user "jdo:jdo" \
   --data "grant_type=client_credentials" \
   https://localhost:1443/api/v1/oauth2/token | \
-  python3 -c "import sys, json; print(json.load(sys.stdin)['message']['access_token'])")
+  python3 -c "import sys, json; print(json.load(sys.stdin)['access_token'])")
 
 echo "Got the access token: ${token_jdo}"
 sleep 1
@@ -20,7 +20,7 @@ token_jsn=$(curl -X POST --insecure --silent \
   --user "jsn:jsn" \
   --data "grant_type=client_credentials" \
   https://localhost:1443/api/v1/oauth2/token | \
-  python3 -c "import sys, json; print(json.load(sys.stdin)['message']['access_token'])")
+  python3 -c "import sys, json; print(json.load(sys.stdin)['access_token'])")
 
 echo "Got another access token: ${token_jsn}"
 sleep 1

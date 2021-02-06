@@ -26,7 +26,7 @@ module.exports = (request, user, pack) => {
         .send(user)
         .end((err, res) => {
           expect(res).to.have.status(200);
-          expect(res.body.message).to.be.equal('You are now connected!');
+          expect(res.text).to.contain('You are now connected!');
           done();
         });
     });

@@ -44,8 +44,8 @@ module.exports = (request, user, pack) => {
         .send({ grant_type: 'client_credentials' })
         .end((err, res) => {
           expect(res).to.have.status(200);
-          expect(res.body.message.token_type).to.be.equal('Bearer');
-          token = res.body.message;
+          expect(res.body.token_type).to.be.equal('Bearer');
+          token = res.body;
           done();
         });
     });
@@ -67,7 +67,7 @@ module.exports = (request, user, pack) => {
         .set('Authorization', `Bearer ${token.access_token}`)
         .end((err, res) => {
           expect(res).to.have.status(200);
-          expect(res.body.message).to.contain(`access token ${token.access_token} has been revoked`);
+          expect(res.text).to.contain(`access token ${token.access_token} has been revoked`);
           done();
         });
     });
@@ -108,8 +108,8 @@ module.exports = (request, user, pack) => {
         .send({ grant_type: 'refresh_token' })
         .end((err, res) => {
           expect(res).to.have.status(200);
-          expect(res.body.message.token_type === 'Bearer');
-          newtoken = res.body.message;
+          expect(res.body.token_type === 'Bearer');
+          newtoken = res.body;
           done();
         });
     });
@@ -131,7 +131,7 @@ module.exports = (request, user, pack) => {
         .set('Authorization', `Bearer ${newtoken.access_token}`)
         .end((err, res) => {
           expect(res).to.have.status(200);
-          expect(res.body.message).to.contain(`access token ${newtoken.access_token} has been revoked`);
+          expect(res.text).to.contain(`access token ${newtoken.access_token} has been revoked`);
           done();
         });
     });
@@ -146,7 +146,7 @@ module.exports = (request, user, pack) => {
         .send({ grant_type: 'client_credentials' })
         .end((err, res) => {
           expect(res).to.have.status(401);
-          expect(res.body.message).to.contain('user credentials are missing');
+          expect(res.text).to.contain('user credentials are missing');
           done();
         });
     });
@@ -159,7 +159,7 @@ module.exports = (request, user, pack) => {
         .send({ grant_type: 'other' })
         .end((err, res) => {
           expect(res).to.have.status(401);
-          expect(res.body.message).to.contain('The Grant Type \'other\' is not supported');
+          expect(res.text).to.contain('The Grant Type \'other\' is not supported');
           done();
         });
     });
@@ -172,7 +172,7 @@ module.exports = (request, user, pack) => {
         .send()
         .end((err, res) => {
           expect(res).to.have.status(401);
-          expect(res.body.message).to.contain('The Grant Type is not specified');
+          expect(res.text).to.contain('The Grant Type is not specified');
           done();
         });
     });
@@ -180,12 +180,12 @@ module.exports = (request, user, pack) => {
     it('Expects "POST /api/v1/oauth2/token" to return an error as the user name is wrong.', (done) => {
       request
         .post('/api/v1/oauth2/token')
-        .set('Authorization', `Basic ${Buffer.from(`${'jdoo'}:${user.password}`).toString('base64')}`)
+        .set('Authorization', `Basic ${Buffer.from(`${user.user}x:${user.password}`).toString('base64')}`)
         .set('content-type', 'application/json')
         .send({ grant_type: 'client_credentials' })
         .end((err, res) => {
           expect(res).to.have.status(401);
-          expect(res.body.message).to.contain('The username "jdoo" is unknown!');
+          expect(res.text).to.contain(`The username "${user.user}x" is unknown!`);
           done();
         });
     });
@@ -193,12 +193,12 @@ module.exports = (request, user, pack) => {
     it('Expects "POST /api/v1/oauth2/token" to return an error as the user password is wrong.', (done) => {
       request
         .post('/api/v1/oauth2/token')
-        .set('Authorization', `Basic ${Buffer.from(`${user.user}:${'jdoo'}`).toString('base64')}`)
+        .set('Authorization', `Basic ${Buffer.from(`${user.user}:${user.password}x`).toString('base64')}`)
         .set('content-type', 'application/json')
         .send({ grant_type: 'client_credentials' })
         .end((err, res) => {
           expect(res).to.have.status(401);
-          expect(res.body.message).to.contain('You provided a wrong password');
+          expect(res.text).to.contain('You provided a wrong password');
           done();
         });
     });
@@ -212,8 +212,8 @@ module.exports = (request, user, pack) => {
         .send({ grant_type: 'client_credentials' })
         .end((err, res) => {
           expect(res).to.have.status(200);
-          expect(res.body.message.token_type).to.be.equal('Bearer');
-          token = res.body.message;
+          expect(res.body.token_type).to.be.equal('Bearer');
+          token = res.body;
           done();
         });
     });
@@ -221,13 +221,13 @@ module.exports = (request, user, pack) => {
     it('Expects "POST /api/v1/oauth2/token" to return an error as the username is wrong.', (done) => {
       request
         .post('/api/v1/oauth2/token')
-        .set('Authorization', `Basic ${Buffer.from(`${'jdoo'}:${user.password}`).toString('base64')}`)
+        .set('Authorization', `Basic ${Buffer.from(`${user.user}x:${user.password}`).toString('base64')}`)
         .set('refresh_token', token.refresh_token)
         .set('content-type', 'application/json')
         .send({ grant_type: 'refresh_token' })
         .end((err, res) => {
           expect(res).to.have.status(401);
-          expect(res.body.message).to.contain('The username "jdoo" is unknown');
+          expect(res.text).to.contain(`The username "${user.user}x" is unknown`);
           done();
         });
     });
@@ -235,13 +235,13 @@ module.exports = (request, user, pack) => {
     it('Expects "POST /api/v1/oauth2/token" to return an error as the username password is wrong.', (done) => {
       request
         .post('/api/v1/oauth2/token')
-        .set('Authorization', `Basic ${Buffer.from(`${user.user}:${'jdoo'}`).toString('base64')}`)
+        .set('Authorization', `Basic ${Buffer.from(`${user.user}:${user.password}x`).toString('base64')}`)
         .set('refresh_token', token.refresh_token)
         .set('content-type', 'application/json')
         .send({ grant_type: 'refresh_token' })
         .end((err, res) => {
           expect(res).to.have.status(401);
-          expect(res.body.message).to.contain('You provided a wrong password');
+          expect(res.text).to.contain('You provided a wrong password');
           done();
         });
     });
@@ -254,7 +254,7 @@ module.exports = (request, user, pack) => {
         .send({ grant_type: 'client_credentials' })
         .end((err, res) => {
           expect(res).to.have.status(401);
-          expect(res.body.message).to.contain('Your account is locked');
+          expect(res.text).to.contain('Your account is locked');
           done();
         });
     });
@@ -268,7 +268,7 @@ module.exports = (request, user, pack) => {
         .send({ grant_type: 'refresh_token' })
         .end((err, res) => {
           expect(res).to.have.status(401);
-          expect(res.body.message).to.contain('You are NOT the owner of this refresh token');
+          expect(res.text).to.contain('You are NOT the owner of this refresh token');
           done();
         });
     });
@@ -284,8 +284,8 @@ module.exports = (request, user, pack) => {
         .send({ grant_type: 'client_credentials' })
         .end((err, res) => {
           expect(res).to.have.status(200);
-          expect(res.body.message.token_type).to.be.equal('Bearer');
-          token = res.body.message;
+          expect(res.body.token_type).to.be.equal('Bearer');
+          token = res.body;
           done();
         });
     });
@@ -297,7 +297,7 @@ module.exports = (request, user, pack) => {
         .set('Authorization', 'Bearer')
         .end((err, res) => {
           expect(res).to.have.status(401);
-          expect(res.body.message).to.contain('token is missing');
+          expect(res.text).to.contain('token is missing');
           done();
         });
     });
@@ -309,7 +309,7 @@ module.exports = (request, user, pack) => {
         .set('Authorization', `Bearer ${'token.access_token'}`)
         .end((err, res) => {
           expect(res).to.have.status(401);
-          expect(res.body.message).to.contain('token is NOT valid');
+          expect(res.text).to.contain('token is NOT valid');
           done();
         });
     });

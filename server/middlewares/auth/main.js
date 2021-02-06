@@ -70,7 +70,8 @@ function MAuth(dbi, dbn) {
     // Token?
     if (auth.length > 0 && auth[0] === 'Bearer') {
       if (typeof auth[1] !== 'string') {
-        res.status(401).send({ status: 401, message: 'Your token is missing!' });
+        res.statusMessage = 'Your token is missing!';
+        res.status(401).send(res.statusMessage);
         log.warn(`The token ${auth[1]} is NOT valid!`);
         return;
       }
@@ -78,19 +79,22 @@ function MAuth(dbi, dbn) {
       // Ok. it's a token. We have now to check if it is a valid one:
       dbn.find({ 'token.access_token': auth[1] }).toArray((err, resp) => {
         if (resp.length === 0) {
-          res.status(401).send({ status: 401, message: 'Your token is NOT valid!' });
+          res.statusMessage = 'Your token is NOT valid!';
+          res.status(401).send(res.statusMessage);
           log.warn(`The token ${auth[1]} is NOT valid!`);
           return;
         }
 
         if (resp[0].token.expires_at < Date.now()) {
-          res.status(401).send({ status: 401, message: 'Your token is expired!' });
+          res.statusMessage = 'Your token is expired!';
+          res.status(401).send(res.statusMessage);
           log.warn(`The token ${auth[1]} is expired!`);
           return;
         }
 
         if (resp[0].token.is_access_token_revoked) {
-          res.status(401).send({ status: 401, message: 'Your token is revoked!' });
+          res.statusMessage = 'Your token is revoked!';
+          res.status(401).send(res.statusMessage);
           log.warn(`The token ${auth[1]} is revoked!`);
           return;
         }
@@ -113,7 +117,8 @@ function MAuth(dbi, dbn) {
 
 
     // It's a request without authentication. Say no!
-    res.status(401).send({ status: 401, message: 'This request requires an user authentication!' });
+    res.statusMessage = 'This request requires an user authentication!';
+    res.status(401).send(res.statusMessage);
     log.warn('This request requires an user authentication!');
   };
 }

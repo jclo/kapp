@@ -80,11 +80,12 @@ function OAuth(app, i18n, dbi, dbn) {
   app.get('/api/v1/oauth2/revoke', auth, (req, res) => {
     COAuth.revoke(dbi, dbn, req, res, (err, resp) => {
       if (err) {
-        res.status(401).send({ status: 401, message: err });
+        res.statusMessage = err;
+        res.status(401).send(err);
         log.trace('Refused POST api: "api/v1/api/v1/oauth2/revoke".');
         log.info(err);
       } else {
-        res.status(200).send({ status: 200, message: resp });
+        res.status(200).send(resp);
         log.trace('Accepted GET api: "api/v1/api/v1/oauth2/revoke".');
       }
     });
@@ -95,11 +96,12 @@ function OAuth(app, i18n, dbi, dbn) {
   app.post('/api/v1/oauth2/token', (req, res) => {
     COAuth.get(dbi, dbn, req, res, (err, token) => {
       if (err) {
-        res.status(401).send({ status: 401, message: err });
+        res.statusMessage = err;
+        res.status(401).send(err);
         log.trace('Refused POST api: "api/v1/api/v1/oauth2/token".');
         log.info(err);
       } else {
-        res.status(200).send({ status: 200, message: token });
+        res.status(200).send(token);
         log.trace('Accepted POST api: "api/v1/api/v1/oauth2/token".');
         if (token.refresh_token) {
           log.info(`Accepted grant_type=client_credentials, the new access token ${token.access_token} has been sent.`);

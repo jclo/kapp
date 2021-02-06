@@ -23,10 +23,10 @@ module.exports = (request, user, pack) => {
       request
         .post('/api/v1/auth/login')
         .set('content-type', 'application/json')
-        .send({ user: 'jdoo', password: 'jdo' })
+        .send({ user: `${user.user}x`, password: user.password })
         .end((err, res) => {
           expect(res).to.have.status(401);
-          expect(res.body.message).to.contain('You are NOT a referenced user!');
+          expect(res.text).to.contain('You are NOT a referenced user!');
           done();
         });
     });
@@ -35,10 +35,10 @@ module.exports = (request, user, pack) => {
       request
         .post('/api/v1/auth/login')
         .set('content-type', 'application/json')
-        .send({ user: 'jdo', password: 'jdoo' })
+        .send({ user: user.user, password: `${user.password}x` })
         .end((err, res) => {
           expect(res).to.have.status(401);
-          expect(res.body.message).to.contain('You provided a wrong password!');
+          expect(res.text).to.contain('You provided a wrong password!');
           done();
         });
     });
@@ -50,7 +50,7 @@ module.exports = (request, user, pack) => {
         .send(user)
         .end((err, res) => {
           expect(res).to.have.status(200);
-          expect(res.body.message).to.be.equal('You are now connected!');
+          expect(res.text).to.contain('You are now connected!');
           done();
         });
     });
@@ -93,7 +93,7 @@ module.exports = (request, user, pack) => {
         .send({ user: 'jhe', password: 'jhe' })
         .end((err, res) => {
           expect(res).to.have.status(401);
-          expect(res.body.message).to.contain('Your account is locked');
+          expect(res.text).to.contain('Your account is locked');
           done();
         });
     });

@@ -77,12 +77,12 @@ const System = function(app, i18n, dbi, dbn) {
 
   // GET
   app.get('/api/v1/system/version', auth, (req, res) => {
-    res.status(200).send({ status: 200, message: `${pack.name} v${pack.version}` });
+    res.status(200).send(`${pack.name} v${pack.version}`);
     log.trace('Accepted GET api: "/api/v1/sys/version".');
   });
 
   app.get('/api/v1/system/kapp-version', auth, (req, res) => {
-    res.status(200).send({ status: 200, message: 'Kapp v{{kapp:version}}' });
+    res.status(200).send('Kapp v{{kapp:version}}');
     log.trace('Accepted GET api: "/api/v1/sys/kapp-version".');
   });
 };

@@ -92,7 +92,7 @@ async function run() {
   process.stdout.write('Request a GET on /api/v1/json ... ');
   url = `${server}/api/v1/json`;
   [err, resp] = await GET(url);
-  if (JSON.parse(resp).message.a !== 'Hello JSON World!') {
+  if (JSON.parse(resp).a !== 'Hello JSON World!') {
     throw new Error('The api /v1/json did not return the right string!');
   }
   process.stdout.write('ok\n');
@@ -102,7 +102,7 @@ async function run() {
   payload = { a: 1, b: 'This is a payload' };
 
   [err, resp] = await POST(url, payload);
-  if (resp.message.b !== 'This is a payload') {
+  if (resp.b !== 'This is a payload') {
     throw new Error('The api /v1/posto did not return the right payload!');
   }
   process.stdout.write('ok\n');

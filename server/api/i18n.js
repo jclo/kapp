@@ -78,13 +78,13 @@ const I18N = function(app, i18n, dbi, dbn) {
   // GET
   app.get('/api/v1/i18n/list', auth, (req, res) => {
     const list = CI18N.getDictionaryList(i18n);
-    res.status(200).send({ status: 200, message: list });
+    res.status(200).send(list);
     log.trace('Accepted GET api: "/api/v1/i18n/list".');
   });
 
   app.get('/api/v1/i18n/:lang', auth, (req, res) => {
     const dico = CI18N.load(i18n, req, res);
-    res.status(200).send({ status: 200, message: dico });
+    res.status(200).send(dico);
     log.trace('Accepted GET api: "/api/v1/i18n/:lang".');
   });
 };

@@ -77,10 +77,12 @@ const Auth = function(app, i18n, dbi, dbn) {
   app.get('/api/v1/auth/logout', auth, (req, res) => {
     CAuth.logout(dbn, req, (err) => {
       if (err) {
-        res.status(401).send({ status: 401, message: err });
+        res.statusMessage = err;
+        res.status(401).send(err);
         log.warn(`${req.body.user}: ${err}`);
       } else {
-        res.status(200).send({ status: 200, message: 'You are now disconnected!' });
+        res.statusMessage = 'You are now disconnected!';
+        res.status(200).send(res.statusMessage);
         log.trace(`req.session.user_id: ${req.session.user_id}.`);
         log.trace('You are now disconnected!');
       }
@@ -92,12 +94,14 @@ const Auth = function(app, i18n, dbi, dbn) {
   app.post('/api/v1/auth/login', (req, res) => {
     CAuth.login(dbi, dbn, req, (err) => {
       if (err) {
-        res.status(401).send({ status: 401, message: err });
+        res.statusMessage = err;
+        res.status(401).send(err);
         log.warn(`${req.body.user}: ${err}`);
       } else {
-        res.status(200).send({ status: 200, message: 'You are now connected!' });
+        res.statusMessage = 'You are now connected!';
+        res.status(200).send(res.statusMessage);
         log.trace(`req.session.user_id: ${req.session.user_id}.`);
-        log.trace('You are now connected!');
+        log.trace(res.statusMessage);
       }
     });
   });

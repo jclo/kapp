@@ -123,7 +123,7 @@ const Api = {
 
     // This GET api returns a json object.
     app.get('/api/v1/json', _auth, (req, res) => {
-      res.status(200).send({ status: 200, message: { a: 'Hello JSON World!' } });
+      res.status(200).send({ a: 'Hello JSON World!' });
       log.trace('Accepted GET api: "api/v1/json".');
     });
 
@@ -131,7 +131,7 @@ const Api = {
     // This POST api sends a payload in the body. The payload is
     // returned.
     app.post('/api/v1/posto', _auth, (req, res) => {
-      res.status(200).send({ status: 200, message: req.body });
+      res.status(200).send(req.body);
       log.trace('Accepted POST api: "api/v1/posto".');
       log.trace('got the payload!');
     });

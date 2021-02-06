@@ -44,7 +44,7 @@ module.exports = (request) => {
         .get('/api/v1/json')
         .end((err, res) => {
           expect(res).to.have.status(200);
-          expect(res.body.message.a).to.be.a('string').that.is.equal('Hello JSON World!');
+          expect(res.body.a).to.be.a('string').that.is.equal('Hello JSON World!');
           done();
         });
     });
@@ -56,9 +56,9 @@ module.exports = (request) => {
         .send({ a: 1, b: 'This is a payload' })
         .end((err, res) => {
           expect(res).to.have.status(200);
-          expect(res.body).to.be.a('object');
-          expect(res.body.message.a).to.be.equal(1);
-          expect(res.body.message.b).to.be.equal('This is a payload');
+          expect(res.body).to.be.an('object');
+          expect(res.body.a).to.be.equal(1);
+          expect(res.body.b).to.be.equal('This is a payload');
           done();
         });
     });

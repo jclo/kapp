@@ -26,7 +26,7 @@ module.exports = (request, user) => {
         .send(user)
         .end((err, res) => {
           expect(res).to.have.status(200);
-          expect(res.body.message).to.be.equal('You are now connected!');
+          expect(res.text).to.contain('You are now connected!');
           done();
         });
     });
@@ -36,7 +36,7 @@ module.exports = (request, user) => {
         .get('/api/v1/i18n/list')
         .end((err, res) => {
           expect(res).to.have.status(200);
-          expect(res.body.message.fr).to.contain('French');
+          expect(res.body.fr).to.contain('French');
           done();
         });
     });
@@ -46,7 +46,7 @@ module.exports = (request, user) => {
         .get('/api/v1/i18n/fr')
         .end((err, res) => {
           expect(res).to.have.status(200);
-          expect(res.body.message.Hello).to.contain('Bonjour');
+          expect(res.body.Hello).to.contain('Bonjour');
           done();
         });
     });
@@ -56,7 +56,7 @@ module.exports = (request, user) => {
         .get('/api/v1/i18n/de')
         .end((err, res) => {
           expect(res).to.have.status(200);
-          expect(res.body.message.message).to.contain('translation dictionary is not available');
+          expect(res.text).to.contain('This translation dictionary is not available yet!');
           done();
         });
     });

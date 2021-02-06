@@ -61,7 +61,7 @@ function login(user, password) {
 
   _fetch(url, options, 'json')
     .then((resp) => {
-      accessToken = resp.message.access_token;
+      accessToken = resp.access_token;
       console.log(`We got the access token: ${accessToken}`);
     })
     .catch((e) => {
@@ -85,9 +85,9 @@ function getVersion() {
     },
   };
 
-  _fetch(url, options, 'json')
+  _fetch(url, options, 'text')
     .then((resp) => {
-      console.log(resp.message);
+      console.log(resp);
     })
     .catch((e) => {
       console.log(e.statusText);
@@ -110,9 +110,9 @@ function logout() {
     },
   };
 
-  _fetch(url, options, 'json')
+  _fetch(url, options, 'text')
     .then((resp) => {
-      console.log(resp.message);
+      console.log(resp);
     })
     .catch((e) => {
       console.log(e.statusText);

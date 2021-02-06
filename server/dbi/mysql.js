@@ -15,6 +15,7 @@
  *
  *
  * Public Methods:
+ *  . _query                      processes a query on db (only for testing),
  *  . end                         free the pool of connections to the database,
  *  . isDbEmpty                   returns true if the database is empty,
  *  . isTable                     returns true if the table exists,
@@ -84,6 +85,25 @@ const MySQL = function(params) {
 const methods = {
 
   /**
+   * Processes a query on db.
+   * (reserved for testing purpose)
+   *
+   * @method (arg1, [args])
+   * @public
+   * @param {String}        the SQL Query,
+   * @param {Array}         the SQL Query params,
+   * @param {Function}      the function to call at the completion,
+   * @returns {Object}      returns a promise,
+   * @since 0.0.0
+   */
+  async _query(sql, ...args) {
+    const cn = await this._lib.getConnection();
+    const res = await this._lib.query(cn, sql, ...args);
+    await this._lib.release(cn);
+    return res;
+  },
+
+  /**
    * Free the pool of connections to the database.
    * (mandatory - don't modify it)
    *
@@ -98,8 +118,8 @@ const methods = {
   },
 
 
-  // The methods are primitive methods. They perform a simple but usefull
-  // operation. Thus, they must be called inside another method as
+  // The below methods are primitive methods. They perform a simple but
+  // usefull operation. Thus, they must be called inside another method as
   // they don't open and close the database.
 
   /**

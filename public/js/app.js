@@ -73,7 +73,7 @@ async function run() {
 
 
   // Wrong GET '/api/v1/texto':
-  _fetch('/api/v1/texto', {}, 'text')
+  await _fetch('/api/v1/texto', {}, 'text')
     .then((data) => {
       console.log(data);
     })
@@ -84,6 +84,17 @@ async function run() {
     });
 
 
+  // Login
+  resp = await _fetch('/api/v1/auth/login', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ user: 'jdo', password: 'jdo' }),
+  }, 'text');
+  console.log(resp);
+
   // GET with query
   resp = await _fetch('/api/v1/users/?id=1&name=Doe');
   console.log(resp);
@@ -93,19 +104,6 @@ async function run() {
   resp = await _fetch('/api/v1/users/1/Doe/3');
   console.log(resp);
 
-
-  // Login
-  resp = await _fetch('/api/v1/auth/login', {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ user: 'jdo', password: 'jdo' }),
-  });
-  console.log(resp);
-
-
   // GET Dictionary list
   resp = await _fetch('/api/v1/i18n/list');
   console.log(resp);
@@ -114,8 +112,8 @@ async function run() {
   // GET English-French Dictionary
   resp = await _fetch('/api/v1/i18n/fr');
   console.log(resp);
-  console.log(resp.message);
-  console.log(resp.message['Hello %s and %s']);
+  console.log(resp);
+  console.log(resp['Hello %s and %s']);
 }
 
 
