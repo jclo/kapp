@@ -52,6 +52,7 @@
   * Modified the structure of the returned data (not anymore inside an object),
   * Updated the package dependencies,
   * Updated husky,
+  * Reverted to sqlite3@5.0.0 as pre-built version does not exist for 5.0.2,
   * ...,
 
 
