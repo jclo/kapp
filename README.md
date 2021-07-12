@@ -98,7 +98,7 @@ That's all.
 [npm-url]: https://www.npmjs.com/package/@mobilabs/kapp
 [release-url]: https://github.com/jclo/kapp/tags
 [commit-url]: https://github.com/jclo/kapp/commits/master
-[travis-url]: https://travis-ci.org/jclo/kapp
+[travis-url]: https://travis-ci.com/jclo/kapp
 [coveralls-url]: https://coveralls.io/github/jclo/kapp?branch=master
 [dependencies-url]: https://david-dm.org/jclo/kapp
 [devdependencies-url]: https://david-dm.org/jclo/kapp?type=dev
