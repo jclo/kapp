@@ -51,6 +51,7 @@
   * Updated the project dependencies,
   * Modified the structure of the returned data (not anymore inside an object),
   * Updated the package dependencies,
+  * Updated husky,
   * ...,
 
 
