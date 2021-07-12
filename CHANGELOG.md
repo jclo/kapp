@@ -53,6 +53,7 @@
   * Updated the package dependencies,
   * Updated husky,
   * Reverted to sqlite3@5.0.0 as pre-built version does not exist for 5.0.2,
+  * Sixth release candidate,
   * ...,
 
 
