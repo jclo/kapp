@@ -6,7 +6,7 @@
   * Added an api to access to sqlite3 and MySQL/MariaDB databases,
   * Stored the credentials into the sqlite db with hashed passwords,
   * Added the support of oauth tokens,
-  * ...,
+  * Release.
 
 
 ### 1.0.2 (October 16, 2020)
