@@ -11,12 +11,19 @@
  * @since     0.0.0
  * @version   -
  * ************************************************************************** */
-/* global window, fetch, btoa */
+/* global window, fetch, document */
 /* eslint no-underscore-dangle: 0, no-console: 0 */
 
 // Global:
 let accessToken;
 
+/**
+ * Display on screen
+ */
+function _display(msg) {
+  const el = document.getElementById('msg');
+  el.innerHTML = msg;
+}
 
 /**
  * Fetch
@@ -63,9 +70,11 @@ function login(user, password) {
     .then((resp) => {
       accessToken = resp.access_token;
       console.log(`We got the access token: ${accessToken}`);
+      _display(`We got the access token: ${accessToken}`);
     })
     .catch((e) => {
       console.log(e);
+      _display(e);
     });
 }
 
@@ -88,9 +97,11 @@ function getVersion() {
   _fetch(url, options, 'text')
     .then((resp) => {
       console.log(resp);
+      _display(resp);
     })
     .catch((e) => {
       console.log(e.statusText);
+      _display(e.statusText);
     });
 }
 
@@ -113,16 +124,18 @@ function logout() {
   _fetch(url, options, 'text')
     .then((resp) => {
       console.log(resp);
+      _display(resp);
     })
     .catch((e) => {
       console.log(e.statusText);
+      _display(e.statusText);
     });
 }
 
 
 // -- Main
 
-// List for a click event:
+// Listen for a click event:
 window.addEventListener('click', (e) => {
   if (e.target.className === 'logout') {
     logout();

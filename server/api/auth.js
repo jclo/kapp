@@ -29,7 +29,7 @@
  * @since        0.0.0
  * @version      -
  * ************************************************************************** */
-/* eslint one-var: 0, semi-style: 0 */
+/* eslint one-var: 0, semi-style: 0, no-underscore-dangle: 0 */
 
 
 // -- Vendor Modules
@@ -83,7 +83,7 @@ const Auth = function(app, i18n, dbi, dbn) {
       } else {
         res.statusMessage = 'You are now disconnected!';
         res.status(200).send(res.statusMessage);
-        log.trace(`req.session.user_id: ${req.session.user_id}.`);
+        log.trace(`req.session.user_id: ${req._deleted_session_user_id}.`);
         log.trace('You are now disconnected!');
       }
     });

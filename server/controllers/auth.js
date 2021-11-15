@@ -84,9 +84,12 @@ const Auth = {
 
     // Ok. Register this new session:
     req.session.user_id = req.body.user;
-    const [suser] = await dbn.find({ user_name: req.body.user }).toArray();
-    if (suser) await dbn.deleteOne({ user_name: req.body.user });
+    user._sessionID = req.sessionID;
+    user._date_connection = (new Date()).toISOString();
     await dbn.insertOne(user);
+    // This is for registering the user login into the database. This method
+    // isn't available for Kapp. You need to write it.
+    if (dbi.userRegisterLogin) await dbi.userRegisterLogin(user);
     callback(null);
   },
 
@@ -101,8 +104,9 @@ const Auth = {
    * @since 0.0.0
    */
   async logout(dbn, req, callback) {
-    await dbn.deleteOne({ user_name: req.session.user_id });
-    delete req.session.user_id;
+    await dbn.deleteOne({ _sessionID: req.sessionID });
+    req._deleted_session_user_id = req.session.user_id;
+    req.session.destroy();
     callback(null);
   },
 };

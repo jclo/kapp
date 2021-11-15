@@ -48,16 +48,19 @@ function _fetch(url, options, type, callback) {
  * Execute calls
  */
 async function run() {
+  const log = document.getElementById('msg');
   let resp;
 
   // GET '/api/v1/text':
   resp = await _fetch('/api/v1/text', {}, 'text');
   console.log(resp);
+  log.insertAdjacentHTML('beforeend', `${resp}<br />`);
 
 
   // GET '/api/v1/json':
   resp = await _fetch('/api/v1/json');
   console.log(resp);
+  log.insertAdjacentHTML('beforeend', `${JSON.stringify(resp)}<br />`);
 
 
   // POST '/api/v1/posto':
@@ -70,12 +73,14 @@ async function run() {
     body: JSON.stringify({ a: 1, b: 'This is a payload' }),
   });
   console.log(resp);
+  log.insertAdjacentHTML('beforeend', `${JSON.stringify(resp)}<br />`);
 
 
   // Wrong GET '/api/v1/texto':
   await _fetch('/api/v1/texto', {}, 'text')
     .then((data) => {
       console.log(data);
+      log.append(JSON.stringify(resp));
     })
     .catch((e) => {
       console.log(e.status);
@@ -94,19 +99,23 @@ async function run() {
     body: JSON.stringify({ user: 'jdo', password: 'jdo' }),
   }, 'text');
   console.log(resp);
+  log.insertAdjacentHTML('beforeend', `${JSON.stringify(resp)}<br />`);
 
   // GET with query
   resp = await _fetch('/api/v1/users/?id=1&name=Doe');
   console.log(resp);
+  log.insertAdjacentHTML('beforeend', `${JSON.stringify(resp)}<br />`);
 
 
   // GET with variable(s)
   resp = await _fetch('/api/v1/users/1/Doe/3');
   console.log(resp);
+  log.insertAdjacentHTML('beforeend', `${JSON.stringify(resp)}<br />`);
 
   // GET Dictionary list
   resp = await _fetch('/api/v1/i18n/list');
   console.log(resp);
+  log.insertAdjacentHTML('beforeend', `${JSON.stringify(resp)}<br />`);
 
 
   // GET English-French Dictionary

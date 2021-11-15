@@ -10,9 +10,11 @@ const chai     = require('chai')
 
 
 // -- Local Modules
-const config  = require('../server/config')
+const DBI     = require('../server/dbi/dbi')
+    , config  = require('../server/config')
+    , env     = require('../.env')
     , pack    = require('../package.json')
-
+    // Kapp
     , apiex   = require('./int/api-examples')
     , apiauth = require('./int/api-auth')
     , apisys  = require('./int/api-sys')
@@ -55,7 +57,11 @@ chai.use(chaiHttp);
 const request = chai.request.agent(server);
 
 // Start the server:
-const app = require('../server/start')
+/* eslint-disable-next-line no-unused-vars */
+const app = require('../server/start');
+
+// Create db object:
+const dbi = DBI(env.db.active);
 
 
 describe('Test Kapp:', () => {
@@ -64,8 +70,5 @@ describe('Test Kapp:', () => {
   apisys(request, user, pack);
   apii18n(request, user);
   apitok(request, user, pack);
-
-  apiuser(request, user);
-
-  //
+  apiuser(request, user, dbi);
 });

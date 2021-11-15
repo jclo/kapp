@@ -22,6 +22,7 @@
  *  . getTableStructure           returns the table structure,
  *  . isTableEmpty                checks if the table is empty,
  *  . count                       counts the number of tables, rows, columns,
+ *  . getLastInsertedId           returns the last inserted id during the session,
  *
  *
  *
@@ -251,6 +252,20 @@ const methods = {
     }
     const res = await this._lib.query(cn, sql, params);
     return res[0]['count(*)'];
+  },
+
+  /**
+   * Returns the latest inserted id during the user session.
+   *
+   * @method (arg1)
+   * @public
+   * @param {Object}        the database connection,
+   * @returns {Number}      returns the latest created id,
+   * @since 0.0.0
+   */
+  async getLastInsertedId(cn) {
+    const [res] = await this._lib.query(cn, 'SELECT LAST_INSERT_ID()');
+    return res['LAST_INSERT_ID()'] || null;
   },
 };
 

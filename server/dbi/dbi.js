@@ -24,6 +24,7 @@
  *  . getTableStructure           returns the table structure,
  *  . isTableEmpty                checks if the table is empty,
  *  . count                       returns the number of tables or rows or columns,
+ *  . getLastInsertedId           returns the latest inserted id during the user session,
  *
  *
  *
@@ -219,6 +220,20 @@ dbimethods = {
    */
   async count(what, table) {
     return table;
+  },
+
+  /**
+   * Returns the latest inserted id during the user session.
+   * (must be be overwritten)
+   *
+   * @method (arg1)
+   * @public
+   * @param {Object}        the database connection,
+   * @returns {Number}      returns the latest created id,
+   * @since 0.0.0
+   */
+  async getLastInsertedId() {
+    return this;
   },
 };
 

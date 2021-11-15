@@ -122,7 +122,7 @@ const methods = {
     resp = await lib.all(cn, 'SELECT * FROM users');
     console.log(resp);
 
-    log.info('We created the users table.)');
+    log.info('we created the users table.)');
     await lib.close(cn);
     if (callback) callback();
   },

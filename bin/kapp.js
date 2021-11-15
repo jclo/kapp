@@ -332,6 +332,7 @@ function _customize(source, dest, app, owner, boilerlib) {
     'report-coverage': obj.scripts['report-coverage'],
     report: obj.scripts.report,
     makeprod: 'sh tasks/prod.sh _prod',
+    prepare: 'husky install',
     doc: obj.scripts.doc,
   };
   pack.repository = obj.repository;
@@ -605,3 +606,5 @@ if (parsed.argv.remain[0] === 'populate') {
 } else {
   _help();
 }
+
+// -- oOo ---
