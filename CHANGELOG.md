@@ -2,7 +2,7 @@
 
 ### 1.1.0 (November 15, 2021)
 
-  * Added internationalization capability through a new i18n local module,
+  * Added internationalisation capability through a new i18n local module,
   * Added an api to access to sqlite3 and MySQL/MariaDB databases,
   * Stored the credentials into the sqlite db with hashed passwords,
   * Added the support of oauth tokens,

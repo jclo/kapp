@@ -10,6 +10,8 @@ before_install:
   - npm install -g node-gyp
   - npm uninstall --save bcrypt
   - npm install --save bcryptjs
+  - npm uninstall --save sqlite3
+  - npm install --save sqlite3@5.0.0
   - mv .env.travis.js .env.js
 addons:
   apt:
