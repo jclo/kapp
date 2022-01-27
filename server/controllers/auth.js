@@ -89,7 +89,7 @@ const Auth = {
     await dbn.insertOne(user);
     // This is for registering the user login into the database. This method
     // isn't available for Kapp. You need to write it.
-    if (dbi.userRegisterLogin) await dbi.userRegisterLogin(user);
+    if (dbi.adminUserRegisterLogin) await dbi.adminUserRegisterLogin(user);
     callback(null);
   },
 

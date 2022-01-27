@@ -91,9 +91,9 @@ const Routes = {
 
     // Forbidden routes:
     app.all('/*', (req, res) => {
-      res.statusMessage = 'This route is forbidden!';
+      res.statusMessage = `The route "${req.originalUrl}" is forbidden!`;
       res.status(403).end(res.statusMessage);
-      log.warn('This route is forbidden!');
+      log.warn(`The route "${req.originalUrl}" is forbidden!`);
     });
   },
 };

@@ -1,5 +1,12 @@
 ### HEAD
 
+### 1.1.1 (January 27, 2022)
+
+  * Updated the project dependencies,
+  * Updated the copyright,
+  * ...,
+
+
 ### 1.1.0 (November 15, 2021)
 
   * Added internationalisation capability through a new i18n local module,

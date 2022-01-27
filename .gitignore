@@ -13,3 +13,4 @@ server/ssl/*.pem
 db/**/*
 !db/testdb.sqlite
 !db/README.md
+z_*
