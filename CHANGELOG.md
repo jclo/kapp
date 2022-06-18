@@ -6,7 +6,7 @@
   * Added a timestamp to register the login and the latest transaction,
   * Added an ExpressJS middleware to remove the inactive users and sessions,
   * Fixed an issue for travis,
-  * ...,
+  * Release.
 
 
 ### 1.1.1 (January 27, 2022)
