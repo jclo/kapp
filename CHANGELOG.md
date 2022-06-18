@@ -5,6 +5,7 @@
   * Added a test to prevent a crash when the provided password isn't a string,
   * Added a timestamp to register the login and the latest transaction,
   * Added an ExpressJS middleware to remove the inactive users and sessions,
+  * Fixed an issue for travis,
   * ...,
 
 

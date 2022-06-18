@@ -68,7 +68,7 @@
     "eslint-plugin-import": "^2.26.0",
     "husky": "^8.0.1",
     "mocha": "^10.0.0",
-    "node-fetch": "^3.2.6",
+    "node-fetch": "^2.6.7",
     "nyc": "^15.1.0",
     "open": "^8.4.0",
     "opener": "^1.5.2"

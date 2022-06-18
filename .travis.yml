@@ -6,7 +6,7 @@ node_js:
 notifications:
   email: false
 before_install:
-  - npm i -g npm@^2.0.0
+  - npm i -g npm@8
   - npm install -g node-gyp
   - npm uninstall --save bcrypt
   - npm install --save bcryptjs
