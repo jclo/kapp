@@ -66,7 +66,10 @@ const Auth = {
       return;
     }
 
-    const match = await Crypto.compare(req.body.password, user.user_hash);
+    const p = typeof req.body.password === 'number'
+      ? req.body.password.toString()
+      : req.body.password;
+    const match = await Crypto.compare(p, user.user_hash);
     if (!match) {
       callback('You provided a wrong password!');
       return;
@@ -86,6 +89,7 @@ const Auth = {
     req.session.user_id = req.body.user;
     user._sessionID = req.sessionID;
     user._date_connection = (new Date()).toISOString();
+    user._timestamp_login = (new Date()).getTime();
     await dbn.insertOne(user);
     // This is for registering the user login into the database. This method
     // isn't available for Kapp. You need to write it.

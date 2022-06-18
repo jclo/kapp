@@ -40,6 +40,7 @@ const config     = require('./config')
     , Servers    = require('./core/http')
     , Routes     = require('./core/routes')
     , FilterIP   = require('./middlewares/ip/main')
+    , KillOutSe  = require('./middlewares/session/kill')
     , I18N       = require('./libs/i18n/i18n')
     , DBI        = require('./dbi/dbi')
     , env        = require('../.env')
@@ -159,11 +160,14 @@ function App() {
   log.info('create the dabase object ...');
   const dbi = DBI(env.db.active);
 
-  // Create a in-memory database to store the token and refresh token.
-  // It means that if the server crashes the tokens are lost and
+  // Create a in-memory database to store tokens and sessions.
+  // It means that if the server crashes the tokens and sessins are lost and
   // the user needs to login again. On the other side, it is almost
   // impossible to stole them.
+  // Besides, the middleware 'KillOutSe' acts as a garbage collector by
+  // destroying the outdated sessions (sessions with an inactive user).
   const dbn = PicoDB();
+  app.use(KillOutSe(dbn));
 
   // Start the HTTP & HTTPS servers:
   Routes.start(app, i18n, dbi, dbn);

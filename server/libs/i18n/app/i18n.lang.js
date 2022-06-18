@@ -39,6 +39,9 @@
 
 // -- Public -------------------------------------------------------------------
 
+// Based on ISO 3166. See the country code here:
+//  . https://www.iso.org/obp/ui/fr/#search
+//  . https://github.com/ladjs/i18n-locales
 const List = {
   fr: 'French',
 };

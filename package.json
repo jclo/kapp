@@ -1,6 +1,6 @@
 {
   "name": "@mobilabs/kapp",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "A boilerplate for a slim Node.js App server",
   "main": "index.js",
   "bin": {
@@ -47,28 +47,28 @@
   "dependencies": {
     "@mobilabs/kzlog": "^1.0.3",
     "bcrypt": "^5.0.1",
-    "body-parser": "^1.19.1",
+    "body-parser": "^1.20.0",
     "cookie-parser": "^1.4.6",
-    "express": "^4.17.2",
-    "express-session": "^1.17.2",
+    "express": "^4.18.1",
+    "express-session": "^1.17.3",
     "mysql": "^2.18.1",
     "nopt": "^5.0.0",
     "picodb": "^1.0.4",
     "shelljs": "^0.8.5",
-    "sqlite3": "^5.0.2"
+    "sqlite3": "^5.0.8"
   },
   "devDependencies": {
     "chai": "^4.3.6",
     "chai-http": "^4.3.0",
     "coveralls": "^3.1.1",
     "cross-env": "^7.0.3",
-    "del": "^6.0.0",
+    "del": "^6.1.1",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.25.4",
-    "husky": "^7.0.4",
-    "mocha": "^9.2.0",
-    "node-fetch": "^2.6.7",
+    "eslint-plugin-import": "^2.26.0",
+    "husky": "^8.0.1",
+    "mocha": "^10.0.0",
+    "node-fetch": "^3.2.6",
     "nyc": "^15.1.0",
     "open": "^8.4.0",
     "opener": "^1.5.2"

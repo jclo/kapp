@@ -1,5 +1,13 @@
 ### HEAD
 
+### 1.2.0 (June 17, 2022)
+
+  * Added a test to prevent a crash when the provided password isn't a string,
+  * Added a timestamp to register the login and the latest transaction,
+  * Added an ExpressJS middleware to remove the inactive users and sessions,
+  * ...,
+
+
 ### 1.1.1 (January 27, 2022)
 
   * Updated the project dependencies,

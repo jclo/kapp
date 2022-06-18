@@ -109,7 +109,12 @@ function MAuth(dbi, dbn) {
 
     // Cookies?
     if (req.session.user_id) {
-      // Ok. It's an open session with cookies. Let's go on!
+      // Ok. It's an open session with cookies. Record the time
+      // and let's go on!
+      dbn.updateOne(
+        { _sessionID: req.sessionID },
+        { $set: { _timestamp_latest_transaction: (new Date()).getTime() } },
+      );
       next();
       log.trace(`The connection is accepted for the user: ${req.session.user_id}.`);
       return;
