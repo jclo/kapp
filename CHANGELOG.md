@@ -6,7 +6,7 @@
   * Added a template (_kadmin) for the administration of users with different privileges,
   * Added an optional fetch library,
   * Added an optional MongoDB library,
-  * ...,
+  * Release.
 
 
 ### 1.2.0 (June 17, 2022)
