@@ -4,7 +4,7 @@
 
   * Fixed a few npm package issues,
   * Updated the project dependencies,
-  * ...,
+  * Release.
 
 
 ### 1.3.0 (September 30, 2022)
