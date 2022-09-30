@@ -3,6 +3,7 @@
 ### 1.3.1 (September 30, 2022)
 
   * Fixed a few npm package issues,
+  * Updated the project dependencies,
   * ...,
 
 
