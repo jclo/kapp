@@ -1,5 +1,14 @@
 ### HEAD
 
+### 1.3.0 (September 30, 2022)
+
+  * Added an example for a request through php,
+  * Added a template (_kadmin) for the administration of users with different privileges,
+  * Added an optional fetch library,
+  * Added an optional MongoDB library,
+  * ...,
+
+
 ### 1.2.0 (June 17, 2022)
 
   * Added a test to prevent a crash when the provided password isn't a string,

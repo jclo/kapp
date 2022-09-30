@@ -6,6 +6,7 @@
 // -- Vendor Modules
 const chai     = require('chai')
     , chaiHttp = require('chai-http')
+    , shell    = require('shelljs')
     ;
 
 
@@ -62,6 +63,9 @@ const app = require('../server/start');
 
 // Create db object:
 const dbi = DBI(env.db.active);
+
+// Initializes testdb:
+shell.exec('./test/init_test_db.sh 1');
 
 // Let's Go!
 describe('Test Kapp:', () => {

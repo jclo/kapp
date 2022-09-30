@@ -26,14 +26,20 @@
 
 
 // -- Vendor Modules
+const KZlog = require('@mobilabs/kzlog')
+    ;
 
 
 // -- Local Modules
-const Crypto = require('../libs/crypto/main')
+const config = require('../config')
+    , Crypto = require('../libs/crypto/main')
     ;
 
 
 // -- Local Constants
+const { level } = config
+    , log       = KZlog('server/controllers/auth.js', level, false)
+    ;
 
 
 // -- Local Variables
@@ -94,6 +100,7 @@ const Auth = {
     // This is for registering the user login into the database. This method
     // isn't available for Kapp. You need to write it.
     if (dbi.adminUserRegisterLogin) await dbi.adminUserRegisterLogin(user);
+    log.warn(`${user.user_name} with session id: ${req.sessionID} connected from ${req.headers['x-forwarded-for'] || req.socket.remoteAddress}!`);
     callback(null);
   },
 
@@ -108,9 +115,11 @@ const Auth = {
    * @since 0.0.0
    */
   async logout(dbn, req, callback) {
+    const [user] = await dbn.find({ _sessionID: req.sessionID }).toArray();
     await dbn.deleteOne({ _sessionID: req.sessionID });
     req._deleted_session_user_id = req.session.user_id;
     req.session.destroy();
+    log.warn(`${user ? user.user_name : 'unknown user'} with session id: ${req.sessionID} disconnected from ${req.headers['x-forwarded-for'] || req.socket.remoteAddress}!`);
     callback(null);
   },
 };

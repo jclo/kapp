@@ -48,6 +48,9 @@ const SQlite         = require('./sqlite')
     , pdbimethods    = require('../_custom/dbi/dbi')
     , sqlitepmethods = require('../_custom/dbi/sqlite/api')
     , mysqlpmethods  = require('../_custom/dbi/mysql/api')
+    // , pdbimethods    = require('../_kadmin/dbi')
+    // , sqlitepmethods = require('../_kadmin/sql').sqlite
+    // , mysqlpmethods  = require('../_kadmin/sql').mysql
     ;
 
 

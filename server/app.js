@@ -43,6 +43,7 @@ const config     = require('./config')
     , KillOutSe  = require('./middlewares/session/kill')
     , I18N       = require('./libs/i18n/i18n')
     , DBI        = require('./dbi/dbi')
+    , MongoDB    = require('./libs/mongodb/main')
     , env        = require('../.env')
     ;
 
@@ -159,6 +160,10 @@ function App() {
   // Create the database object and create the tables for testing.
   log.info('create the dabase object ...');
   const dbi = DBI(env.db.active);
+  // This is used for filling the database. if the database already contains
+  // tables nothing is done. The only way to initialize a database is to drop
+  // its contents by hand.
+  dbi.init();
 
   // Create a in-memory database to store tokens and sessions.
   // It means that if the server crashes the tokens and sessins are lost and
@@ -173,6 +178,14 @@ function App() {
   Routes.start(app, i18n, dbi, dbn);
   Servers.startHttp(app);
   Servers.startHttps(app, __dirname);
+
+  // Or create a MongoDB object to access to the MongoDB database.
+  // MongoDB(env.mongodb, (dbmo) => {
+  //   // Start the HTTP & HTTPS servers:
+  //   Routes.start(app, i18n, dbi, dbn, dbmo);
+  //   Servers.startHttp(app);
+  //   Servers.startHttps(app, __dirname);
+  // });
 
   // It returns the db object only for testing purpose. With this object,
   // './server/start' scripts creates a testing sqlite database.

@@ -45,6 +45,7 @@ const config = require('../config')
     , System = require('./system')
     , I18N   = require('./i18n')
     , CAPIS  = require('../_custom/api/v1/main')
+    // , CAPIS  = require('../_kadmin/api')
     ;
 
 

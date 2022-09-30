@@ -31,7 +31,7 @@
 
 
 // -- Local Constants
-const TIME_BETWEEN_TWO_CHECKS = 1000 * 60 * 15 // 15 minutes
+const TIME_BETWEEN_TWO_CHECKS = 1000 * 60 * 5 // 5 minutes
     , OUTDATED_SESSION        = (1000 * 60 * 60) + (1000 * 60 * 15) // 1h 15m 00s
     ;
 

@@ -11,6 +11,7 @@ private_repo
 _prod
 server/ssl/*.pem
 db/**/*
+!db/db.sqlite
 !db/testdb.sqlite
 !db/README.md
 z_*

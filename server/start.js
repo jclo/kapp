@@ -38,12 +38,7 @@ const App = require('./app')
 
 
 // Starts the server:
-const dbi = App();
-
-// This is used for filling the database. if the database already contains
-// tables nothing is done. The only way to initialize a database is to drop
-// its contents by hand.
-dbi.init();
+App();
 
 
 // -- Export
