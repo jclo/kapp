@@ -4,12 +4,29 @@
 !demo.env.js
 !.env.travis.js
 
+!README_KADMIN.md
+!README_LIB_MONGODB.md
 !bin/**/*
 !db/README.md
 !examples/**/*
 !public/**/*
 
 !server/_custom/**/*
+
+!server/_kadmin/_utils/**/*
+!server/_kadmin/admin/api/**/*
+!server/_kadmin/admin/controllers/**/*
+!server/_kadmin/admin/dbi/_avatars/pictures/**/*
+!server/_kadmin/admin/dbi/_avatars/main.js
+!server/_kadmin/admin/dbi/common/**/*
+!server/_kadmin/admin/dbi/mysql/**/*
+!server/_kadmin/admin/dbi/sqlite/**/*
+!server/_kadmin/admin/dbi/tables/**/*
+!server/_kadmin/admin/dbi/dbi.js
+!server/_kadmin/api.js
+!server/_kadmin/dbi.js
+!server/_kadmin/sql.js
+
 !server/api/**/*
 !server/controllers/**/*
 !server/core/**/*

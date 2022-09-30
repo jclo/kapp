@@ -8,10 +8,13 @@ node_modules
 private_repo
 
 .env.js
-_prod
+_prod-*
+server/_kadmin/admin/dbi/_avatars/_clip_art_animals
 server/ssl/*.pem
 db/**/*
 !db/db.sqlite
 !db/testdb.sqlite
 !db/README.md
+
+rmdstore.sh
 z_*

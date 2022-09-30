@@ -1,7 +1,7 @@
 {
   "name": "@mobilabs/kapp",
-  "version": "1.3.0",
-  "dbVersion": "1.3.0",
+  "version": "1.3.1",
+  "dbVersion": "1.3.1",
   "description": "A boilerplate for a slim Node.js App server",
   "main": "index.js",
   "bin": {
@@ -14,7 +14,7 @@
     "check-coverage": "nyc check-coverage --statements 10 --branches 5 --functions 20 --lines 10",
     "report-coverage": "nyc report --reporter=text-lcov | coveralls",
     "report": "nyc report",
-    "makeprod": "sh tasks/prod.sh _prod",
+    "makeprod": "sh tasks/prod.sh _prod-$npm_package_version",
     "prepare": "husky install",
     "doc": ""
   },

@@ -32,6 +32,36 @@ const env = {
       password: 'the username password',
     },
   },
+
+  mongodb: {
+    host: '<the server domain name>:27017',
+    db: {
+      database: 'the database name',
+      options: {
+        auth: {
+          user: 'the username with the privileges to access to the database',
+          password: 'the username password',
+        },
+        useUnifiedTopology: true,
+        useNewUrlParser: true,
+        connectTimeoutMS: 30000,
+        keepAlive: 1,
+      },
+    },
+    testdb: {
+      database: 'the test database name',
+      options: {
+        auth: {
+          user: 'the username with the privileges to access to the database',
+          password: 'the username password',
+        },
+        useUnifiedTopology: true,
+        useNewUrlParser: true,
+        connectTimeoutMS: 30000,
+        keepAlive: 1,
+      },
+    },
+  },
 };
 
 // -- Export

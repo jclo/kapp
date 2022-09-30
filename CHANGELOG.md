@@ -1,5 +1,11 @@
 ### HEAD
 
+### 1.3.1 (September 30, 2022)
+
+  * Fixed a few npm package issues,
+  * ...,
+
+
 ### 1.3.0 (September 30, 2022)
 
   * Added an example for a request through php,
