@@ -90,21 +90,22 @@ const Api = {
   /**
    * Starts listening requests from the client web site.
    *
-   * @method (arg1, arg2, arg3)
+   * @method (arg1, arg2, arg3, arg4, arg5)
    * @public
    * @param {Object}        the express.js app,
    * @param {Object}        the message translator,
    * @param {Object}        the db interface object,
    * @param {Object}        the db for storing doc in memory,
+   * @param {Object}        the Mongodb db,
    * @returns {}            -,
    * @since 0.0.0
    */
-  listen(app, i18n, dbi, dbn) {
+  listen(app, i18n, dbi, dbn, dbm) {
     Auth(app, i18n, dbi, dbn);
     OAuth2(app, i18n, dbi, dbn);
     System(app, i18n, dbi, dbn);
     I18N(app, i18n, dbi, dbn);
-    CAPIS(app, i18n, dbi, dbn);
+    CAPIS(app, i18n, dbi, dbn, dbm);
 
 
     // These are a few examples of apis. For the sake of simplicity,

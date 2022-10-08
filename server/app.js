@@ -39,6 +39,7 @@ const os           = require('os')
 const config     = require('./config')
     , Servers    = require('./core/http')
     , Routes     = require('./core/routes')
+    , Watcher    = require('./core/watcher')
     , FilterIP   = require('./middlewares/ip/main')
     , KillOutSe  = require('./middlewares/session/kill')
     , I18N       = require('./libs/i18n/i18n')
@@ -176,6 +177,7 @@ function App() {
 
   // Start the HTTP & HTTPS servers:
   Routes.start(app, i18n, dbi, dbn);
+  Watcher.start(app, i18n, dbi, dbn);
   Servers.startHttp(app);
   Servers.startHttps(app, __dirname);
 
@@ -183,6 +185,7 @@ function App() {
   // MongoDB(env.mongodb, (dbmo) => {
   //   // Start the HTTP & HTTPS servers:
   //   Routes.start(app, i18n, dbi, dbn, dbmo);
+  //   Watcher.start(app, i18n, dbi, dbn, dbmo);
   //   Servers.startHttp(app);
   //   Servers.startHttps(app, __dirname);
   // });

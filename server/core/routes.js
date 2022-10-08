@@ -51,16 +51,17 @@ const Routes = {
   /**
    * Starts listening requests from the client web site.
    *
-   * @method (arg1, arg2, arg3, arg4)
+   * @method (arg1, arg2, arg3, arg4, arg5)
    * @public
    * @param {Object}        the express.js app,
    * @param {Object}        the message translator,
    * @param {Object}        the db interface object,
    * @param {Object}        the db for storing doc in memory,
+   * @param {Object}        the Mongodb db,
    * @returns {}            -,
    * @since 0.0.0
    */
-  start(app, i18n, dbi, dbn) {
+  start(app, i18n, dbi, dbn, dbm) {
     // Check if it is an https request:
     app.all('/api/*', (req, res, next) => {
       if (!config.env.https) {
@@ -80,7 +81,7 @@ const Routes = {
     });
 
     // Listen for the implemented api routes:
-    Api.listen(app, i18n, dbi, dbn);
+    Api.listen(app, i18n, dbi, dbn, dbm);
 
     // Unknown api:
     app.all('/api/*', (req, res) => {
