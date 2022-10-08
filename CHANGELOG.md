@@ -3,7 +3,7 @@
 ### 1.4.0 (October 8, 2022)
 
   * Added the capability to listen db events,
-  * ...,
+  * Release.
 
 
 ### 1.3.1 (September 30, 2022)
