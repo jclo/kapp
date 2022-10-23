@@ -260,6 +260,7 @@ function _addSkeleton(base, app, owner, cright) {
     [
       'README.md', 'LICENSE.md', 'CHANGELOG.md', '.gitignore', '.eslintignore',
       '.npmignore', 'index.js',
+      'README_KADMIN.md', 'README_LIB_MONGODB.md',
     ],
   ];
 
@@ -321,17 +322,19 @@ function _customize(source, dest, app, owner, boilerlib) {
   const pack = {};
   pack.name = app.toLowerCase();
   pack.version = '0.0.0-alpha.0';
+  pack.dbVersion = '0.0.0-alpha.0';
   pack.description = `${app} ...`;
   pack.main = '';
   pack.bin = {};
   pack.scripts = {
+    start: obj.scripts.app,
     app: obj.scripts.app,
     test: obj.scripts.test,
     'display-coverage': obj.scripts['display-coverage'],
     'check-coverage': obj.scripts['check-coverage'],
     'report-coverage': obj.scripts['report-coverage'],
     report: obj.scripts.report,
-    makeprod: 'sh tasks/prod.sh _prod',
+    makeprod: 'sh tasks/prod.sh _prod-$npm_package_version',
     prepare: 'husky install',
     doc: obj.scripts.doc,
   };

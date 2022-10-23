@@ -47,7 +47,7 @@ const Users = require('./users')
 /**
  * Starts listening for the project APIs.
  *
- * @method (arg1, arg2, arg3, arg4)
+ * @function (arg1, arg2, arg3, arg4)
  * @public
  * @param {Object}          express.js app,
  * @param {Object}          the message translator,

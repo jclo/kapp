@@ -67,7 +67,7 @@ const Util = {
   /**
    * Returns the user associated to the current session.
    *
-   * @function (arg1, arg2)
+   * @method (arg1, arg2)
    * @public
    * @param {Object}        the in-memory database,
    * @param {Object}        express request object,

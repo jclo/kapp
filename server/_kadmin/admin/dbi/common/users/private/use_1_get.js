@@ -35,6 +35,7 @@ const config = require('../../../../../../config')
     , pk     = require('../../../../../../../package.json')
     , WHO    = require('../../../../../_utils/util4')
     , C      = require('../../../../../_utils/constants')
+    , LU1    = require('../../../../../_utils/util5')
     ;
 
 
@@ -198,8 +199,8 @@ async function _getMe(dbi, cn, username, sqlite) {
     WHERE role_id = (SELECT id FROM admin_roles WHERE name = ?)
   `;
   rmember = await dbi._lib.query(cn, sql, ['Team Member']);
-  // me.access_rights = LU1.mergeAccessRights(custom, role, rmember);
-  me.access_legend = UT.usersAccessRightsList;
+  me.access_rights = LU1.mergeAccessRights(custom, role, rmember);
+  me.access_legend = UT.getUsersAccessRightsList();
   me.modules = await dbi._lib.query(cn, 'SELECT id, name FROM admin_modules', []);
   return [null, me];
 }

@@ -60,7 +60,7 @@ const CUsers = {
   /**
    * Returns the credentials of the connected user.
    *
-   * @function (arg1, arg2, arg3, arg4)
+   * @method (arg1, arg2, arg3, arg4)
    * @public
    * @param {Object}        the database object,
    * @param {Object}        the in-memory database object,
@@ -91,7 +91,7 @@ const CUsers = {
   /**
    * Returns the list of connected users.
    *
-   * @function (arg1, arg2, arg3, arg4, arg5)
+   * @method (arg1, arg2, arg3, arg4, arg5)
    * @public
    * @param {Object}        the database object,
    * @param {Object}        the in-memory database object,
@@ -149,7 +149,7 @@ const CUsers = {
   /**
    * Saves the preferences of the connected user.
    *
-   * @function (arg1, arg2, arg3, arg4)
+   * @method (arg1, arg2, arg3, arg4)
    * @public
    * @param {Object}        the database object,
    * @param {Object}        the in-memory database object,
@@ -173,7 +173,7 @@ const CUsers = {
   /**
    * Returns the credentials of the requested user.
    *
-   * @function (arg1, arg2, arg3, arg4, arg5)
+   * @method (arg1, arg2, arg3, arg4, arg5)
    * @public
    * @param {Object}        the database object,
    * @param {Object}        the in-memory database object,
@@ -198,7 +198,7 @@ const CUsers = {
   /**
    * Returns the requested list of users.
    *
-   * @function (arg1, arg2, arg3, arg4)
+   * @method (arg1, arg2, arg3, arg4)
    * @public
    * @param {Object}        the database object,
    * @param {Object}        the in-memory database object,
@@ -222,7 +222,7 @@ const CUsers = {
   /**
    * Adds or updates the requested user.
    *
-   * @function (arg1, arg2, arg3, arg4)
+   * @method (arg1, arg2, arg3, arg4)
    * @public
    * @param {Object}        the database object,
    * @param {Object}        the in-memory database object,
@@ -246,7 +246,7 @@ const CUsers = {
   /**
    * Deletes the requested user.
    *
-   * @function (arg1, arg2, arg3, arg4, arg5)
+   * @method (arg1, arg2, arg3, arg4, arg5)
    * @public
    * @param {Object}        the database object,
    * @param {Object}        the in-memory database object,
@@ -271,7 +271,7 @@ const CUsers = {
   /**
    * Deletes the requested users.
    *
-   * @function (arg1, arg2, arg3, arg4, arg5)
+   * @method (arg1, arg2, arg3, arg4, arg5)
    * @public
    * @param {Object}        the database object,
    * @param {Object}        the in-memory database object,
@@ -296,7 +296,7 @@ const CUsers = {
   /**
    * Adds or updates the requested user email.
    *
-   * @function (arg1, arg2, arg3, arg4)
+   * @method (arg1, arg2, arg3, arg4)
    * @public
    * @param {Object}        the database object,
    * @param {Object}        the in-memory database object,
@@ -320,7 +320,7 @@ const CUsers = {
   /**
    * Deletes the requested user email.
    *
-   * @function (arg1, arg2, arg3, arg4, arg5)
+   * @method (arg1, arg2, arg3, arg4, arg5)
    * @public
    * @param {Object}        the database object,
    * @param {Object}        the in-memory database object,
@@ -347,7 +347,7 @@ const CUsers = {
   /**
    * Counts the owned users.
    *
-   * @function (arg1, arg2, arg3, arg4)
+   * @method (arg1, arg2, arg3, arg4)
    * @public
    * @param {Object}        the database object,
    * @param {Object}        the in-memory database object,
@@ -371,7 +371,7 @@ const CUsers = {
   /**
    * Returns if the username is already taken.
    *
-   * @function (arg1, arg2, arg3, arg4)
+   * @method (arg1, arg2, arg3, arg4)
    * @public
    * @param {Object}        the database object,
    * @param {Object}        the in-memory database object,

@@ -75,7 +75,7 @@ const { level } = config
 /**
  * Starts listening for the users APIs.
  *
- * @method (arg1, arg2, arg3)
+ * @function (arg1, arg2, arg3)
  * @public
  * @param {Object}          the express.js app,
  * @param {Object}          the message translator,

@@ -47,7 +47,7 @@ const Users = {
   /**
    * Processes the api 'api/v1/users'.
    *
-   * @function ()
+   * @method ()
    * @public
    * @param {}              -,
    * @return {}             -,

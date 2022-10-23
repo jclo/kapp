@@ -99,7 +99,7 @@ const Ava = {
   /**
    * Returns the avatar pictures.
    *
-   * @function ()
+   * @method ()
    * @public
    * @param {}              -,
    * @return {Array}        returns the avatar pictures,
