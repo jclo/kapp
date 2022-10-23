@@ -3,7 +3,7 @@
 ### 1.4.1 (October 23, 2022)
 
   * Fixed a few typos,
-  * ...,
+  * Release.
 
 
 ### 1.4.0 (October 8, 2022)
