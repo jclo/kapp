@@ -24,6 +24,44 @@ const env = {
       database: './db/db.sqlite',
       testdb: './db/testdb.sqlite',
     },
+    mysql: {
+      host: 'the server domain name',
+      connectionLimit: 'the number of simultaneous connections (number)',
+      database: 'the database name',
+      testdb: 'the test database name',
+      user: 'the username with the privileges to access to the database',
+      password: 'the username password',
+    },
+  },
+
+  mongodb: {
+    host: '<the server domain name>:27017',
+    db: {
+      database: 'the database name',
+      options: {
+        auth: {
+          user: 'the username with the privileges to access to the database',
+          password: 'the username password',
+        },
+        useUnifiedTopology: true,
+        useNewUrlParser: true,
+        connectTimeoutMS: 30000,
+        keepAlive: 1,
+      },
+    },
+    testdb: {
+      database: 'the test database name',
+      options: {
+        auth: {
+          user: 'the username with the privileges to access to the database',
+          password: 'the username password',
+        },
+        useUnifiedTopology: true,
+        useNewUrlParser: true,
+        connectTimeoutMS: 30000,
+        keepAlive: 1,
+      },
+    },
   },
 };
 

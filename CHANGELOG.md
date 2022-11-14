@@ -4,6 +4,7 @@
 
   * Dockerized Kapp,
   * Added the container folder with Dockerfile and kapp.yaml files,
+  * Updated the .env.travis.js file,
   * ...,
 
 
