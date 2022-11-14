@@ -92,18 +92,20 @@ const MQ = {
   /**
    * Creates a pool of connections to the database.
    *
-   * @method (arg1, arg2, arg3, arg4)
+   * @method (arg1, arg2, arg3, arg4, arg5)
    * @public
    * @param {String}        the database server url,
+   * @param {Number}        the port,
    * @param {String}        the database,
    * @param {String}        the user,
    * @param {String}        the user's password,
    * @returns {}            -,
    * @since 0.0.0
    */
-  createPool(host, connectionLimit, database, user, password) {
+  createPool(host, port, connectionLimit, database, user, password) {
     this.pool = mysql.createPool({
       host,
+      port,
       connectionLimit,
       database,
       user,

@@ -64,23 +64,32 @@ let methods;
  * @returns {Object}        returns the database object,
  * @since 0.0.0
  */
-const MongoDB = async function(env, callback) {
-  const obj = Object.create(methods);
-  obj._name = 'mongodb';
-  obj._dbname = process.env.KAPP_TEST_MODE ? env.testdb : env.db;
-  obj._uri = `mongodb://${obj._dbname.options.auth.user}:${obj._dbname.options.auth.password}@${env.host}/${obj._dbname.database}`;
-  obj._ObjectId = ObjectId;
+/* eslint-disable max-len */
+async function MongoDB(env, callback) {
+  const HOST      = process.env.KAPP_TEST_MODE ? env.host : process.env.KAPP_MONGO_URL
+      , DATABASE  = process.env.KAPP_TEST_MODE ? env.testdb.database : process.env.process.env.KAPP_MONGO_DATABASE
+      , USER      = process.env.KAPP_TEST_MODE ? env.testdb.options.auth.user : process.env.KAPP_MONGO_USER
+      , PWD       = process.env.KAPP_TEST_MODE ? env.testdb.options.auth.password : process.env.KAPP_MONGO_PASSWORD
+      , TOPO      = env.db.useUnifiedTopology
+      , PARSER    = env.db.useNewUrlParser
+      , TIMEOUT   = env.db.connectTimeoutMS
+      , KEEPALIVE = env.db.keepAlive
+      , obj       = Object.create(methods)
+      ;
 
+  obj._name = 'mongodb';
+  obj._uri = `mongodb://${USER}:${PWD}@${HOST}/${DATABASE}`;
+  obj._ObjectId = ObjectId;
   obj._client = new MongoClient(
     obj._uri,
-    { useUnifiedTopology: obj._dbname.options.useUnifiedTopology },
-    { useNewUrlParser: obj._dbname.options.useNewUrlParser },
-    { connectTimeoutMS: obj._dbname.options.connectTimeoutMS },
-    { keepAlive: obj._dbname.options.keepAlive },
+    { useUnifiedTopology: TOPO },
+    { useNewUrlParser: PARSER },
+    { connectTimeoutMS: TIMEOUT },
+    { keepAlive: KEEPALIVE },
   );
 
   await obj._client.connect();
-  obj._db = obj._client.db(obj._dbname.database);
+  obj._db = obj._client.db(DATABASE);
 
   if (callback) {
     callback(obj);
@@ -89,7 +98,8 @@ const MongoDB = async function(env, callback) {
   }
 
   return null;
-};
+}
+/* eslint-enable max-len */
 
 
 // -- Public Methods -----------------------------------------------------------

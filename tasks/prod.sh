@@ -17,17 +17,22 @@ rm -rf ${NAME}
 mkdir -p ${NAME}
 cd ${NAME}
 
+echo 'Create ./db ...'
+mkdir db
 echo 'Copy ./server ...'
 cp -R ../server .
 echo 'Copy ./public ...'
 cp -R ../public .
+echo 'Create .env.js ...'
+cp ../demo.env.js .env.js
 echo 'Copy LICENSE.md, package.json and README.md'
 cp ../LICENSE.md .
 cp ../package.json .
 cp ../README.md .
 
 echo 'Install NPM production packages ...'
-npm install --only=production
+# npm install --only=production
+# rm -rf node_modules
 
 echo ''
 echo 'This production server runs the minimalist Web App'

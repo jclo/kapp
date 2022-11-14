@@ -64,7 +64,7 @@ const Routes = {
   start(app, i18n, dbi, dbn, dbm) {
     // Check if it is an https request:
     app.all('/api/*', (req, res, next) => {
-      if (!config.env.https) {
+      if (process.env.KAPP_HTTPS !== 'true') {
         log.info('Kapp is running in test mode, HTTP accesses are exceptionally authorized!');
         next();
       } else if (process.env.TRAVIS) {

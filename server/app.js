@@ -6,7 +6,9 @@
  * listens for requests sent by the client (see core/routes).
  *
  * Private Functions:
- *  . none,
+ *  . _cors                       sets the CORS policy,
+ *  . _setEnv                     sets the environment variables,
+ *  . _findLocalIP                finds the server network I/F,
  *
  *
  * Public Function:
@@ -77,6 +79,39 @@ const _cors = function(conf) {
 };
 
 /**
+ * Sets the environment variables.
+ *
+ * @function (arg1, arg2)
+ * @private
+ * @param {Object}          the .env.js default values,
+ * @param {Object}          the /server/config.js default values,
+ * @returns {}              -,
+ * @since 0.0.0
+ */
+/* eslint-disable max-len */
+const _setEnv = function(enviro, conf) {
+  if (!process.env.KAPP_DB_ACTIVE) process.env.KAPP_DB_ACTIVE = enviro.db.active;
+
+  if (!process.env.KAPP_MYSQL_URL) process.env.KAPP_MYSQL_URL = enviro.db.mysql.host;
+  if (!process.env.KAPP_MYSQL_PORT) process.env.KAPP_MYSQL_PORT = enviro.db.mysql.port || 3306;
+  if (!process.env.KAPP_MYSQL_CNX_LIMIT) process.env.KAPP_MYSQL_CNX_LIMIT = enviro.db.mysql.connectionLimit;
+  if (!process.env.KAPP_MYSQL_DATABASE) process.env.KAPP_MYSQL_DATABASE = enviro.db.mysql.database;
+  if (!process.env.KAPP_MYSQL_USER) process.env.KAPP_MYSQL_USER = enviro.db.mysql.user;
+  if (!process.env.KAPP_MYSQL_PASSWORD) process.env.KAPP_MYSQL_PASSWORD = enviro.db.mysql.password;
+
+  if (!process.env.KAPP_MONGO_URL) process.env.KAPP_MONGO_URL = enviro.mongodb.host;
+  if (!process.env.KAPP_MONGO_DATABASE) process.env.KAPP_MONGO_DATABASE = enviro.mongodb.db.database;
+  if (!process.env.KAPP_MONGO_USER) process.env.KAPP_MONGO_USER = enviro.mongodb.db.options.auth.user;
+  if (!process.env.KAPP_MONGO_PASSWORD) process.env.KAPP_MONGO_PASSWORD = enviro.mongodb.db.options.auth.password;
+
+  if (!process.env.KAPP_HTTP_PORT) process.env.KAPP_HTTP_PORT = conf.env.httpport;
+  if (!process.env.KAPP_HTTPS_PORT) process.env.KAPP_HTTPS_PORT = conf.env.httpsport;
+  if (!process.env.KAPP_HTTPS) process.env.KAPP_HTTPS = conf.env.https;
+  if (!process.env.KAPP_NETWORK) process.env.KAPP_NETWORK = conf.env.network;
+};
+/* eslint-enable max-len */
+
+/**
  * Finds the server network I/F.
  *
  * @function ()
@@ -121,6 +156,9 @@ function App() {
   const log = KZlog('app.js', level, false);
   log.info('starts the app server ...');
 
+  // Initialize the environment variables for the databases.
+  _setEnv(env, config);
+
   // Here we configure 'app' to accept both JSON and url encoded payloads
   // and to serve the static page 'public/index.html'.
   const app = express();
@@ -160,7 +198,7 @@ function App() {
 
   // Create the database object and create the tables for testing.
   log.info('create the dabase object ...');
-  const dbi = DBI(env.db.active);
+  const dbi = DBI(process.env.KAPP_DB_ACTIVE);
   // This is used for filling the database. if the database already contains
   // tables nothing is done. The only way to initialize a database is to drop
   // its contents by hand.

@@ -63,20 +63,32 @@ const MQ       = require('../libs/mysql/api')
  *
  * @constructor (arg1)
  * @public
- * @param {}                -,
+ * @param {Object}          the database params from '.env.js',
  * @returns {}              -,
  * @since 0.0.0
  */
 const MySQL = function(params) {
   this._name = 'mysql';
-  this._db = process.env.KAPP_TEST_MODE ? params.testdb : params.database;
+  this._db = process.env.KAPP_TEST_MODE
+    ? params.testdb
+    : process.env.KAPP_MYSQL_DATABASE
+  ;
+
   this._lib = MQ;
+  // MQ.createPool(
+  //   params.host,
+  //   params.connectionLimit,
+  //   params.database,
+  //   params.user,
+  //   params.password,
+  // );
   MQ.createPool(
-    params.host,
-    params.connectionLimit,
-    params.database,
-    params.user,
-    params.password,
+    process.env.KAPP_MYSQL_URL,
+    process.env.KAPP_MYSQL_PORT,
+    process.env.KAPP_MYSQL_CNX_LIMIT,
+    process.env.KAPP_MYSQL_DATABASE,
+    process.env.KAPP_MYSQL_USER,
+    process.env.KAPP_MYSQL_PASSWORD,
   );
 };
 

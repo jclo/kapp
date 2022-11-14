@@ -83,7 +83,7 @@ const Servers = {
     http.createServer(app)
       .on('error', (e) => {
         if (e.code === 'EACCES') {
-          log.error(`You don't have the privileges to listen the port: ${config.env.httpport}.`);
+          log.error(`You don't have the privileges to listen the port: ${process.env.KAPP_HTTP_PORT}.`);
         } else {
           log.error(e);
         }
@@ -91,8 +91,8 @@ const Servers = {
       // '127.0.0.1' means allowing access to the local machine only. If you
       // want to authorize the server to listen any machines on the
       // network, replace '127.0.0.1' by '0.0.0.0'.
-      .listen(config.env.httpport, config.env.network, () => {
-        log.info(`http listening on port ${config.env.httpport}.`);
+      .listen(process.env.KAPP_HTTP_PORT, process.env.KAPP_NETWORK, () => {
+        log.info(`http listening on port ${process.env.KAPP_HTTP_PORT}.`);
       });
   },
 
@@ -107,19 +107,20 @@ const Servers = {
    * @since 0.0.0
    */
   startHttps(app, base) {
-    if (config.env.https && !process.env.TRAVIS) {
+    // Beware process.env.x converts everything to string!
+    if (process.env.KAPP_HTTPS === 'true' && !process.env.TRAVIS) {
       https.createServer(_getCertificates(base), app)
         .on('error', (e) => {
           if (e.code === 'EACCES') {
-            log.error(`You don't have the privileges to listen the port: ${config.env.httpsport}.`);
+            log.error(`You don't have the privileges to listen the port: ${process.env.KAPP_HTTPS_PORT}.`);
           } else {
             log.error(e);
           }
         })
-        .listen(config.env.httpsport, config.env.network, () => {
-          log.info(`https listening on port ${config.env.httpsport}.`);
+        .listen(process.env.KAPP_HTTPS_PORT, process.env.KAPP_NETWORK, () => {
+          log.info(`https listening on port ${process.env.KAPP_HTTPS_PORT}.`);
         });
-    } else if (!config.env.https) {
+    } else if (process.env.KAPP_HTTPS !== 'true') {
       log.info('config.env.https is false, the https server is not started!');
     } else {
       log.info('Kapp is runing on TRAVIS-CI, the https server is not started!');

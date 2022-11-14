@@ -36,7 +36,7 @@ const config = require('../../config')
 
 // -- Local Constants
 const { level } = config
-    , log       = KZlog('_vulcain/dbwatcher/main.js', level, false)
+    , log       = KZlog('_custom/dbwatcher/main.js', level, false)
     ;
 
 

@@ -54,6 +54,7 @@ const defBoilerLib  = 'kapp'
     // , docs        = 'docs'
     , db          = 'db'
     , examples    = 'examples'
+    , docker      = 'container'
     // Command line Options
     , opts = {
       help: [Boolean, false],
@@ -511,6 +512,23 @@ function _addExamples(source, dest, folder) {
 }
 
 /**
+ * Adds docker.
+ *
+ * @function (arg1, arg2, arg3)
+ * @private
+ * @param {String}          the source path,
+ * @param {String}          the destination path,
+ * @param {String}          the destination folder,
+ * @returns {}              -,
+ */
+function _addDocker(source, dest, folder) {
+  process.stdout.write(`  duplicated the contents of ${folder}\n`);
+  shell.mkdir('-p', `${dest}/${folder}`);
+
+  shell.cp('-r', `${source}/${folder}/*`, `${dest}/${folder}/.`);
+}
+
+/**
  * Creates and populates the web app.
  *
  * @function (arg1)
@@ -586,8 +604,9 @@ function _populate(options) {
   // Copy DB files:
   _addDB(baseboiler, baseapp, db, app, boilerlib);
 
-  // Copy Examples:
+  // Copy Examples & Docker:
   _addExamples(baseboiler, baseapp, examples, app, boilerlib);
+  _addDocker(baseboiler, baseapp, docker, app, boilerlib);
 
   process.stdout.write('Done. Enjoy!\n');
 }

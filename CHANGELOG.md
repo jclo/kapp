@@ -1,5 +1,12 @@
 ### HEAD
 
+### 1.5.0 (November 14, 2022)
+
+  * Dockerized Kapp,
+  * Added the container folder with Dockerfile and kapp.yaml files,
+  * ...,
+
+
 ### 1.4.1 (October 23, 2022)
 
   * Fixed a few typos,
