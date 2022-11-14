@@ -23,7 +23,7 @@ spec:
         - containerPort: 1080
         env:
         - name: KAPP_HTTPS
-          value: false
+          value: 'false'
         - name: KAPP_NETWORK
           value: '0.0.0.0'
         - name: KAPP_DB_ACTIVE
@@ -31,9 +31,9 @@ spec:
         - name: KAPP_MYSQL_URL
           value: 'myurl1'
         - name: KAPP_MYSQL_PORT
-          value: 3306
+          value: '3306'
         - name: KAPP_MYSQL_CNX_LIMIT
-          value: 10
+          value: '10'
         - name: KAPP_MYSQL_DATABASE
           value: 'mydb1'
         - name: KAPP_MYSQL_USER

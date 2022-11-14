@@ -1,5 +1,11 @@
 ### HEAD
 
+### 1.5.1 (November 14, 2022)
+
+  * Replaced numbers by strings in the values of environment variables in the kapp.yaml file,
+  * ...,
+
+
 ### 1.5.0 (November 14, 2022)
 
   * Dockerized Kapp,

@@ -42,6 +42,14 @@ dev$ docker load < kapp-<version>.tar.gz
 
 ## Minikube / Kubernetes
 
+### Start Minikube
+
+First, you need to start `minikube`.
+
+```bash
+minikube start --driver=hyperkit
+```
+
 ### Load the image
 
 ```bash
