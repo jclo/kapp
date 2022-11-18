@@ -261,7 +261,6 @@ function _addSkeleton(base, app, owner, cright) {
     [
       'README.md', 'LICENSE.md', 'CHANGELOG.md', '.gitignore', '.eslintignore',
       '.npmignore', 'index.js',
-      'README_KADMIN.md', 'README_LIB_MONGODB.md',
     ],
   ];
 
@@ -293,14 +292,18 @@ function _addSkeleton(base, app, owner, cright) {
  * @returns {}              -,
  */
 function _duplicate(source, dest) {
-  const dupFiles = ['.eslintrc', '.travis.yml', '.env.travis.js', 'demo.env.js'/* , 'gulpfile.js' */];
+  const dupFiles = [
+    '.eslintrc', '.travis.yml', '.env.travis.js', 'demo.env.js',
+    'README_KADMIN.md', 'README_LIB_MONGODB.md',
+    /* , 'gulpfile.js' */
+  ];
 
   for (let i = 0; i < dupFiles.length; i++) {
     process.stdout.write(`  copied ${dupFiles[i]}\n`);
     shell.cp(`${source}/${dupFiles[i]}`, `${dest}/.`);
   }
 
-  shell.mv(`${dest}/demo.env.js`, `${dest}/.env.js`);
+  shell.cp(`${dest}/demo.env.js`, `${dest}/.env.js`);
 }
 
 /**

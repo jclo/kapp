@@ -7,6 +7,7 @@
  *
  * Private Functions:
  *  . _createToken                returns the newly generated token,
+ *  . _getMe                      checks the user credentials from an ext. server,
  *
  *
  * Public Static Methods:
@@ -65,6 +66,24 @@ function _createToken(l) {
   return id;
 }
 
+/**
+ * Checks the user credentials from an external server.
+ *
+ * @function (arg1, arg2, arg3)
+ * @private
+ * @param {String}          the username of the user,
+ * @param {String}          the password of the user,
+ * @param {String}          infos on the auth server,
+ * @returns {}              -,
+ * @since 0.0.0
+ */
+function _getMe(/* username, pwd, auth */) {
+  return [{
+    error_code: 'ServerFails',
+    message: 'The connection to Auth server fails!',
+  }];
+}
+
 
 // -- Public Static Methods ----------------------------------------------------
 
@@ -83,8 +102,17 @@ const TOK = {
    * @return {}             -,
    * @since 0.0.0
    */
-  async get(dbi, dbn, username, pwd, callback) {
-    const [, user] = await dbi.userGetMe(username);
+  async get(dbi, dbn, username, pwd, auth, callback) {
+    const [err, user] = !auth
+      ? await dbi.userGetMe(username)
+      : await _getMe(username, pwd, auth)
+      ;
+
+    if (err) {
+      callback(err);
+      return;
+    }
+
     if (!user) {
       callback(`The username "${username}" is unknown!`);
       return;

@@ -3,7 +3,7 @@
  * Fetches another API Server.
  * (optional library)
  *
- * main.js is just a literal object that contains a set of functions.
+ * token.js is just a literal object that contains a set of functions.
  * It can't be instantiated.
  *
  * Private Functions:
@@ -55,57 +55,60 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 /**
  * Connects to the remote server.
  *
- * @function (arg1, arg2, arg3, arg4)
+ * @function (arg1, arg2, arg3, [arg4])
  * @private
- * @param {String}          the url of the remote server,
+ * @param {String}          the login API,
  * @param {String}          the username,
  * @param {String}          the user password,
- * @param {String}          the type of response (json or text),
+ * @param {String}          the source of the auth,
  * @returns {Array}         returns an array with a cookie and the server response,
  * @since 0.0.0
  */
-async function _login(api, user, pwd, type) {
+async function _login(api, usr, pwd, auth) {
+  const s64 = auth
+    ? Buffer.from(`${usr}:${pwd}:${auth}`, 'utf-8').toString('base64')
+    : Buffer.from(`${usr}:${pwd}`, 'utf-8').toString('base64')
+  ;
+
   const options = {
     method: 'POST',
     headers: {
+      Authorization: `Basic ${s64}`,
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      cookie: '',
     },
-    body: JSON.stringify({ user, password: pwd }),
+    body: JSON.stringify({ grant_type: 'client_credentials' }),
   };
+
   const resp = await fetch(api, options);
-  const [cookie] = resp.headers.raw()['set-cookie'];
   const res = await resp.text();
-  if (type === 'text') {
-    return [cookie, res];
-  }
 
   let data;
   try { data = JSON.parse(res); } catch (e) { data = res; }
-  return [cookie, data];
+  return [null, data];
 }
 
 /**
  * Makes an HTTP(s) GET.
  *
- * @function (arg1, arg2, arg3)
+ * @function (arg1, arg2, [arg3])
  * @private
- * @param {String}          the connection cookie,
+ * @param {String}          the access token,
  * @param {String}          the GET API,
  * @param {String}          the type of response (json or text),
  * @returns {JSON/String}   returns the server response,
  * @since 0.0.0
  */
-async function _GET(cookie, api, type) {
+async function _GET(accessToken, api, type) {
   const options = {
     method: 'GET',
     headers: {
+      Authorization: `Bearer ${accessToken}`,
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      cookie,
     },
   };
+
   const resp = await fetch(api, options);
   const res = await resp.text();
   if (type === 'text') {
@@ -120,22 +123,22 @@ async function _GET(cookie, api, type) {
 /**
  * Makes an HTTP(s) POST.
  *
- * @function (arg1, arg2, arg3, arg4)
+ * @function (arg1, arg2, arg3, [arg4])
  * @private
- * @param {String}          the connection cookie,
+ * @param {String}          the access token,
  * @param {String}          the POST API,
  * @param {Object}          the data to send,
  * @param {String}          the type of response (json or text),
  * @returns {JSON/String}   returns the server response,
  * @since 0.0.0
  */
-async function _POST(cookie, api, payload, type) {
+async function _POST(accessToken, api, payload, type) {
   const options = {
     method: 'POST',
     headers: {
+      Authorization: `Bearer ${accessToken}`,
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      cookie,
     },
     body: JSON.stringify(payload),
   };
@@ -153,21 +156,21 @@ async function _POST(cookie, api, payload, type) {
 /**
  * Makes an HTTP(s) DELETE.
  *
- * @function (arg1, arg2, arg3)
+ * @function (arg1, arg2, [arg3])
  * @private
- * @param {String}          the connection cookie,
+ * @param {String}          the access token,
  * @param {String}          the DELETE API,
  * @param {String}          the type of response (json or text),
  * @returns {JSON/String}   returns the server response,
  * @since 0.0.0
  */
-async function _DELETE(cookie, api, type) {
+async function _DELETE(accessToken, api, type) {
   const options = {
     method: 'DELETE',
     headers: {
+      Authorization: `Bearer ${accessToken}`,
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      cookie,
     },
   };
   const resp = await fetch(api, options);
@@ -189,48 +192,48 @@ const FETCH = {
   /**
    * Connects to the server.
    *
-   * @method (arg1, arg2, arg3, arg4)
+   * @method (arg1, arg2, arg3, [arg4])
    * @public
    * @param {String}        the url of the remote server,
    * @param {String}        the username,
    * @param {String}        the user password,
-   * @param {String}        the type of response (json or text),
+   * @param {String}        token connection through an external server?,
    * @returns {Array}       returns an array with a cookie and the server response,
    * @since 0.0.0
    */
-  login(url, usr, pwd, type) {
-    return _login(`${url}/api/v1/auth/login`, usr, pwd, type);
+  login(url, usr, pwd, auth) {
+    return _login(`${url}/api/v1/oauth2/token`, usr, pwd, auth);
   },
 
   /**
    * Makes an HTTP(s) GET.
    *
-   * @method (arg1, arg2, arg3)
+   * @method (arg1, arg2, [arg3])
    * @public
-   * @param {String}        the connection cookie,
+   * @param {String}        the access token,
    * @param {String}        the GET API,
    * @param {String}        the type of response (json or text),
    * @returns {JSON/String} returns the server response,
    * @since 0.0.0
    */
-  GET(cookie, api, type) {
-    return _GET(cookie, api, type);
+  GET(token, api, type) {
+    return _GET(token, api, type);
   },
 
   /**
    * Makes an HTTP(s) POST.
    *
-   * @method (arg1, arg2, arg3, arg4)
+   * @method (arg1, arg2, arg3, [arg4])
    * @public
-   * @param {String}        the connection cookie,
+   * @param {String}        the access token,
    * @param {String}        the POST API,
    * @param {Object}        the data to send,
    * @param {String}        the type of response (json or text),
    * @returns {JSON/String} returns the server response,
    * @since 0.0.0
    */
-  POST(cookie, api, payload, type) {
-    return _POST(cookie, api, payload, type);
+  POST(token, api, payload, type) {
+    return _POST(token, api, payload, type);
   },
 
   /**
@@ -244,14 +247,14 @@ const FETCH = {
    * @returns {JSON/String} returns the server response,
    * @since 0.0.0
    */
-  DELETE(cookie, api, type) {
-    return _DELETE(cookie, api, type);
+  DELETE(token, api, type) {
+    return _DELETE(token, api, type);
   },
 
   /**
    * Disconnects from the server.
    *
-   * @method (arg1, arg2, arg3)
+   * @method (arg1, arg2, [arg3])
    * @public
    * @param {String}        the connection cookie,
    * @param {String}        the url of the remote server,
@@ -259,8 +262,8 @@ const FETCH = {
    * @returns {JSON/String} returns the server response,
    * @since 0.0.0
    */
-  logout(cookie, url, type) {
-    return _GET(cookie, `${url}/api/v1/auth/logout`, type);
+  logout(token, url, type) {
+    return _GET(token, `${url}/api/v1/oauth2/revoke`, type);
   },
 };
 

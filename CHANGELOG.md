@@ -1,5 +1,13 @@
 ### HEAD
 
+### 1.6.0 (November 18, 2022)
+
+  * Extended the fetch library to manage tokens,
+  * Added a hook to get a token authentication from an external server,
+  * Fixed a few issues,
+  * ...,
+
+
 ### 1.5.1 (November 14, 2022)
 
   * Replaced numbers by strings in the values of environment variables in the kapp.yaml file,

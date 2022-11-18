@@ -53,7 +53,7 @@ const Token = require('./private/oauthtokens')
 function _auth(req) {
   if (req.headers.authorization) {
     const s = Buffer.from(req.headers.authorization.split(' ')[1], 'base64').toString().split(':');
-    return { name: s[0], pwd: s[1] };
+    return { name: s[0], pwd: s[1], auth: s[2] };
   }
   return null;
 }
@@ -98,7 +98,7 @@ const OAuth = {
     if (req.body.grant_type === 'client_credentials') {
       // The client request for a token. So, we have now to check if this
       // client is authorized to obtain that token.
-      Token.get(dbi, dbn, user.name, user.pwd, (err, token) => {
+      Token.get(dbi, dbn, user.name, user.pwd, user.auth, (err, token) => {
         if (err) {
           callback(err);
         } else {

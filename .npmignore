@@ -8,6 +8,7 @@
 !README_LIB_MONGODB.md
 !bin/**/*
 !db/README.md
+!container/**/*
 !examples/**/*
 !public/**/*
 

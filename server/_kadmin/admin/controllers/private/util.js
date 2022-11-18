@@ -54,7 +54,7 @@ async function _whoami(dbn, req) {
     username = req.session.user_id;
   } else if (req.headers && req.headers.authorization) {
     const doc = await dbn.find({ 'token.access_token': req.headers.authorization.split(' ')[1] }).toArray();
-    username = doc[0].username;
+    username = doc[0].user_name;
   }
   return username;
 }
