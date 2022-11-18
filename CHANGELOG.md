@@ -5,7 +5,7 @@
   * Extended the fetch library to manage tokens,
   * Added a hook to get a token authentication from an external server,
   * Fixed a few issues,
-  * ...,
+  * Release.
 
 
 ### 1.5.1 (November 14, 2022)

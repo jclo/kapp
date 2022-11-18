@@ -1,7 +1,7 @@
 {
   "name": "@mobilabs/kapp",
-  "version": "1.5.1",
-  "dbVersion": "1.5.1",
+  "version": "1.6.0",
+  "dbVersion": "1.6.0",
   "description": "A boilerplate for a slim Node.js App server",
   "main": "index.js",
   "bin": {
