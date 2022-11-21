@@ -4,7 +4,7 @@
 
   * Fixed a few typos,
   * Moved the hook to a dedicated file,
-  * ...,
+  * Release.
 
 
 ### 1.6.0 (November 18, 2022)
