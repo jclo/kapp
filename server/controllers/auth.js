@@ -56,7 +56,7 @@ const Auth = {
   /**
    * Processes the api 'api/v1/auth/login'.
    *
-   * @function (arg1, arg2, arg3, arg4)
+   * @method (arg1, arg2, arg3, arg4)
    * @public
    * @param {Object}        the db object,
    * @param {Object}        the in-memory db object,
@@ -107,7 +107,7 @@ const Auth = {
   /**
    * Processes the api 'api/v1/auth/logout'.
    *
-   * @function (arg1, arg2)
+   * @method (arg1, arg2)
    * @public
    * @param {Object}        the in-memory db object,
    * @param {Object}        express.js request object,

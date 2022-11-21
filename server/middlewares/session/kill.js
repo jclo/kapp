@@ -99,7 +99,7 @@ function _killOld(dbn, req, next, docs) {
 /**
  * Removes inactive logged-in users.
  *
- * @method (arg1)
+ * @function (arg1)
  * @public
  * @param {Object}          the in memory database that stores connected users,
  * @returns {Function}      returns the middleware,

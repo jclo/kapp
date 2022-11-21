@@ -1,5 +1,12 @@
 ### HEAD
 
+### 1.6.1 (November 21, 2022)
+
+  * Fixed a few typos,
+  * Moved the hook to a dedicated file,
+  * ...,
+
+
 ### 1.6.0 (November 18, 2022)
 
   * Extended the fetch library to manage tokens,

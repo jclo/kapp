@@ -7,7 +7,6 @@
  *
  * Private Functions:
  *  . _createToken                returns the newly generated token,
- *  . _getMe                      checks the user credentials from an ext. server,
  *
  *
  * Public Static Methods:
@@ -32,6 +31,7 @@
 // -- Local Modules
 const Crypto = require('../../libs/crypto/main')
     , config = require('../../config')
+    , Auth0  = require('./authserver')
     ;
 
 
@@ -66,24 +66,6 @@ function _createToken(l) {
   return id;
 }
 
-/**
- * Checks the user credentials from an external server.
- *
- * @function (arg1, arg2, arg3)
- * @private
- * @param {String}          the username of the user,
- * @param {String}          the password of the user,
- * @param {String}          infos on the auth server,
- * @returns {}              -,
- * @since 0.0.0
- */
-function _getMe(/* username, pwd, auth */) {
-  return [{
-    error_code: 'ServerFails',
-    message: 'The connection to Auth server fails!',
-  }];
-}
-
 
 // -- Public Static Methods ----------------------------------------------------
 
@@ -92,7 +74,7 @@ const TOK = {
   /**
    * Returns a new token for the passed-in user.
    *
-   * @function (arg1, arg2, arg3, arg4, arg5)
+   * @method (arg1, arg2, arg3, arg4, arg5)
    * @public
    * @param {Object}        the db object,
    * @param {Object}        the db that store token in-memory,
@@ -105,7 +87,7 @@ const TOK = {
   async get(dbi, dbn, username, pwd, auth, callback) {
     const [err, user] = !auth
       ? await dbi.userGetMe(username)
-      : await _getMe(username, pwd, auth)
+      : await Auth0.getMe(username, pwd, auth)
       ;
 
     if (err) {
@@ -158,7 +140,7 @@ const TOK = {
   /**
    * Returns a new token from the refresh token.
    *
-   * @function (arg1, arg2, arg3, arg4, arg5, arg6)
+   * @method (arg1, arg2, arg3, arg4, arg5, arg6)
    * @public
    * @param {Object}        the db object,
    * @param {Object}        the db that store token in-memory,

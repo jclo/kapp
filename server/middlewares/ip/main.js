@@ -48,7 +48,7 @@ const { level } = config
 /**
  * Restricts the access to the server.
  *
- * @method (arg1)
+ * @function (arg1)
  * @public
  * @param {}                -,
  * @returns {Function}      returns the middleware that filters host access,
