@@ -4,7 +4,7 @@
 
   * Fixed a regression on token authentication from an external server,
   * Added a library to generate a token or a password,
-  * ...,
+  * Release.
 
 
 ### 1.6.1 (November 21, 2022)
