@@ -6,7 +6,7 @@
  * It can't be instantiated.
  *
  * Private Functions:
- *  . _createToken                returns the newly generated token,
+ *  . none,
  *
  *
  * Public Static Methods:
@@ -30,6 +30,7 @@
 
 // -- Local Modules
 const Crypto = require('../../libs/crypto/main')
+    , Token  = require('../../libs/token/main')
     , config = require('../../config')
     , Auth0  = require('./authserver')
     ;
@@ -44,27 +45,7 @@ const TK = config.token
 
 
 // -- Private Functions --------------------------------------------------------
-
-/**
- * Returns the newly generated token.
- *
- * @function (arg1)
- * @private
- * @param {Number}          the length of the token,
- * @returns {}              -,
- * @since 0.0.0
- */
-function _createToken(l) {
-  const ll = typeof l === 'number' ? l : 16
-      , c  = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghijklmnopqrstuvwxyz'
-      ;
-
-  let id = '';
-  for (let i = 0; i < ll; i++) {
-    id += c.charAt(Math.floor(Math.random() * c.length));
-  }
-  return id;
-}
+// none,
 
 
 // -- Public Static Methods ----------------------------------------------------
@@ -87,7 +68,7 @@ const TOK = {
   async get(dbi, dbn, username, pwd, auth, callback) {
     const [err, user] = !auth
       ? await dbi.userGetMe(username)
-      : await Auth0.getMe(username, pwd, auth)
+      : await Auth0.getMe(username, auth)
       ;
 
     if (err) {
@@ -120,11 +101,11 @@ const TOK = {
     const newtoken = {
       scope: '',
       token_type: 'Bearer',
-      access_token: _createToken(TK.length),
+      access_token: Token.get(TK.length, TK.base),
       expires_in: TK.lifetime * 1000,
       expires_at: Date.now() + TK.lifetime * 1000,
       is_access_token_revoked: false,
-      refresh_token: _createToken(TK.length),
+      refresh_token: Token.get(TK.length, TK.base),
       refresh_expires_at: Date.now() + TK.refreshTokenLifetime * 1000,
     };
 
@@ -188,7 +169,7 @@ const TOK = {
 
     // Update the token:
     let { token } = suser;
-    token.access_token = _createToken(TK.length);
+    token.access_token = Token.get(TK.length, TK.base);
     token.expires_in = TK.lifetime * 1000;
     token.expires_at = Date.now() + TK.lifetime * 1000;
     token.is_access_token_revoked = false;

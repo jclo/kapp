@@ -100,6 +100,7 @@ const config = {
     length: 32,
     lifetime: 30 * 60,
     refreshTokenLifetime: 24 * 60 * 60,
+    base: 'base62',
   },
 };
 

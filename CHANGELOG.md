@@ -1,5 +1,12 @@
 ### HEAD
 
+### 1.6.2 (November 22, 2022)
+
+  * Fixed a regression on token authentication from an external server,
+  * Added a library to generate a token or a password,
+  * ...,
+
+
 ### 1.6.1 (November 21, 2022)
 
   * Fixed a few typos,
