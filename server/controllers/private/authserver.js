@@ -41,14 +41,15 @@
 /**
  * Requests the user credentials from an external server.
  *
- * @function (arg1, arg2)
+ * @function (arg1, arg2, [arg3])
  * @private
  * @param {String}        the username of the user,
  * @param {String}        infos on the server,
+ * @param {String}        the password,
  * @return {Object}       returns the credentials on the user or an error,
  * @since 0.0.0
  */
-async function _getMe(username, auth) {
+async function _getMe(username, auth/* , pwd */) {
   return [{
     error_code: 'ServerFails',
     message: `The server "${auth}" is unknown!`,
@@ -63,15 +64,16 @@ const Auth0 = {
   /**
    * Requests the user credentials from an external server.
    *
-   * @method (arg1, arg2)
+   * @method (arg1, arg2, [arg3])
    * @public
    * @param {String}        the username of the user,
    * @param {String}        infos on the server,
+   * @param {String}        the password,
    * @return {Object}       returns the credentials on the user or an error,
    * @since 0.0.0
    */
-  getMe(username, auth) {
-    return _getMe(username, auth);
+  getMe(username, auth, pwd) {
+    return _getMe(username, auth, pwd);
   },
 };
 

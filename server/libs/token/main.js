@@ -75,7 +75,7 @@ function _get(length, base) {
 
   let id = '';
   for (let i = 0; i < n; i++) {
-    id += s.charAt(Math.floor(Math.random() * (s.length - 0 + 1) + 0));
+    id += s.charAt(Math.floor(Math.random() * (s.length - 0) + 0));
   }
   return id;
 }

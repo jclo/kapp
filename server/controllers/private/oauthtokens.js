@@ -68,7 +68,7 @@ const TOK = {
   async get(dbi, dbn, username, pwd, auth, callback) {
     const [err, user] = !auth
       ? await dbi.userGetMe(username)
-      : await Auth0.getMe(username, auth)
+      : await Auth0.getMe(username, auth, pwd)
       ;
 
     if (err) {

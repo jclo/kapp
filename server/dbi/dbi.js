@@ -102,10 +102,18 @@ function _extend(...args) {
 function _get(type) {
   switch (type) {
     case 'sqlite':
-      return [SQlite.Cstor, _extend(SQlite.methods, SQlite.tmethods, sqlitepmethods)];
+      return [SQlite.Cstor, _extend(
+        SQlite.methods,
+        SQlite.tmethods,
+        sqlitepmethods,
+      )];
 
     case 'mysql':
-      return [MySQL.Cstor, _extend(MySQL.methods, MySQL.tmethods, mysqlpmethods)];
+      return [MySQL.Cstor, _extend(
+        MySQL.methods,
+        MySQL.tmethods,
+        mysqlpmethods,
+      )];
 
     default:
       throw new Error(`The database server ${type} is not defined yet!`);
@@ -127,7 +135,13 @@ function _get(type) {
  */
 const DBI = function(type) {
   const [Cstor, libmethods] = _get(type);
-  const obj = Object.create(_extend(dbimethods, pdbimethods, libmethods));
+  const obj = Object.create(
+    _extend(
+      dbimethods,
+      pdbimethods,
+      libmethods,
+    ),
+  );
   Cstor.call(obj, db[type]);
   return obj;
 };

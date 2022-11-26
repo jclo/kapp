@@ -1,5 +1,13 @@
 ### HEAD
 
+### 1.6.3 (November 26, 2022)
+
+  . Fixed an issue on token lib that prevented to guarantee the length of the string,
+  . Added to Auth0.getMe the password as an optional argument,
+  . fixed a few typos,
+  . ...,
+
+
 ### 1.6.2 (November 22, 2022)
 
   * Fixed a regression on token authentication from an external server,
