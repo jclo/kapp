@@ -11,17 +11,18 @@ const chai     = require('chai')
 
 
 // -- Local Modules
-const DBI     = require('../server/dbi/dbi')
-    , config  = require('../server/config')
-    , env     = require('../.env')
-    , pack    = require('../package.json')
+const DBI      = require('../server/dbi/dbi')
+    , config   = require('../server/config')
+    , env      = require('../.env')
+    , pack     = require('../package.json')
     // Kapp
-    , apiex   = require('./int/api-examples')
-    , apiauth = require('./int/api-auth')
-    , apisys  = require('./int/api-sys')
-    , apii18n = require('./int/api-i18n')
-    , apitok  = require('./int/api-token')
-    , apiuser = require('./int/api-users')
+    , apiauth  = require('./int/api-auth')
+    , apiex    = require('./int/api-examples')
+    , apii18n  = require('./int/api-i18n')
+    , apiradio = require('./int/api-radio')
+    , apisys   = require('./int/api-sys')
+    , apitok   = require('./int/api-token')
+    , apiuser  = require('./int/api-users')
     ;
 
 
@@ -69,10 +70,11 @@ shell.exec('./test/init_test_db.sh 1');
 
 // Let's Go!
 describe('Test Kapp:', () => {
-  apiex(request);
   apiauth(request, user, pack);
-  apisys(request, user, pack);
+  apiex(request);
   apii18n(request, user);
+  apiradio(request, user);
+  apisys(request, user, pack);
   apitok(request, user, pack);
   apiuser(request, user, dbi);
 });

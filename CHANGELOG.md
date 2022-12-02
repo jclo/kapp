@@ -1,5 +1,13 @@
 ### HEAD
 
+### 1.7.0 (December 2, 2022)
+
+  . added the whoami method to auth.js for retrieving the username of the connected user,
+  . added the option to start background processes,
+  . added an optional library allowing to publish and listen messages,
+  . ...,
+
+
 ### 1.6.3 (November 26, 2022)
 
   . Fixed an issue on token lib that prevented to guarantee the length of the string,

@@ -1,6 +1,6 @@
 /** ****************************************************************************
  *
- * Processes login, logout apis.
+ * Processes login, authentication, logout apis.
  *
  * auth.js is just a literal object that contains a set of functions.
  * It can't be instantiated.
@@ -11,6 +11,7 @@
  *
  * Public Static Methods:
  *  . login                       processes the api 'api/v1/auth/login',
+ *  . whoami                      finds the username of the current session,
  *  . logout                      processes the api 'api/v1/auth/logout',
  *
  *
@@ -102,6 +103,27 @@ const Auth = {
     if (dbi.adminUserRegisterLogin) await dbi.adminUserRegisterLogin(user);
     log.warn(`${user.user_name} with session id: ${req.sessionID} connected from ${req.headers['x-forwarded-for'] || req.socket.remoteAddress}!`);
     callback(null);
+  },
+
+  /**
+   * Finds the username of the user associated to the current session.
+   *
+   * @function (arg1, arg2)
+   * @private
+   * @param {Object}          the in-memory database,
+   * @param {Object}          express request object,
+   * @return {String}         the username of the user,
+   * @since 0.0.0
+   */
+  async whoami(dbn, req) {
+    let username;
+    if (req.session.user_id) {
+      username = req.session.user_id;
+    } else if (req.headers && req.headers.authorization) {
+      const doc = await dbn.find({ 'token.access_token': req.headers.authorization.split(' ')[1] }).toArray();
+      username = doc[0].user_name;
+    }
+    return username;
   },
 
   /**
