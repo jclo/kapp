@@ -43,9 +43,9 @@ module.exports = (request, user, pack) => {
         .set('content-type', 'application/json')
         .send({ grant_type: 'client_credentials' })
         .end((err, res) => {
+          token = res.body;
           expect(res).to.have.status(200);
           expect(res.body.token_type).to.be.equal('Bearer');
-          token = res.body;
           done();
         });
     });
@@ -107,9 +107,9 @@ module.exports = (request, user, pack) => {
         .set('content-type', 'application/json')
         .send({ grant_type: 'refresh_token' })
         .end((err, res) => {
+          newtoken = res.body;
           expect(res).to.have.status(200);
           expect(res.body.token_type === 'Bearer');
-          newtoken = res.body;
           done();
         });
     });
@@ -185,7 +185,7 @@ module.exports = (request, user, pack) => {
         .send({ grant_type: 'client_credentials' })
         .end((err, res) => {
           expect(res).to.have.status(401);
-          expect(res.text).to.contain(`The username "${user.user}x" is unknown!`);
+          expect(res.body.message).to.contain(`The username "${user.user}x" is unknown!`);
           done();
         });
     });
@@ -211,9 +211,9 @@ module.exports = (request, user, pack) => {
         .set('content-type', 'application/json')
         .send({ grant_type: 'client_credentials' })
         .end((err, res) => {
+          token = res.body;
           expect(res).to.have.status(200);
           expect(res.body.token_type).to.be.equal('Bearer');
-          token = res.body;
           done();
         });
     });
@@ -227,7 +227,7 @@ module.exports = (request, user, pack) => {
         .send({ grant_type: 'refresh_token' })
         .end((err, res) => {
           expect(res).to.have.status(401);
-          expect(res.text).to.contain(`The username "${user.user}x" is unknown`);
+          expect(res.body.message).to.contain(`The username "${user.user}x" is unknown`);
           done();
         });
     });
@@ -283,9 +283,9 @@ module.exports = (request, user, pack) => {
         .set('content-type', 'application/json')
         .send({ grant_type: 'client_credentials' })
         .end((err, res) => {
+          token = res.body;
           expect(res).to.have.status(200);
           expect(res.body.token_type).to.be.equal('Bearer');
-          token = res.body;
           done();
         });
     });

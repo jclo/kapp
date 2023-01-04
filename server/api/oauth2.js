@@ -81,11 +81,11 @@ function OAuth(app, i18n, dbi, dbn) {
     COAuth.revoke(dbi, dbn, req, res, (err, resp) => {
       if (err) {
         res.statusMessage = err;
-        res.status(401).send(err);
+        res.status(401).send({ status: 401, message:  err });
         log.trace('Refused POST api: "api/v1/api/v1/oauth2/revoke".');
         log.info(err);
       } else {
-        res.status(200).send(resp);
+        res.status(200).send({ status: 200, message:  resp });
         log.trace('Accepted GET api: "api/v1/api/v1/oauth2/revoke".');
       }
     });
@@ -97,7 +97,7 @@ function OAuth(app, i18n, dbi, dbn) {
     COAuth.get(dbi, dbn, req, res, (err, token) => {
       if (err) {
         res.statusMessage = err;
-        res.status(401).send(err);
+        res.status(401).send({ status: 401, message:  err });
         log.trace('Refused POST api: "api/v1/api/v1/oauth2/token".');
         log.info(err);
       } else {

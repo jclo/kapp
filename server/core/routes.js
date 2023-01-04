@@ -72,7 +72,7 @@ const Routes = {
         next();
       } else if (!req.secure) {
         res.statusMessage = 'HTTP accesses are not authorized!';
-        res.status(401).end(res.statusMessage);
+        res.status(401).send({ status: 401, message: 'HTTP accesses are not authorized!' });
         log.warn('HTTP accesses are not authorized!');
       } else {
         log.trace('It is an HTTPS request. Authorize it.');
@@ -86,14 +86,14 @@ const Routes = {
     // Unknown api:
     app.all('/api/*', (req, res) => {
       res.statusMessage = `${req.method} api "${req.url}" does not exist!`;
-      res.status(403).end(res.statusMessage);
+      res.status(403).send({ status: 401, message: `${req.method} api "${req.url}" does not exist!` });
       log.warn(`${req.method} api "${req.url}" does not exist!`);
     });
 
     // Forbidden routes:
     app.all('/*', (req, res) => {
       res.statusMessage = `The route "${req.originalUrl}" is forbidden!`;
-      res.status(403).end(res.statusMessage);
+      res.status(403).send({ status: 401, message: `The route "${req.originalUrl}" is forbidden!` });
       log.warn(`The route "${req.originalUrl}" is forbidden!`);
     });
   },

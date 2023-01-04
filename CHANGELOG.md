@@ -8,6 +8,7 @@
   . Added environmental variables for Kubernetes,
   . Added package-lock.json to the production version,
   . Updated the project dependencies,
+  . Normalized the returned errors ({ status: 40x, message: '...' }),
   . ...,
 
 

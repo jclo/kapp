@@ -78,11 +78,11 @@ const Auth = function(app, i18n, dbi, dbn) {
     CAuth.logout(dbn, req, (err) => {
       if (err) {
         res.statusMessage = err;
-        res.status(401).send(err);
+        res.status(401).send({ status: 401, message:  err });
         log.warn(`${req.body.user}: ${err}`);
       } else {
         res.statusMessage = 'You are now disconnected!';
-        res.status(200).send(res.statusMessage);
+        res.status(200).send({ status: 200, message:  'You are now disconnected!' });
         log.trace(`req.session.user_id: ${req._deleted_session_user_id}.`);
         log.trace('You are now disconnected!');
       }
@@ -95,11 +95,11 @@ const Auth = function(app, i18n, dbi, dbn) {
     CAuth.login(dbi, dbn, req, (err) => {
       if (err) {
         res.statusMessage = err;
-        res.status(401).send(err);
+        res.status(401).send({ status: 401, message:  err });
         log.warn(`${req.body.user}: ${err}`);
       } else {
         res.statusMessage = 'You are now connected!';
-        res.status(200).send(res.statusMessage);
+        res.status(200).send({ status: 200, message:  'You are now connected!' });
         log.trace(`req.session.user_id: ${req.session.user_id}.`);
         log.trace(res.statusMessage);
       }
