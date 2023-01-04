@@ -1,6 +1,6 @@
 ### HEAD
 
-### 1.8.x (January 4, 2023)
+### 1.8.0 (January 4, 2023)
 
   . Updated the copyright date,
   . Made the server name generic in _getMe,
@@ -10,7 +10,7 @@
   . Updated the project dependencies,
   . Normalized the returned errors ({ status: 40x, message: '...' }),
   . Fixed an error on env.travis file,
-  . ...,
+  . Release.
 
 
 ### 1.7.0 (December 2, 2022)
