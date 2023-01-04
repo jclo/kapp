@@ -48,6 +48,7 @@ const config = {
     // transactions from all the machines on the nework or by the address
     // of the authorized machine.
     network: '127.0.0.1',
+    ipFilteringDisabled: false,
   },
 
   // Session configuration

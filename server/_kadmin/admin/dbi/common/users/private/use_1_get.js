@@ -97,8 +97,8 @@ async function _getMe(dbi, cn, username, sqlite) {
       UE.email AS primary_email,
       {{sql:name}},
       {{sql:full_name}},
-      (SELECT server_version FROM admin_db_versions ORDER BY ID DESC LIMIT 1) AS kiwi_server_db_version,
-      (SELECT db_version FROM admin_db_versions ORDER BY ID DESC LIMIT 1) AS kiwi_database_version,
+      (SELECT server_version FROM admin_db_versions ORDER BY ID DESC LIMIT 1) AS server_db_version,
+      (SELECT db_version FROM admin_db_versions ORDER BY ID DESC LIMIT 1) AS database_version,
       {{sql:library:version}}
     FROM admin_users AS U
     LEFT JOIN admin_avatars AS AV ON AV.id = U.avatar_id
@@ -124,7 +124,7 @@ async function _getMe(dbi, cn, username, sqlite) {
   if (!me) return [null, null];
 
   // Add current server version:
-  me.kiwi_server_version = pk.version;
+  me.server_version = pk.version;
 
   // Decodes preferences.
   try {

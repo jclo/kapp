@@ -1,5 +1,16 @@
 ### HEAD
 
+### 1.8.x (January 4, 2023)
+
+  . Updated the copyright date,
+  . Made the server name generic in _getMe,
+  . Fixed a minor issue in MongoDB lib,
+  . Added environmental variables for Kubernetes,
+  . Added package-lock.json to the production version,
+  . Updated the project dependencies,
+  . ...,
+
+
 ### 1.7.0 (December 2, 2022)
 
   . added the whoami method to auth.js for retrieving the username of the connected user,

@@ -123,10 +123,12 @@ methods = {
   async connect() {
     this._client = new MongoClient(
       this._uri,
-      { useUnifiedTopology: this._dbname.options.useUnifiedTopology },
-      { useNewUrlParser: this._dbname.options.useNewUrlParser },
-      { connectTimeoutMS: this._dbname.options.connectTimeoutMS },
-      { keepAlive: this._dbname.options.keepAlive },
+      {
+        useUnifiedTopology: this._dbname.options.useUnifiedTopology,
+        useNewUrlParser: this._dbname.options.useNewUrlParser,
+        connectTimeoutMS: this._dbname.options.connectTimeoutMS,
+        keepAlive: this._dbname.options.keepAlive,
+      },
     );
 
     await this._client.connect();

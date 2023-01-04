@@ -104,11 +104,13 @@ const _setEnv = function(enviro, conf) {
   if (!process.env.KAPP_MONGO_DATABASE) process.env.KAPP_MONGO_DATABASE = enviro.mongodb.db.database;
   if (!process.env.KAPP_MONGO_USER) process.env.KAPP_MONGO_USER = enviro.mongodb.db.options.auth.user;
   if (!process.env.KAPP_MONGO_PASSWORD) process.env.KAPP_MONGO_PASSWORD = enviro.mongodb.db.options.auth.password;
+  if (!process.env.KAPP_MONGO_CHANGE_STREAMS_ACTIVE) process.env.KAPP_MONGO_CHANGE_STREAMS_ACTIVE = enviro.mongodb.db.options.changeStreamsActive.toString();
 
   if (!process.env.KAPP_HTTP_PORT) process.env.KAPP_HTTP_PORT = conf.env.httpport;
   if (!process.env.KAPP_HTTPS_PORT) process.env.KAPP_HTTPS_PORT = conf.env.httpsport;
-  if (!process.env.KAPP_HTTPS) process.env.KAPP_HTTPS = conf.env.https;
+  if (!process.env.KAPP_HTTPS) process.env.KAPP_HTTPS = conf.env.https.toString();
   if (!process.env.KAPP_NETWORK) process.env.KAPP_NETWORK = conf.env.network;
+  if (!process.env.KAPP_NETWORK_FILTER_IP_DISABLED) process.env.KAPP_NETWORK_FILTER_IP_DISABLED = conf.env.ipFilteringDisabled.toString() || 'false';
 };
 /* eslint-enable max-len */
 
@@ -185,7 +187,9 @@ function App() {
   app.use(_cors(config));
 
   // Here it is an example of middlware:
-  app.use(FilterIP(_findLocalIP()));
+  if (process.env.KAPP_NETWORK_FILTER_IP_DISABLED !== 'true') {
+    app.use(FilterIP(_findLocalIP()));
+  }
 
   // Serve the static pages:
   app.use(express.static(config.env.staticpage));

@@ -82,10 +82,12 @@ async function MongoDB(env, callback) {
   obj._ObjectId = ObjectId;
   obj._client = new MongoClient(
     obj._uri,
-    { useUnifiedTopology: TOPO },
-    { useNewUrlParser: PARSER },
-    { connectTimeoutMS: TIMEOUT },
-    { keepAlive: KEEPALIVE },
+    {
+      useUnifiedTopology: TOPO,
+      useNewUrlParser: PARSER,
+      connectTimeoutMS: TIMEOUT,
+      keepAlive: KEEPALIVE,
+    },
   );
 
   await obj._client.connect();

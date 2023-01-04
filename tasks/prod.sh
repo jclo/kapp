@@ -25,9 +25,10 @@ echo 'Copy ./public ...'
 cp -R ../public .
 echo 'Create .env.js ...'
 cp ../demo.env.js .env.js
-echo 'Copy LICENSE.md, package.json and README.md'
+echo 'Copy LICENSE.md, package.json, package-lock.json and README.md'
 cp ../LICENSE.md .
 cp ../package.json .
+cp ../package-lock.json .
 cp ../README.md .
 
 echo 'Install NPM production packages ...'
