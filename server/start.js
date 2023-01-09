@@ -4,7 +4,7 @@
  * Starts {{app:name}}.
  *
  * Private Functions:
- *  . none,
+ *  . _setEnv                     initialises env. variables as does Kubernetes,
  *
  *
  * Main:
@@ -29,15 +29,48 @@ const App = require('./app')
 
 
 // -- Local Constants
+const yamlfile = './container/kube-local.yaml'
+    ;
 
 
 // -- Local Variables
 
 
-// -- Main Section
+// -- Private Functions --------------------------------------------------------
 
+/**
+ * Initialises environment variables as does Kubernetes.
+ *
+ * @function ()
+ * @private
+ * @param {}                -,
+ * @returns {}              -,
+ * @since 0.0.0
+ */
+/* eslint-disable global-require, import/no-extraneous-dependencies */
+function _setEnv() {
+  try {
+    const yaml = require('js-yaml')
+        , fs   = require('fs')
+        , doc  = yaml.load(fs.readFileSync(yamlfile, 'utf8')).spec.template.spec.containers[0].env
+        ;
+
+    for (let i = 0; i < doc.length; i++) {
+      process.env[doc[i].name] = doc[i].value;
+    }
+  } catch (e) {
+    throw new Error(e);
+  }
+}
+
+
+// -- Main Section -------------------------------------------------------------
 
 // Starts the server:
+if (process.env.KAPP_ENV_KUBE_YAML) {
+  _setEnv();
+}
+
 App();
 
 

@@ -1,7 +1,7 @@
 {
   "name": "@mobilabs/kapp",
-  "version": "1.8.0",
-  "dbVersion": "1.8.0",
+  "version": "1.9.0",
+  "dbVersion": "1.9.0",
   "description": "A boilerplate for a slim Node.js App server",
   "main": "index.js",
   "bin": {
@@ -9,6 +9,7 @@
   },
   "scripts": {
     "app": "node server/start.js",
+    "kustart": "cross-env KAPP_ENV_KUBE_YAML=true node server/start.js",
     "test": "cross-env NODE_ENV=test nyc --reporter=lcov mocha ./test/main.js --exit",
     "display-coverage": "opener ./coverage/lcov-report/index.html",
     "check-coverage": "nyc check-coverage --statements 10 --branches 5 --functions 20 --lines 10",
@@ -66,10 +67,11 @@
     "coveralls": "^3.1.1",
     "cross-env": "^7.0.3",
     "del": "^7.0.0",
-    "eslint": "^8.31.0",
+    "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.26.0",
     "husky": "^8.0.3",
+    "js-yaml": "^4.1.0",
     "mocha": "^10.2.0",
     "nyc": "^15.1.0",
     "open": "^8.4.0",

@@ -333,6 +333,7 @@ function _customize(source, dest, app, owner, boilerlib) {
   pack.scripts = {
     start: obj.scripts.app,
     app: obj.scripts.app,
+    kustart: obj.scripts.kustart,
     test: obj.scripts.test,
     'display-coverage': obj.scripts['display-coverage'],
     'check-coverage': obj.scripts['check-coverage'],

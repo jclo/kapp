@@ -52,7 +52,7 @@
 async function _getMe(username, auth/* , pwd */) {
   return [{
     error_code: 'ServerFails',
-    message: `The server "${auth}" is unknown!`,
+    message: `The "${auth}" server is unknown!`,
   }];
 }
 

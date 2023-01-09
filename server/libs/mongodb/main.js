@@ -67,7 +67,7 @@ let methods;
 /* eslint-disable max-len */
 async function MongoDB(env, callback) {
   const HOST      = process.env.KAPP_TEST_MODE ? env.host : process.env.KAPP_MONGO_URL
-      , DATABASE  = process.env.KAPP_TEST_MODE ? env.testdb.database : process.env.process.env.KAPP_MONGO_DATABASE
+      , DATABASE  = process.env.KAPP_TEST_MODE ? env.testdb.database : process.env.KAPP_MONGO_DATABASE
       , USER      = process.env.KAPP_TEST_MODE ? env.testdb.options.auth.user : process.env.KAPP_MONGO_USER
       , PWD       = process.env.KAPP_TEST_MODE ? env.testdb.options.auth.password : process.env.KAPP_MONGO_PASSWORD
       , TOPO      = env.db.useUnifiedTopology

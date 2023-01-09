@@ -1,0 +1,61 @@
+# For running Kapp inside a Kubernetes/Minikube container
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: kapp-service
+# spec:
+#   type: ClusterIP
+#   selector:
+#     app: kapp
+#   ports:
+#     - protocol: TCP
+#       port: 1080
+#       targetPort: 1080
+# ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kapp-deployment
+  labels:
+    app: kapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kapp
+  template:
+    metadata:
+      labels:
+        app: kapp
+    spec:
+      containers:
+      - name: kapp
+        image: kapp:<version>
+        ports:
+        - containerPort: 1080
+        env:
+        # network
+        - name: KAPP_HTTPS
+          value: 'false'
+        - name: KAPP_HTTP_PORT
+          value: '1080'
+        - name: KAPP_NETWORK
+          value: '0.0.0.0'
+        - name: KAPP_NETWORK_FILTER_IP_DISABLED
+          value: 'false'
+        # active db
+        - name: KAPP_DB_ACTIVE
+          value: 'sqlite'
+        # mysql
+        - name: KAPP_MYSQL_URL
+          value: 'kapp'
+        - name: KAPP_MYSQL_PORT
+          value: '3306'
+        - name: KAPP_MYSQL_CNX_LIMIT
+          value: '10'
+        - name: KAPP_MYSQL_DATABASE
+          value: 'kapp'
+        - name: KAPP_MYSQL_USER
+          value: 'myuser1'
+        - name: KAPP_MYSQL_PASSWORD
+          value: 'mypwd1'

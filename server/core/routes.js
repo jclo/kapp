@@ -86,14 +86,14 @@ const Routes = {
     // Unknown api:
     app.all('/api/*', (req, res) => {
       res.statusMessage = `${req.method} api "${req.url}" does not exist!`;
-      res.status(403).send({ status: 401, message: `${req.method} api "${req.url}" does not exist!` });
+      res.status(403).send({ status: 403, message: `${req.method} api "${req.url}" does not exist!` });
       log.warn(`${req.method} api "${req.url}" does not exist!`);
     });
 
     // Forbidden routes:
     app.all('/*', (req, res) => {
       res.statusMessage = `The route "${req.originalUrl}" is forbidden!`;
-      res.status(403).send({ status: 401, message: `The route "${req.originalUrl}" is forbidden!` });
+      res.status(403).send({ status: 403, message: `The route "${req.originalUrl}" is forbidden!` });
       log.warn(`The route "${req.originalUrl}" is forbidden!`);
     });
   },

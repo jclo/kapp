@@ -1,5 +1,12 @@
 ### HEAD
 
+### 1.9.0 (January 9, 2023)
+
+  . Fixed a few minor issues,
+  . Kubernetized Kapp,
+  . ...,
+
+
 ### 1.8.0 (January 4, 2023)
 
   . Updated the copyright date,
