@@ -4,7 +4,7 @@
 
   . Fixed a few minor issues,
   . Kubernetized Kapp,
-  . ...,
+  . Release.
 
 
 ### 1.8.0 (January 4, 2023)
