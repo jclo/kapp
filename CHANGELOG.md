@@ -3,7 +3,7 @@
 ### 1.9.1 (February 22, 2023)
 
   . Added a mechanism to watch login,
-  . ...,
+  . Release.
 
 
 ### 1.9.0 (January 9, 2023)
