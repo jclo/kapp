@@ -29,6 +29,9 @@
 
 const config = {
 
+  // Name of the Server
+  name: '@Kapp Server',
+
   // Root __dirname
   base: __dirname,
 
@@ -49,6 +52,8 @@ const config = {
     // of the authorized machine.
     network: '127.0.0.1',
     ipFilteringDisabled: false,
+    watchdogEnabled: false,
+    loginDisabled: false,
   },
 
   // Session configuration

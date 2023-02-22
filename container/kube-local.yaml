@@ -29,33 +29,40 @@ spec:
         app: kapp
     spec:
       containers:
-      - name: kapp
-        image: kapp:<version>
-        ports:
-        - containerPort: 1080
-        env:
-        # network
-        - name: KAPP_HTTPS
-          value: 'false'
-        - name: KAPP_HTTP_PORT
-          value: '1080'
-        - name: KAPP_NETWORK
-          value: '0.0.0.0'
-        - name: KAPP_NETWORK_FILTER_IP_DISABLED
-          value: 'false'
-        # active db
-        - name: KAPP_DB_ACTIVE
-          value: 'sqlite'
-        # mysql
-        - name: KAPP_MYSQL_URL
-          value: 'kapp'
-        - name: KAPP_MYSQL_PORT
-          value: '3306'
-        - name: KAPP_MYSQL_CNX_LIMIT
-          value: '10'
-        - name: KAPP_MYSQL_DATABASE
-          value: 'kapp'
-        - name: KAPP_MYSQL_USER
-          value: 'myuser1'
-        - name: KAPP_MYSQL_PASSWORD
-          value: 'mypwd1'
+        - name: kapp
+          image: kapp:<version>
+          ports:
+            - containerPort: 1080
+          env:
+            # network
+            - name: KAPP_HTTPS
+              value: 'false'
+            - name: KAPP_HTTP_PORT
+              value: '1080'
+            - name: KAPP_NETWORK
+              value: '0.0.0.0'
+            - name: KAPP_NETWORK_FILTER_IP_DISABLED
+              value: 'false'
+            - name: KAPP_WATCHDOG_ENABLED
+              value: 'false'
+            - name: KAPP_LOGIN_LOCKED
+              value: 'false'
+
+            # active db
+            - name: KAPP_DB_ACTIVE
+              value: 'sqlite'
+
+            # mysql
+            - name: KAPP_MYSQL_URL
+              value: 'kapp'
+            - name: KAPP_MYSQL_PORT
+              value: '3306'
+            - name: KAPP_MYSQL_CNX_LIMIT
+              value: '10'
+            - name: KAPP_MYSQL_DATABASE
+              value: 'kapp'
+            - name: KAPP_MYSQL_USER
+              value: 'myuser1'
+            - name: KAPP_MYSQL_PASSWORD
+              value: 'mypwd1'
+# -- oOo --

@@ -34,6 +34,7 @@ const KZlog = require('@mobilabs/kzlog')
 // -- Local Modules
 const config = require('../config')
     , Crypto = require('../libs/crypto/main')
+    , WDog   = require('../libs/radio/main')
     ;
 
 
@@ -67,8 +68,44 @@ const Auth = {
    * @since 0.0.0
    */
   async login(dbi, dbn, req, callback) {
-    const [, user] = await dbi.userGetMe(req.body.user);
+    const [, user] = await dbi.userGetMe(req.body.user)
+        , d        = new Date()
+        , server   = {
+          ip: req.headers['x-real-ip'],
+          date: d.toISOString(),
+          timeZoneOffset: d.getTimezoneOffset(),
+          timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          'req.headers': req.headers,
+        }
+        , browser  = {
+          ip: req.body.ip,
+          err: req.body.err,
+          UTCDate: req.body.UTCDate,
+          timeZoneOffset: req.body.timeZoneOffset,
+          timeZone: req.body.timeZone,
+        }
+        ;
+
+    if (process.env.KAPP_LOGIN_LOCKED === 'true') {
+      WDog.fire('watchdog:login', {
+        error_code: 'LoginLocked',
+        user: req.body.user,
+        browser,
+        server,
+        message: 'Login is locked!',
+      });
+      callback('Login is locked!');
+      return;
+    }
+
     if (!user) {
+      WDog.fire('watchdog:login', {
+        error_code: 'UnknownUser',
+        user: req.body.user,
+        browser,
+        server,
+        message: `The user "${req.body.user}" is not a referenced user!`,
+      });
       callback('You are NOT a referenced user!');
       return;
     }
@@ -78,16 +115,37 @@ const Auth = {
       : req.body.password;
     const match = await Crypto.compare(p, user.user_hash);
     if (!match) {
+      WDog.fire('watchdog:login', {
+        error_code: 'WrongPwd',
+        user: user.user_name,
+        browser,
+        server,
+        message: `The user "${user.user_name}" provided a wrong password!`,
+      });
       callback('You provided a wrong password!');
       return;
     }
 
     if (user.is_deleted === 1) {
+      WDog.fire('watchdog:login', {
+        error_code: 'DeletedAccount',
+        user: user.user_name,
+        browser,
+        server,
+        message: `The user "${user.user_name}" account is deleted!`,
+      });
       callback('Your account is deleted!');
       return;
     }
 
     if (user.is_locked) {
+      WDog.fire('watchdog:login', {
+        error_code: 'LockedAccount',
+        user: user.user_name,
+        browser,
+        server,
+        message: `The user "${user.user_name}" account is locked!`,
+      });
       callback('Your account is locked!');
       return;
     }
@@ -101,6 +159,13 @@ const Auth = {
     // This is for registering the user login into the database. This method
     // isn't available for Kapp. You need to write it.
     if (dbi.adminUserRegisterLogin) await dbi.adminUserRegisterLogin(user);
+    WDog.fire('watchdog:login', {
+      error_code: null,
+      user: user.user_name,
+      browser,
+      server,
+      message: `The user "${user.user_name}" login succeeded!`,
+    });
     log.warn(`${user.user_name} with session id: ${req.sessionID} connected from ${req.headers['x-forwarded-for'] || req.socket.remoteAddress}!`);
     callback(null);
   },
@@ -141,6 +206,16 @@ const Auth = {
     await dbn.deleteOne({ _sessionID: req.sessionID });
     req._deleted_session_user_id = req.session.user_id;
     req.session.destroy();
+    WDog.fire('watchdog:logout', {
+      error_code: null,
+      user: user ? user.user_name : undefined,
+      ip: req.headers['x-real-ip'],
+      login: user._date_connection,
+      logout: new Date().toISOString(),
+      timeZoneOffset: new Date().getTimezoneOffset(),
+      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      message: `The user "${user ? user.user_name : 'unknown'}" logout!`,
+    });
     log.warn(`${user ? user.user_name : 'unknown user'} with session id: ${req.sessionID} disconnected from ${req.headers['x-forwarded-for'] || req.socket.remoteAddress}!`);
     callback(null);
   },

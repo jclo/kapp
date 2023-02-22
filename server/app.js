@@ -91,11 +91,14 @@ const _cors = function(conf) {
  */
 /* eslint-disable max-len */
 const _setEnv = function(enviro, conf) {
+  if (!process.env.KAPP_SERVER_NAME) process.env.KAPP_SERVER_NAME = conf.name;
   if (!process.env.KAPP_HTTP_PORT) process.env.KAPP_HTTP_PORT = conf.env.httpport;
   if (!process.env.KAPP_HTTPS_PORT) process.env.KAPP_HTTPS_PORT = conf.env.httpsport;
   if (!process.env.KAPP_HTTPS) process.env.KAPP_HTTPS = conf.env.https.toString();
   if (!process.env.KAPP_NETWORK) process.env.KAPP_NETWORK = conf.env.network;
   if (!process.env.KAPP_NETWORK_FILTER_IP_DISABLED) process.env.KAPP_NETWORK_FILTER_IP_DISABLED = conf.env.ipFilteringDisabled.toString() || 'false';
+  if (!process.env.KAPP_WATCHDOG_ENABLED) process.env.KAPP_WATCHDOG_ENABLED = conf.env.watchdogEnabled.toString() || 'false';
+  if (!process.env.KAPP_LOGIN_LOCKED) process.env.KAPP_LOGIN_LOCKED = conf.env.loginDisabled.toString() || 'false';
 
   if (!process.env.KAPP_DB_ACTIVE) process.env.KAPP_DB_ACTIVE = enviro.db.active;
 
