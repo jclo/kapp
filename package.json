@@ -2,19 +2,33 @@
   "name": "@mobilabs/kapp",
   "version": "1.9.1",
   "dbVersion": "1.9.1",
-  "description": "A boilerplate for a slim Node.js App server",
-  "main": "index.js",
+  "description": "A boilerplate to build a basic app server tuned to run into kubernetes",
+  "main": "",
   "bin": {
     "kapp": "./bin/kapp.js"
   },
   "scripts": {
+    "general": " --- GENERAL ---",
+    "start": "node server/start.js",
     "app": "node server/start.js",
     "kustart": "cross-env KAPP_ENV_KUBE_YAML=true node server/start.js",
+
+    "testing": " --- TESTING --- ",
     "test": "cross-env NODE_ENV=test c8 --reporter=lcov mocha ./test/main.js --exit",
-    "display:coverage": "opener ./coverage/lcov-report/index.html",
+    "display:coverage": "open -a safari ./coverage/lcov-report/index.html",
     "check:coverage": "c8 check-coverage --statements 30 --branches 60 --functions 30 --lines 30",
     "report": "c8 report",
-    "makeprod": "sh tasks/prod.sh _prod-$npm_package_version && node tasks/prod.js _prod-$npm_package_version",
+
+    "deployment": " --- DEPLOYMENT --- ",
+    "dep:prod": "sh tasks/prod.sh _prod-$npm_package_version && node tasks/prod.js _prod-$npm_package_version",
+    "dep:private:package": "sh tasks/private.sh && sh tasks/compress.sh ${npm_package_name} ${npm_package_version} @mobilabs",
+
+    "doc:site:web": " --- DOCUMENT WEB SITE --- ",
+    "doc:site:init": "kasar xxx orion run once only",
+    "doc:site:build": "kasar build",
+    "doc:site:start": "kasar serve",
+
+    "others": " --- OTHERS ---",
     "prepare": "husky install",
     "doc": ""
   },
@@ -60,15 +74,12 @@
     "chai": "^4.4.0",
     "chai-http": "^4.4.0",
     "cross-env": "^7.0.3",
-    "del": "^7.1.0",
     "eslint": "^8.56.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.29.1",
     "husky": "^8.0.3",
     "js-yaml": "^4.1.0",
-    "mocha": "^10.2.0",
-    "open": "^10.0.3",
-    "opener": "^1.5.2"
+    "mocha": "^10.2.0"
   },
   "publishConfig": {
     "access": "public"

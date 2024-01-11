@@ -9,6 +9,7 @@
   * Fixed a typo in ci.yml,
   * Updated the project dependencies,
   * Replaced nyc by c8,
+  * Renamed the package.json scripts,
   * ...,
 
 
