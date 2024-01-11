@@ -16,6 +16,15 @@
 // -- Main section -
 
 const env = {
+  // The credentials of the pod. There used by the other servers to identify the
+  // pod entering in contact with them.
+  pod: {
+    authserver: 'the name of the server who can confirm the credentials of the pod',
+    auth: {
+      user: 'the authentication username',
+      password: 'the authentication password',
+    },
+  },
   // Define here the credentials to access your database. This hidden file
   // is declared not to be exported in '.gitignore'.
   db: {
@@ -47,7 +56,7 @@ const env = {
         useUnifiedTopology: true,
         useNewUrlParser: true,
         connectTimeoutMS: 30000,
-        keepAlive: 1,
+        // keepAlive: 1,
       },
     },
     testdb: {
@@ -61,11 +70,12 @@ const env = {
         useUnifiedTopology: true,
         useNewUrlParser: true,
         connectTimeoutMS: 30000,
-        keepAlive: 1,
+        // keepAlive: 1,
       },
     },
   },
 };
+
 
 // -- Export
 module.exports = env;

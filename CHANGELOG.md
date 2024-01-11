@@ -13,6 +13,7 @@
   * Reshuffled test/main.js file and added mongodb test,
   * Improved token management,
   * Added the support of web sockets,
+  * Added pod to .env.github.js,
   * ...,
 
 
