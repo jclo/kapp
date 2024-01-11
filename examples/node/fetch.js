@@ -4,8 +4,6 @@
 /* eslint one-var: 0, semi-style: 0 */
 
 // -- Node modules
-const fetch = require('node-fetch')
-    ;
 
 
 // -- Project modules
@@ -75,6 +73,7 @@ async function run() {
   // Connect:
   process.stdout.write('Request the html page ... ');
   url = `${server}/index.html`;
+
   [err, resp] = await GET(url);
   if (typeof resp !== 'string') {
     throw new Error('The connection to the server did not return a string!');
@@ -124,5 +123,6 @@ if (process.env.TRAVIS || !config.env.https) {
 }
 
 run();
+
 
 // -- oOo ---

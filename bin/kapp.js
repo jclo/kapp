@@ -8,7 +8,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 Mobilabs <contact@mobilabs.fr> (http://www.mobilabs.fr)
+ * Copyright (c) 2024 Mobilabs <contact@mobilabs.fr> (http://www.mobilabs.fr)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,8 +33,8 @@
 
 // -- Vendor Modules
 const fs    = require('fs')
-    , nopt  = require('nopt')
     , path  = require('path')
+    , nopt  = require('nopt')
     , shell = require('shelljs')
     ;
 
@@ -47,6 +47,7 @@ const defBoilerLib  = 'kapp'
     , baseapp     = process.cwd()
     , baseboiler  = __dirname.replace('/bin', '')
     , { version } = require('../package.json')
+    , husky       = '.husky'
     , publicdir   = 'public'
     , serverdir   = 'server'
     , test        = 'test'
@@ -55,6 +56,9 @@ const defBoilerLib  = 'kapp'
     , db          = 'db'
     , examples    = 'examples'
     , docker      = 'container'
+    , dbscripts   = 'dbscripts'
+    , tcpclient   = 'tcpclient'
+    , sqliteamal  = '__SQLite-amalgamation'
     // Command line Options
     , opts = {
       help: [Boolean, false],
@@ -127,6 +131,9 @@ const changelog = [
   '',
   '  * Initial commit,',
   '  * ...,',
+  '',
+  '',
+  '-- oOo --',
   ''].join('\n');
 
 const index = [''].join('\n');
@@ -134,9 +141,14 @@ const index = [''].join('\n');
 const gitignore = [
   '.DS_Store',
   '',
-  '.nyc_output',
   'coverage',
   'node_modules',
+  '',
+  '_prod-*',
+  'db/*',
+  '!db/docker.sh',
+  '!db/README.md',
+  'server/ssl/*.pem',
   '.env.js',
   ''].join('\n');
 
@@ -293,9 +305,10 @@ function _addSkeleton(base, app, owner, cright) {
  */
 function _duplicate(source, dest) {
   const dupFiles = [
-    '.eslintrc', '.travis.yml', '.env.travis.js', 'demo.env.js',
-    'README_KADMIN.md', 'README_LIB_MONGODB.md',
-    /* , 'gulpfile.js' */
+    '.eslintrc', '.env.github.js', 'demo.env.js', 'rmdstore.sh',
+    'README_KAPP_API.md',
+    'README_LIB_MONGODB.md', 'README_PGSQL_DOCKER.md',
+    'README_SOCKETS.md',
   ];
 
   for (let i = 0; i < dupFiles.length; i++) {
@@ -330,19 +343,11 @@ function _customize(source, dest, app, owner, boilerlib) {
   pack.description = `${app} ...`;
   pack.main = '';
   pack.bin = {};
-  pack.scripts = {
-    start: obj.scripts.app,
-    app: obj.scripts.app,
-    kustart: obj.scripts.kustart,
-    test: obj.scripts.test,
-    'display-coverage': obj.scripts['display-coverage'],
-    'check-coverage': obj.scripts['check-coverage'],
-    'report-coverage': obj.scripts['report-coverage'],
-    report: obj.scripts.report,
-    makeprod: 'sh tasks/prod.sh _prod-$npm_package_version',
-    prepare: 'husky install',
-    doc: obj.scripts.doc,
-  };
+
+  pack.scripts = obj.scripts;
+  pack.scripts['check:coverage'] = 'c8 check-coverage --statements 100 --branches 100 --functions 100 --lines 100';
+  delete pack.scripts['dep:private:package'];
+
   pack.repository = obj.repository;
   pack.repository.url = `https://github.com/${owner.acronym}/${app.toLowerCase()}.git`;
   pack.keywords = ['ES6'];
@@ -360,15 +365,29 @@ function _customize(source, dest, app, owner, boilerlib) {
   pack.private = obj.private;
   pack.husky = obj.husky;
 
-  pack.devDependencies[`@mobilabs/${boilerlib.toLocaleLowerCase()}`] = version;
+  pack.devDependencies[`@mobilabs/${boilerlib.toLocaleLowerCase()}`] = `http://localhost/~dev/privatenpm/${boilerlib.toLocaleLowerCase()}/${version}/${boilerlib.toLocaleLowerCase()}.tgz`;
 
-  delete pack.dependencies['@mobilabs/kasar'];
   delete pack.dependencies.nopt;
   delete pack.dependencies.shelljs;
 
   process.stdout.write(`  updated ${npm}\n`);
   json.stdout = JSON.stringify(pack, null, 2);
   json.to(`${baseapp}/${npm}`);
+}
+
+/**
+ * Adds Husky Hook.
+ *
+ * @function (arg1, arg2, arg3)
+ * @private
+ * @param {String}          the source path,
+ * @param {String}          the destination path,
+ * @param {String}          the destination folder,
+ * @returns {}              -,
+ */
+function _addHuskyHook(source, dest, folder) {
+  shell.mkdir('-p', `${dest}/${folder}`);
+  shell.cp('-r', `${source}/pre-commit`, `${dest}/${folder}/.`);
 }
 
 /**
@@ -402,8 +421,6 @@ function _addPublic(source, dest, folder) {
  */
 function _addTasks(source, dest, folder/* , app, boilerlib */) {
   const exclude = []
-      // , boiler  = '{{boiler:name}}'
-      // , ver     = '{{boiler:name:version}}'
       ;
 
   process.stdout.write(`  duplicated the contents of ${folder}\n`);
@@ -413,12 +430,6 @@ function _addTasks(source, dest, folder/* , app, boilerlib */) {
   for (let i = 0; i < exclude.length; i++) {
     shell.rm('-f', `${dest}/${folder}/${exclude[i]}`);
   }
-
-  // Replace 'boilerlib' by 'app' to config.js and add the version
-  // of the boilerplate:
-  // shell.sed('-i', boilerlib, app, `${dest}/${folder}/config.js`);
-  // shell.sed('-i', boiler, boilerlib, `${dest}/${folder}/config.js`);
-  // shell.sed('-i', ver, version, `${dest}/${folder}/config.js`);
 }
 
 /**
@@ -443,13 +454,6 @@ function _addTest(source, dest, folder /* , app, boilerlib */) {
   for (let i = 0; i < exclude.length; i++) {
     shell.rm('-f', `${dest}/${folder}/${exclude[i]}`);
   }
-
-  // Replace the name 'boilerlib' by 'app' to dest:
-  // const re = new RegExp(boilerlib, 'g');
-  // const f = shell.find(`${dest}/${folder}`).filter((file) => file.match(/\.js$/));
-  // for (let i = 0; i < f.length; i++) {
-  //   shell.sed('-i', re, app, f[i]);
-  // }
 }
 
 /**
@@ -492,6 +496,7 @@ function _addDB(source, dest, folder) {
   shell.mkdir('-p', `${dest}/${folder}`);
 
   shell.cp('-r', `${source}/${folder}/*.md`, `${dest}/${folder}/.`);
+  shell.cp('-r', `${source}/${folder}/*.sh`, `${dest}/${folder}/.`);
 
   // Create empties test and regular databases:
   shell.exec(`sqlite3 ${dest}/${folder}/db.sqlite 'VACUUM'`);
@@ -530,6 +535,71 @@ function _addDocker(source, dest, folder) {
   shell.mkdir('-p', `${dest}/${folder}`);
 
   shell.cp('-r', `${source}/${folder}/*`, `${dest}/${folder}/.`);
+}
+
+/**
+ * Adds dbscripts.
+ *
+ * @function (arg1, arg2, arg3)
+ * @private
+ * @param {String}          the source path,
+ * @param {String}          the destination path,
+ * @param {String}          the destination folder,
+ * @returns {}              -,
+ */
+function _addDbScripts(source, dest, folder) {
+  process.stdout.write(`  duplicated the contents of ${folder}\n`);
+  shell.mkdir('-p', `${dest}/${folder}`);
+
+  shell.cp('-r', `${source}/${folder}/*`, `${dest}/${folder}/.`);
+}
+
+/**
+ * Adds tcpclient.
+ *
+ * @function (arg1, arg2, arg3)
+ * @private
+ * @param {String}          the source path,
+ * @param {String}          the destination path,
+ * @param {String}          the destination folder,
+ * @returns {}              -,
+ */
+function _addTCPClient(source, dest, folder) {
+  process.stdout.write(`  duplicated the contents of ${folder}\n`);
+  shell.mkdir('-p', `${dest}/${folder}`);
+
+  shell.cp('-r', `${source}/${folder}/*`, `${dest}/${folder}/.`);
+}
+
+/**
+ * Adds __SQLite-amalgamation.
+ *
+ * @function (arg1, arg2, arg3)
+ * @private
+ * @param {String}          the source path,
+ * @param {String}          the destination path,
+ * @param {String}          the destination folder,
+ * @returns {}              -,
+ */
+function _addSQLiteAmal(source, dest, folder) {
+  process.stdout.write(`  duplicated the contents of ${folder}\n`);
+  shell.mkdir('-p', `${dest}/${folder}`);
+
+  shell.cp('-r', `${source}/${folder}/*`, `${dest}/${folder}/.`);
+}
+
+/**
+ * Adds Github workfow.
+ *
+ * @function (arg1, arg2, arg3)
+ * @private
+ * @param {String}          the source path,
+ * @param {String}          the destination path,
+ * @param {String}          the destination folder,
+ * @returns {}              -,
+ */
+function _addGithubActions(source, dest, folder) {
+  shell.cp('-r', `${source}/${folder}`, `${dest}/.`);
 }
 
 /**
@@ -590,8 +660,8 @@ function _populate(options) {
   // Add and customize package.json:
   _customize(baseboiler, baseapp, app, author, boilerlib);
 
-  // Copy the src files:
-  // _addSrc(baseboiler, baseapp, src, app, boilerlib);
+  // Copy Husky Hook:
+  _addHuskyHook(baseboiler, baseapp, husky, app, boilerlib);
 
   // Copy Public files:
   _addPublic(baseboiler, baseapp, publicdir);
@@ -608,9 +678,13 @@ function _populate(options) {
   // Copy DB files:
   _addDB(baseboiler, baseapp, db, app, boilerlib);
 
-  // Copy Examples & Docker:
+  // Copy Examples, Docker, etc.:
   _addExamples(baseboiler, baseapp, examples, app, boilerlib);
   _addDocker(baseboiler, baseapp, docker, app, boilerlib);
+  _addDbScripts(baseboiler, baseapp, dbscripts, app, boilerlib);
+  _addTCPClient(baseboiler, baseapp, tcpclient, app, boilerlib);
+  _addSQLiteAmal(baseboiler, baseapp, sqliteamal, app, boilerlib);
+  _addGithubActions(baseboiler, baseapp, '.github');
 
   process.stdout.write('Done. Enjoy!\n');
 }

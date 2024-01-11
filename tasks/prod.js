@@ -21,20 +21,25 @@ const PK = './package.json';
 const prod = process.argv[2];
 
 const json = shell.cat(PK);
-const npk = JSON.parse(json.stdout);
+const pk = JSON.parse(json.stdout);
+const npk = { ...pk };
 
-npk.scripts.start = npk.scripts.app;
+npk.scripts = {};
+npk.scripts.general = pk.scripts.general;
+npk.scripts.start = pk.scripts.start;
+npk.scripts.kustart = pk.scripts.kustart;
 
-delete npk.scripts.app;
-delete npk.scripts.test;
-delete npk.scripts['display-coverage'];
-delete npk.scripts['check-coverage'];
-delete npk.scripts['report-coverage'];
-delete npk.scripts.report;
-delete npk.scripts.makeprod;
-delete npk.scripts.prepare;
-delete npk.scripts.doc;
-delete npk.nyc;
+npk.bin = {};
+npk.repository = {};
+npk.keywords = [];
+npk.author = {};
+npk.bugs = {};
+
+// Optional.
+// (if you need to start the app with kustart in prod,
+// uncomment the next two lines)
+// npk.dependencies['cross-env'] = pk.devDependencies['cross-env'];
+// npk.dependencies['js-yaml'] = pk.devDependencies['js-yaml'];
 npk.devDependencies = {};
 
 process.stdout.write('  updated package.json\n');

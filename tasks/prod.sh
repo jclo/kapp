@@ -17,12 +17,19 @@ rm -rf ${NAME}
 mkdir -p ${NAME}
 cd ${NAME}
 
+echo 'Copy ./container/kube-local*.yaml ...'
+mkdir container
+cp ../container/kube-local* ./container/.
 echo 'Create ./db ...'
 mkdir db
+echo 'Copy ./dbscripts ...'
+cp -R ../dbscripts .
 echo 'Copy ./server ...'
 cp -R ../server .
 echo 'Copy ./public ...'
 cp -R ../public .
+echo 'Copy ./tcpclient ...'
+cp -R ../tcpclient .
 echo 'Create .env.js ...'
 cp ../demo.env.js .env.js
 echo 'Copy LICENSE.md, package.json, package-lock.json and README.md'
@@ -54,4 +61,4 @@ echo 'The file ./server/config.js must be configured to listen'
 echo 'the right addresses and ports.'
 echo 'Enjoy!'
 
-# -- o --
+# -- oOo --
