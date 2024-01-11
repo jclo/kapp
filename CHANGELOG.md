@@ -2,54 +2,55 @@
 
 ### 1.9.x (January 11, 2024)
 
-  . Removed Travis CI,
-  . Added Github Actions,
-  . Added .github folder,
-  . Added .env.js for Github Actions,
-  . Fixed a typo in ci.yml,
-  . ...,
+  * Removed Travis CI,
+  * Added Github Actions,
+  * Added .github folder,
+  * Added .env.js for Github Actions,
+  * Fixed a typo in ci.yml,
+  * Updated the project dependencies,
+  * ...,
 
 
 ### 1.9.1 (February 22, 2023)
 
-  . Added a mechanism to watch login,
-  . Release.
+  * Added a mechanism to watch login,
+  * Release.
 
 
 ### 1.9.0 (January 9, 2023)
 
-  . Fixed a few minor issues,
-  . Kubernetized Kapp,
-  . Release.
+  * Fixed a few minor issues,
+  * Kubernetized Kapp,
+  * Release.
 
 
 ### 1.8.0 (January 4, 2023)
 
-  . Updated the copyright date,
-  . Made the server name generic in _getMe,
-  . Fixed a minor issue in MongoDB lib,
-  . Added environmental variables for Kubernetes,
-  . Added package-lock.json to the production version,
-  . Updated the project dependencies,
-  . Normalized the returned errors ({ status: 40x, message: '...' }),
-  . Fixed an error on env.travis file,
-  . Release.
+  * Updated the copyright date,
+  * Made the server name generic in _getMe,
+  * Fixed a minor issue in MongoDB lib,
+  * Added environmental variables for Kubernetes,
+  * Added package-lock.json to the production version,
+  * Updated the project dependencies,
+  * Normalized the returned errors ({ status: 40x, message: '...' }),
+  * Fixed an error on env.travis file,
+  * Release.
 
 
 ### 1.7.0 (December 2, 2022)
 
-  . added the whoami method to auth.js for retrieving the username of the connected user,
-  . added the option to start background processes,
-  . added an optional library allowing to publish and listen messages,
-  . Release.
+  * added the whoami method to auth.js for retrieving the username of the connected user,
+  * added the option to start background processes,
+  * added an optional library allowing to publish and listen messages,
+  * Release.
 
 
 ### 1.6.3 (November 26, 2022)
 
-  . Fixed an issue on token lib that prevented to guarantee the length of the string,
-  . Added to Auth0.getMe the password as an optional argument,
-  . fixed a few typos,
-  . Release.
+  * Fixed an issue on token lib that prevented to guarantee the length of the string,
+  * Added to Auth0.getMe the password as an optional argument,
+  * fixed a few typos,
+  * Release.
 
 
 ### 1.6.2 (November 22, 2022)
