@@ -108,7 +108,7 @@ const Servers = {
    */
   startHttps(app, base) {
     // Beware process.env.x converts everything to string!
-    if (process.env.KAPP_HTTPS === 'true' && !process.env.TRAVIS) {
+    if (process.env.KAPP_HTTPS === 'true' && !process.env.GITHUB_ACTIONS) {
       https.createServer(_getCertificates(base), app)
         .on('error', (e) => {
           if (e.code === 'EACCES') {
@@ -123,7 +123,7 @@ const Servers = {
     } else if (process.env.KAPP_HTTPS !== 'true') {
       log.info('config.env.https is false, the https server is not started!');
     } else {
-      log.info('Kapp is runing on TRAVIS-CI, the https server is not started!');
+      log.info('Kapp is runing on GITHUB_ACTIONS, the https server is not started!');
     }
   },
 };
