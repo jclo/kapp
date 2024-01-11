@@ -43,7 +43,8 @@ let server;
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 // Set test mode for using the test db:
-process.env.KAPP_TEST_MODE = 1;              process.env.GITHUB_ACTIONS = true;
+process.env.KAPP_TEST_MODE = 1;
+
 
 if (process.env.GITHUB_ACTIONS || !config.env.https) {
   server = `http://127.0.0.1:${config.env.httpport}`;
@@ -55,7 +56,7 @@ if (process.env.GITHUB_ACTIONS || !config.env.https) {
 chai.use(chaiHttp);
 
 // Create the request object:
-const request = chai.request.agent(server);console.log(request);
+const request = chai.request.agent(server);
 
 // Start the server:
 /* eslint-disable-next-line no-unused-vars */

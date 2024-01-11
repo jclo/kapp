@@ -19,7 +19,6 @@ jobs:
       - run: npm uninstall --save sqlite3
       - run: npm install --save sqlite3@5.0.0
       - run: mv .env.github.js .env.js
-      - run: env
       - run: npm install
 
       - run: npm test

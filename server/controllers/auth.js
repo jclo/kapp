@@ -84,9 +84,9 @@ const Auth = {
           timeZoneOffset: req.body.timeZoneOffset,
           timeZone: req.body.timeZone,
         }
-        ;console.log('.1..................................');console.log(server);
+        ;
 
-    if (process.env.KAPP_LOGIN_LOCKED === 'true') {console.log('.2..................................');
+    if (process.env.KAPP_LOGIN_LOCKED === 'true') {
       WDog.fire('watchdog:login', {
         error_code: 'LoginLocked',
         user: req.body.user,
@@ -98,7 +98,7 @@ const Auth = {
       return;
     }
 
-    if (!user) {console.log('.3..................................');
+    if (!user) {
       WDog.fire('watchdog:login', {
         error_code: 'UnknownUser',
         user: req.body.user,
@@ -108,13 +108,13 @@ const Auth = {
       });
       callback('You are NOT a referenced user!');
       return;
-    }console.log('.4..................................');
+    }
 
     const p = typeof req.body.password === 'number'
       ? req.body.password.toString()
       : req.body.password;
     const match = await Crypto.compare(p, user.user_hash);
-    if (!match) {console.log('.5..................................');
+    if (!match) {
       WDog.fire('watchdog:login', {
         error_code: 'WrongPwd',
         user: user.user_name,
@@ -126,7 +126,7 @@ const Auth = {
       return;
     }
 
-    if (user.is_deleted === 1) {console.log('.6..................................');
+    if (user.is_deleted === 1) {
       WDog.fire('watchdog:login', {
         error_code: 'DeletedAccount',
         user: user.user_name,
@@ -138,7 +138,7 @@ const Auth = {
       return;
     }
 
-    if (user.is_locked) {console.log('.7..................................');
+    if (user.is_locked) {
       WDog.fire('watchdog:login', {
         error_code: 'LockedAccount',
         user: user.user_name,
@@ -148,7 +148,7 @@ const Auth = {
       });
       callback('Your account is locked!');
       return;
-    }console.log('.8..................................');
+    }
 
     // Ok. Register this new session:
     req.session.user_id = req.body.user;
@@ -165,7 +165,7 @@ const Auth = {
       browser,
       server,
       message: `The user "${user.user_name}" login succeeded!`,
-    });console.log('.9..................................');
+    });
     log.warn(`${user.user_name} with session id: ${req.sessionID} connected from ${req.headers['x-forwarded-for'] || req.socket.remoteAddress}!`);
     callback(null);
   },
