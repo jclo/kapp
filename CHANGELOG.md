@@ -4,6 +4,7 @@
 
   . Removed Travis CI,
   . Added Github Actions,
+  . Added .github folder,
   . ...,
 
 
