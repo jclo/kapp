@@ -8,6 +8,7 @@
   * Added .env.js for Github Actions,
   * Fixed a typo in ci.yml,
   * Updated the project dependencies,
+  * Replaced nyc by c8,
   * ...,
 
 

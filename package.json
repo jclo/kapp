@@ -10,26 +10,13 @@
   "scripts": {
     "app": "node server/start.js",
     "kustart": "cross-env KAPP_ENV_KUBE_YAML=true node server/start.js",
-    "test": "cross-env NODE_ENV=test nyc --reporter=lcov mocha ./test/main.js --exit",
+    "test": "cross-env NODE_ENV=test c8 --reporter=lcov mocha ./test/main.js --exit",
     "display:coverage": "opener ./coverage/lcov-report/index.html",
-    "check:coverage": "nyc check-coverage --statements 20 --branches 10 --functions 20 --lines 20",
-    "report:coverage": "nyc report --reporter=text-lcov | coveralls",
-    "report": "nyc report",
+    "check:coverage": "c8 check-coverage --statements 30 --branches 60 --functions 30 --lines 30",
+    "report": "c8 report",
     "makeprod": "sh tasks/prod.sh _prod-$npm_package_version && node tasks/prod.js _prod-$npm_package_version",
     "prepare": "husky install",
     "doc": ""
-  },
-  "nyc": {
-    "include": [
-      "server/**/*.js"
-    ],
-    "exclude": [
-      "server/config.js",
-      "server/dbi/mysql.js",
-      "server/libs/mysql/api_without_pool.js",
-      "server/libs/mysql/api.js"
-    ],
-    "all": true
   },
   "repository": {
     "type": "git",
@@ -44,6 +31,14 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/jclo/kapp/issues"
+  },
+  "c8": {
+    "include": [
+      "server/**/*.js"
+    ],
+    "exclude": [
+    ],
+    "all": true
   },
   "homepage": "https://github.com/jclo/kapp",
   "dependencies": {
@@ -61,6 +56,7 @@
     "sqlite3": "^5.1.7"
   },
   "devDependencies": {
+    "c8": "^9.0.0",
     "chai": "^4.4.0",
     "chai-http": "^4.4.0",
     "cross-env": "^7.0.3",
@@ -71,7 +67,6 @@
     "husky": "^8.0.3",
     "js-yaml": "^4.1.0",
     "mocha": "^10.2.0",
-    "nyc": "^15.1.0",
     "open": "^10.0.3",
     "opener": "^1.5.2"
   },
