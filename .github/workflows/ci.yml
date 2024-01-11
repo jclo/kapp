@@ -14,6 +14,7 @@ jobs:
         with:
           node-version: 18
       - run: mv .env.github.js .env.js
+      - run: env
       - run: npm install
 
       - run: npm test
