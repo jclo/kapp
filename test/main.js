@@ -25,7 +25,7 @@ const DBI      = require('../server/dbi/dbi')
     , apitok   = require('./int/api-token')
     , apitok2  = require('./int/api-token-conc')
     , apiuser  = require('./int/api-users')
-    // , tcpsock  = require('./int/api-tcpsocketserver')
+    , tcpsock  = require('./int/api-tcpsocketserver')
     , apimdb   = require('./int/mongodb/api-mdb')
     ;
 
@@ -92,7 +92,7 @@ describe('Test KApp Base Server:', () => {
     apitok(request, user, pack);
     apitok2(request, user, user2, user3, pack);
     apiuser(request, user, dbi);
-    // tcpsock();
+    tcpsock();
     // This test requires a localhost MongoDB server running
     // with a vulcain_test database.
     // apimdb();

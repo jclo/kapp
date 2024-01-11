@@ -43,17 +43,30 @@ const config = {
     staticpage: 'public',
     httpport: 1080,
     httpsport: 1443,
+    tlsrejectunauthorized: '0',
     // By default, HTTPS is active and it is used for all the transactions.
     // It could be disabled for testing purpose.
     https: true,
     // By default, the transactions are authorized for the local machine only.
     // Replace '127.0.0.1' by '0.0.0.0' if you want to authorize the
-    // transactions from all the machines on the nework or by the address
+    // transactions from all the machines on the network or by the address
     // of the authorized machine.
+    // If you want to limit ips, replace ips: null by a string with a
+    // list of ips separated by a comma like:
+    // ips: '8.8.8.8,9.9.9.9'
     network: '127.0.0.1',
-    ipFilteringDisabled: false,
+    ips: null,
+    kube: null,
+
+    websocketEnabled: false,
+    websockethttps: false,
+    tcpsocketEnabled: true,
+    tcpsocketport: 5000,
+
     watchdogEnabled: false,
     loginDisabled: false,
+    heartbeatEnabled: false,
+    heartbeatRate: null,
   },
 
   // Session configuration
@@ -72,13 +85,16 @@ const config = {
   // and DELETE from any clients on the network. If you want to restrict
   // the access to a list of domains, you have to implement a middleware
   // that filters the domain names. The propery hostname is used here as an
-  // example how to filter hosts (refer to the middleware filterHosts).
+  // example how to filter hosts (refer to the middleware filterDomains).
+  // If you want to limit the domains, replace null by domains separated by
+  // a comma like:
+  // hostname: 'google.com,twitter.com'
   cors: {
     origin: '*',
     methods: 'GET, POST, PUT, DELETE',
     headers: 'X-Requested-With, Content-Type',
     credentials: true,
-    hostname: ['google.com'],
+    hostname: null,
   },
 
   // Useful regular expressions

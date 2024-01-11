@@ -43,6 +43,7 @@ const config     = require('./config')
     , Routes     = require('./core/routes')
     , Watcher    = require('./core/watcher')
     , Processor  = require('./core/process')
+    , Sock       = require('./core/socketservers')
     , FilterIP   = require('./middlewares/ip/main')
     , KillOutSe  = require('./middlewares/session/kill')
     , I18N       = require('./libs/i18n/i18n')
@@ -91,14 +92,27 @@ const _cors = function(conf) {
  */
 /* eslint-disable max-len */
 const _setEnv = function(enviro, conf) {
+  if (!process.env.NODE_TLS_REJECT_UNAUTHORIZED) process.env.NODE_TLS_REJECT_UNAUTHORIZED = conf.env.tlsrejectunauthorized;
+
+  if (!process.env.KAPP_POD_USERNAME) process.env.KAPP_POD_USERNAME = enviro.pod.auth.user;
+  if (!process.env.KAPP_POD_PASSWORD) process.env.KAPP_POD_PASSWORD = enviro.pod.auth.password;
+  if (!process.env.KAPP_POD_AUTH_SERVER) process.env.KAPP_POD_AUTH_SERVER = enviro.pod.authserver;
   if (!process.env.KAPP_SERVER_NAME) process.env.KAPP_SERVER_NAME = conf.name;
   if (!process.env.KAPP_HTTP_PORT) process.env.KAPP_HTTP_PORT = conf.env.httpport;
   if (!process.env.KAPP_HTTPS_PORT) process.env.KAPP_HTTPS_PORT = conf.env.httpsport;
   if (!process.env.KAPP_HTTPS) process.env.KAPP_HTTPS = conf.env.https.toString();
   if (!process.env.KAPP_NETWORK) process.env.KAPP_NETWORK = conf.env.network;
-  if (!process.env.KAPP_NETWORK_FILTER_IP_DISABLED) process.env.KAPP_NETWORK_FILTER_IP_DISABLED = conf.env.ipFilteringDisabled.toString() || 'false';
+  if (!process.env.KAPP_NETWORK_FILTER_DOMAINS) process.env.KAPP_NETWORK_FILTER_DOMAINS = conf.cors.hostname || 'false';
+  if (!process.env.KAPP_NETWORK_FILTER_IPS) process.env.KAPP_NETWORK_FILTER_IPS = conf.env.ips || 'false';
+  if (!process.env.KAPP_NETWORK_KUBE_IP_RANGE) process.env.KAPP_NETWORK_KUBE_IP_RANGE = conf.env.kube || '10.0.0.0/16';
+  if (!process.env.KAPP_WEBSOCKET_SERVER_ENABLED) process.env.KAPP_WEBSOCKET_SERVER_ENABLED = conf.env.websocketEnabled.toString() || false;
+  if (!process.env.KAPP_WEBSOCKET_SERVER_HTTPS) process.env.KAPP_WEBSOCKET_SERVER_HTTPS = conf.env.websockethttps.toString() || false;
+  if (!process.env.KAPP_TCPSOCKET_SERVER_ENABLED) process.env.KAPP_TCPSOCKET_SERVER_ENABLED = conf.env.tcpsocketEnabled.toString() || false;
+  if (!process.env.KAPP_TCPSOCKET_SERVER_PORT) process.env.KAPP_TCPSOCKET_SERVER_PORT = conf.env.tcpsocketport || 5000;
   if (!process.env.KAPP_WATCHDOG_ENABLED) process.env.KAPP_WATCHDOG_ENABLED = conf.env.watchdogEnabled.toString() || 'false';
   if (!process.env.KAPP_LOGIN_LOCKED) process.env.KAPP_LOGIN_LOCKED = conf.env.loginDisabled.toString() || 'false';
+  if (!process.env.KAPP_HEARTBEAT_ENABLED) process.env.KAPP_HEARTBEAT_ENABLED = conf.env.heartbeatEnabled.toString() || 'false';
+  if (!process.env.KAPP_HEART_RATE) process.env.KAPP_HEART_RATE = conf.env.heartbeatRate || 1000 * 60 * 1;
 
   if (!process.env.KAPP_DB_ACTIVE) process.env.KAPP_DB_ACTIVE = enviro.db.active;
 
@@ -108,6 +122,7 @@ const _setEnv = function(enviro, conf) {
   if (!process.env.KAPP_MYSQL_DATABASE) process.env.KAPP_MYSQL_DATABASE = enviro.db.mysql.database;
   if (!process.env.KAPP_MYSQL_USER) process.env.KAPP_MYSQL_USER = enviro.db.mysql.user;
   if (!process.env.KAPP_MYSQL_PASSWORD) process.env.KAPP_MYSQL_PASSWORD = enviro.db.mysql.password;
+  if (!process.env.KAPP_MYSQL_TIMEZONE) process.env.KAPP_MYSQL_TIMEZONE = enviro.db.mysql.timezone;
 
   if (!process.env.KAPP_MONGO_URL) process.env.KAPP_MONGO_URL = enviro.mongodb.host;
   if (!process.env.KAPP_MONGO_DATABASE) process.env.KAPP_MONGO_DATABASE = enviro.mongodb.db.database;
@@ -225,8 +240,10 @@ function App() {
   Routes.start(app, i18n, dbi, dbn);
   Watcher.start(app, i18n, dbi, dbn);
   Processor.start(app, i18n, dbi, dbn);
-  Servers.startHttp(app);
-  Servers.startHttps(app, __dirname);
+  const http = Servers.startHttp(app);
+  const https = Servers.startHttps(app, __dirname);
+  Sock.startWebSocketServer(http, https, app, i18n, dbi, dbn);
+  Sock.startTCPSocketServer(app, i18n, dbi, dbn);
 
   // Or create a MongoDB object to access to the MongoDB database.
   // MongoDB(env.mongodb, (dbmo) => {
@@ -234,8 +251,10 @@ function App() {
   //   Routes.start(app, i18n, dbi, dbn, dbmo);
   //   Watcher.start(app, i18n, dbi, dbn, dbmo);
   //   Processor.start(app, i18n, dbi, dbn, dbmo);
-  //   Servers.startHttp(app);
-  //   Servers.startHttps(app, __dirname);
+  //   const http = Servers.startHttp(app);
+  //   const https = Servers.startHttps(app, __dirname);
+  //   Sock.startWebSocketServer(http, https, app, i18n, dbi, dbn, dbmo);
+  //   Sock.startTCPSocketServer(http, https, app, i18n, dbi, dbn, dbmo);
   // });
 
   // It returns the db object only for testing purpose. With this object,
