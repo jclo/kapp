@@ -111,8 +111,8 @@ const TOK = {
 
     // We store this new token into the in-memory database:
     user.token = newtoken;
-    const [suser] = await dbn.find({ user_name: username }).toArray();
-    if (suser) await dbn.deleteOne({ user_name: username });
+    // const [suser] = await dbn.find({ user_name: username }).toArray();
+    // if (suser) await dbn.deleteOne({ user_name: username });
     await dbn.insertOne(user);
 
     callback(null, newtoken);

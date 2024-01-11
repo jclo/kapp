@@ -39,13 +39,12 @@ const KZlog   = require('@mobilabs/kzlog')
 
 
 // -- Local Modules
-const config = require('../config')
-    , Auth   = require('./auth')
-    , OAuth2 = require('./oauth2')
-    , System = require('./system')
-    , I18N   = require('./i18n')
-    , CAPIS  = require('../_custom/api/v1/main')
-    // , CAPIS  = require('../_kadmin/api')
+const config  = require('../config')
+    , Auth    = require('./auth')
+    , OAuth2  = require('./oauth2')
+    , System  = require('./system')
+    , I18N    = require('./i18n')
+    , CAPIS   = require('../_custom/api/v1/main')
     ;
 
 

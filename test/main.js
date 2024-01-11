@@ -23,7 +23,7 @@ const DBI      = require('../server/dbi/dbi')
     , apiradio = require('./int/api-radio')
     , apisys   = require('./int/api-sys')
     , apitok   = require('./int/api-token')
-    // , apitok2  = require('./int/api-token-conc')
+    , apitok2  = require('./int/api-token-conc')
     , apiuser  = require('./int/api-users')
     // , tcpsock  = require('./int/api-tcpsocketserver')
     , apimdb   = require('./int/mongodb/api-mdb')
@@ -90,7 +90,7 @@ describe('Test KApp Base Server:', () => {
     apiradio(request, user);
     apisys(request, user, pack);
     apitok(request, user, pack);
-    // apitok2(request, user, user2, user3, pack);
+    apitok2(request, user, user2, user3, pack);
     apiuser(request, user, dbi);
     // tcpsock();
     // This test requires a localhost MongoDB server running

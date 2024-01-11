@@ -30,7 +30,7 @@
 const config = {
 
   // Name of the Server
-  name: '@Kapp Server',
+  name: '@KApp Server',
 
   // Root __dirname
   base: __dirname,

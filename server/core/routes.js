@@ -65,10 +65,10 @@ const Routes = {
     // Check if it is an https request:
     app.all('/api/*', (req, res, next) => {
       if (process.env.KAPP_HTTPS !== 'true') {
-        log.info('Kapp is running in test mode, HTTP accesses are exceptionally authorized!');
+        log.info('KApp is running in test mode, HTTP accesses are exceptionally authorized!');
         next();
       } else if (process.env.GITHUB_ACTIONS) {
-        log.info('Kapp is running on GITHUB_ACTIONS, HTTP accesses are exceptionally authorized!');
+        log.info('KApp is running on GITHUB_ACTIONS, HTTP accesses are exceptionally authorized!');
         next();
       } else if (!req.secure) {
         res.statusMessage = 'HTTP accesses are not authorized!';

@@ -11,6 +11,7 @@
   * Replaced nyc by c8,
   * Renamed the package.json scripts,
   * Reshuffled test/main.js file and added mongodb test,
+  * Improved token management,
   * ...,
 
 

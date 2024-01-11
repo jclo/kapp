@@ -80,7 +80,7 @@ const Servers = {
    * @since 0.0.0
    */
   startHttp(app) {
-    http.createServer(app)
+    return http.createServer(app)
       .on('error', (e) => {
         if (e.code === 'EACCES') {
           log.error(`You don't have the privileges to listen the port: ${process.env.KAPP_HTTP_PORT}.`);
@@ -109,7 +109,7 @@ const Servers = {
   startHttps(app, base) {
     // Beware process.env.x converts everything to string!
     if (process.env.KAPP_HTTPS === 'true' && !process.env.GITHUB_ACTIONS) {
-      https.createServer(_getCertificates(base), app)
+      return https.createServer(_getCertificates(base), app)
         .on('error', (e) => {
           if (e.code === 'EACCES') {
             log.error(`You don't have the privileges to listen the port: ${process.env.KAPP_HTTPS_PORT}.`);
@@ -120,11 +120,15 @@ const Servers = {
         .listen(process.env.KAPP_HTTPS_PORT, process.env.KAPP_NETWORK, () => {
           log.info(`https listening on port ${process.env.KAPP_HTTPS_PORT}.`);
         });
-    } else if (process.env.KAPP_HTTPS !== 'true') {
-      log.info('config.env.https is false, the https server is not started!');
-    } else {
-      log.info('Kapp is runing on GITHUB_ACTIONS, the https server is not started!');
     }
+
+    if (process.env.KAPP_HTTPS !== 'true') {
+      log.info('config.env.https is false, the https server is not started!');
+      return null;
+    }
+
+    log.info('KApp is runing on GITHUB_ACTIONS, the https server is not started!');
+    return null;
   },
 };
 

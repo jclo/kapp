@@ -153,11 +153,12 @@ const Auth = {
     // Ok. Register this new session:
     req.session.user_id = req.body.user;
     user._sessionID = req.sessionID;
+    user._cookie = req.headers.cookie;
     user._date_connection = (new Date()).toISOString();
     user._timestamp_login = (new Date()).getTime();
     await dbn.insertOne(user);
     // This is for registering the user login into the database. This method
-    // isn't available for Kapp. You need to write it.
+    // isn't available for KApp. You need to write it.
     if (dbi.adminUserRegisterLogin) await dbi.adminUserRegisterLogin(user);
     WDog.fire('watchdog:login', {
       error_code: null,
