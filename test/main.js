@@ -46,9 +46,9 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 process.env.KAPP_TEST_MODE = 1;              process.env.GITHUB_ACTIONS = true;
 
 if (process.env.GITHUB_ACTIONS || !config.env.https) {
-  server = `http://localhost:${config.env.httpport}`;
+  server = `http://127.0.0.1:${config.env.httpport}`;
 } else {
-  server = `https://localhost:${config.env.httpsport}`;
+  server = `https://127.0.0.1:${config.env.httpsport}`;
 }
 
 // Attach 'http-chai' to 'chai':
