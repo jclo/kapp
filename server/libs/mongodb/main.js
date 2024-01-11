@@ -73,7 +73,7 @@ async function MongoDB(env, callback) {
       , TOPO      = env.db.useUnifiedTopology
       , PARSER    = env.db.useNewUrlParser
       , TIMEOUT   = env.db.connectTimeoutMS
-      , KEEPALIVE = env.db.keepAlive
+      // , KEEPALIVE = env.db.keepAlive
       , obj       = Object.create(methods)
       ;
 
@@ -86,7 +86,7 @@ async function MongoDB(env, callback) {
       useUnifiedTopology: TOPO,
       useNewUrlParser: PARSER,
       connectTimeoutMS: TIMEOUT,
-      keepAlive: KEEPALIVE,
+      // keepAlive: KEEPALIVE,
     },
   );
 

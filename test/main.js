@@ -12,6 +12,7 @@ const chai     = require('chai')
 
 // -- Local Modules
 const DBI      = require('../server/dbi/dbi')
+    // , MongoDB  = require('../server/libs/mongodb/main4test')
     , config   = require('../server/config')
     , env      = require('../.env')
     , pack     = require('../package.json')
@@ -22,13 +23,19 @@ const DBI      = require('../server/dbi/dbi')
     , apiradio = require('./int/api-radio')
     , apisys   = require('./int/api-sys')
     , apitok   = require('./int/api-token')
+    // , apitok2  = require('./int/api-token-conc')
     , apiuser  = require('./int/api-users')
+    // , tcpsock  = require('./int/api-tcpsocketserver')
+    , apimdb   = require('./int/mongodb/api-mdb')
     ;
 
 
 // -- Local Constants
 // used for login
-const user = { user: 'jdo', password: 'jdo' }
+const user  = { user: 'jdo', password: 'jdo' }
+    , user2 = { user: 'jsn', password: 'jsn' }
+    , user3 = { user: 'jhe', password: 'jhe' }
+    // , mongo = { user: 'jc', password: 'Abcde1@#' }
     ;
 
 
@@ -42,7 +49,7 @@ let server;
 // self-signed certificates:
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
-// Set test mode for using the test db:
+// Set environment variables for testing:
 process.env.KAPP_TEST_MODE = 1;
 
 
@@ -65,18 +72,31 @@ const app = require('../server/start');
 // Create db object:
 const dbi = DBI(env.db.active);
 
+// Create the MongoDB object:
+// We use here a dedicated lib (see server/libs/mongodb)
+// as this script doesn't accept execution in callback.
+// All the tests are killed at the end of the script!
+// const dbmo = MongoDB(env.mongodb);
+
 // Initializes testdb:
 shell.exec('./test/init_test_db.sh 1');
 
 // Let's Go!
-describe('Test Kapp:', () => {
-  apiauth(request, user, pack);
-  apiex(request);
-  apii18n(request, user);
-  apiradio(request, user);
-  apisys(request, user, pack);
-  apitok(request, user, pack);
-  apiuser(request, user, dbi);
+describe('Test KApp Base Server:', () => {
+  describe('Test KApp Base Server:', () => {
+    apiauth(request, user, pack);
+    apiex(request);
+    apii18n(request, user);
+    apiradio(request, user);
+    apisys(request, user, pack);
+    apitok(request, user, pack);
+    // apitok2(request, user, user2, user3, pack);
+    apiuser(request, user, dbi);
+    // tcpsock();
+    // This test requires a localhost MongoDB server running
+    // with a vulcain_test database.
+    // apimdb();
+  });
 });
 
 

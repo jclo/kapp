@@ -82,7 +82,7 @@ const System = function(app, i18n, dbi, dbn) {
   });
 
   app.get('/api/v1/system/kapp-version', auth, (req, res) => {
-    res.status(200).send({ version: 'Kapp v{{kapp:version}}' });
+    res.status(200).send({ version: 'KApp v{{kapp:version}}' });
     log.trace('Accepted GET api: "/api/v1/sys/kapp-version".');
   });
 };

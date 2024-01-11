@@ -1,8 +1,8 @@
 *
+!.github/**/*
+!.env.github.js
 !.eslintrc
-!.travis.yml
 !demo.env.js
-!.env.travis.js
 
 !README_KADMIN.md
 !README_LIB_MONGODB.md

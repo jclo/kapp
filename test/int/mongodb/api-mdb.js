@@ -42,12 +42,12 @@ module.exports = () => {
       expect(dbm).to.own.property('_dbname').that.is.an('object');
     });
 
-    it('Expects one property to be "_uri" that is equal to "mongodb://jc:jc@localhost:27017/vulcain_test".', () => {
-      expect(dbm).to.own.property('_uri').that.is.equal('mongodb://jc:jc@localhost:27017/vulcain_test');
+    it('Expects one property to be "_uri" that is equal to "mongodb://jc:jc@127.0.0.1:27017/vulcain_test".', () => {
+      expect(dbm).to.own.property('_uri').that.is.equal('mongodb://jc:jc@127.0.0.1:27017/vulcain_test');
     });
 
-    it('Expects one property to be "_uri" that is equal to "mongodb://jc:jc@localhost:27017/vulcain_test".', () => {
-      expect(dbm).to.own.property('_uri').that.is.equal('mongodb://jc:jc@localhost:27017/vulcain_test');
+    it('Expects one property to be "_uri" that is equal to "mongodb://jc:jc@127.0.0.1:27017/vulcain_test".', () => {
+      expect(dbm).to.own.property('_uri').that.is.equal('mongodb://jc:jc@127.0.0.1:27017/vulcain_test');
     });
 
     it('Expects one property to be "_ObjectId" that is a function".', () => {
@@ -104,6 +104,12 @@ module.exports = () => {
 
     it('Expects this object to own the property "datasetid" among others.', () => {
       expect(resp[1]).to.own.property('datasetid');
+    });
+
+    let resp2;
+    it('Expects collection.findOne({ _id: new ObjectId("xxx") }) with the _id this object to return the same catalog.', async () => {
+      resp2 = await dbm._to(collection.findOne({ _id: new dbm._ObjectId(resp[1]._id) }));
+      expect(resp2[1]._id === resp[1]._id);
     });
 
     it('Expects await dbm.close() to close the connection and set _client and _db t null.', async () => {

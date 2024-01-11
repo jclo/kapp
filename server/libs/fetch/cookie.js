@@ -47,7 +47,7 @@ const fetch = require('node-fetch');
 
 
 // -- Enable self-signed Certificates
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+// process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 
 // -- Private Functions --------------------------------------------------------

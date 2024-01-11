@@ -46,7 +46,7 @@ module.exports = (request, user, pack) => {
         .get('/api/v1/system/kapp-version')
         .end((err, res) => {
           expect(res).to.have.status(200);
-          expect(res.text).to.contain('Kapp');
+          expect(res.text).to.contain('KApp');
           done();
         });
     });

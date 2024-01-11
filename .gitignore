@@ -2,19 +2,18 @@
 __trash
 _old_*
 
-.nyc_output
 coverage
 node_modules
 private_repo
 
-.env.js
 _prod-*
-server/_kadmin/admin/dbi/_avatars/_clip_art_animals
-server/ssl/*.pem
 db/**/*
+!docker.sh
 !db/db.sqlite
 !db/testdb.sqlite
 !db/README.md
-
+server/_kadmin/admin/dbi/_avatars/_clip_art_animals
+server/ssl/*.pem
+.env.js
 
 z_*

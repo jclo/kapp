@@ -127,7 +127,7 @@ methods = {
         useUnifiedTopology: this._dbname.options.useUnifiedTopology,
         useNewUrlParser: this._dbname.options.useNewUrlParser,
         connectTimeoutMS: this._dbname.options.connectTimeoutMS,
-        keepAlive: this._dbname.options.keepAlive,
+        // keepAlive: this._dbname.options.keepAlive,
       },
     );
 
