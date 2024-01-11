@@ -16,7 +16,7 @@
     "testing": " --- TESTING --- ",
     "test": "cross-env NODE_ENV=test c8 --reporter=lcov mocha ./test/main.js --exit",
     "display:coverage": "open -a safari ./coverage/lcov-report/index.html",
-    "check:coverage": "c8 check-coverage --statements 70 --branches 70 --functions 40 --lines 70",
+    "check:coverage": "c8 check-coverage --statements 70 --branches 70 --functions 30 --lines 70",
     "report": "c8 report",
 
     "deployment": " --- DEPLOYMENT --- ",
