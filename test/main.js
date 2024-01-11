@@ -45,7 +45,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 // Set test mode for using the test db:
 process.env.KAPP_TEST_MODE = 1;
 
-
+console.log(`process.env.GITHUB_ACTIONS: ${process.env.GITHUB_ACTIONS}`);
 if (process.env.GITHUB_ACTIONS || !config.env.https) {
   server = `http://localhost:${config.env.httpport}`;
 } else {
