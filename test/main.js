@@ -46,7 +46,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 process.env.KAPP_TEST_MODE = 1;
 
 
-if (process.env.TRAVIS || !config.env.https) {
+if (process.env.GITHUB_ACTIONS || !config.env.https) {
   server = `http://localhost:${config.env.httpport}`;
 } else {
   server = `https://localhost:${config.env.httpsport}`;
