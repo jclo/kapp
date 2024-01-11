@@ -16,6 +16,7 @@
   * Added pod to .env.github.js,
   * Added the support of PostgreSQL,
   * Reduced the coverage for functions,
+  * Added kube-local.yaml to run KApp inside a kubernetes node,
   * ...,
 
 

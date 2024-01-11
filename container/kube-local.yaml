@@ -12,6 +12,13 @@
 #       port: 1080
 #       targetPort: 1080
 # ---
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: kapp-config
+# data:
+#   kapp-url: kapp-service
+# ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -28,25 +35,54 @@ spec:
       labels:
         app: kapp
     spec:
+      imagePullSecrets:
+        - name: regcred
       containers:
         - name: kapp
-          image: kapp:<version>
+          image: <registry>kapp:<version>
           ports:
             - containerPort: 1080
           env:
-            # network
-            - name: KAPP_HTTPS
-              value: 'false'
+            # node
+            - name: NODE_TLS_REJECT_UNAUTHORIZED
+              value: '0'
+            # kapp
+            - name: KAPP_POD_USERNAME
+              value: 'podkapp'
+            - name: KAPP_POD_PASSWORD
+              value: 'podkapp'
+            - name: KAPP_POD_AUTH_SERVER
+              value: '<auth-server>'
+            - name: KAPP_SERVER_NAME
+              value: 'KApp Server'
             - name: KAPP_HTTP_PORT
               value: '1080'
+            - name: KAPP_HTTPS
+              value: 'false'
             - name: KAPP_NETWORK
               value: '0.0.0.0'
-            - name: KAPP_NETWORK_FILTER_IP_DISABLED
+            - name: KAPP_NETWORK_FILTER_DOMAINS
               value: 'false'
+            - name: KAPP_NETWORK_FILTER_IPS
+              value: 'false'
+            - name: KAPP_NETWORK_KUBE_IP_RANGE
+              value: '10.0.0.0/16'
+            - name: KAPP_WEBSOCKET_SERVER_ENABLED
+              value: 'false'
+            - name: KAPP_WEBSOCKET_SERVER_HTTPS
+              value: 'false'
+            - name: KAPP_TCPSOCKET_SERVER_ENABLED
+              value: 'false'
+            - name: KAPP_TCPSOCKET_SERVER_PORT
+              value: '5000'
             - name: KAPP_WATCHDOG_ENABLED
               value: 'false'
             - name: KAPP_LOGIN_LOCKED
               value: 'false'
+            - name: KAPP_HEARTBEAT_ENABLED
+              value: 'false'
+            - name: KAPP_HEART_RATE
+              value: '60000'
 
             # active db
             - name: KAPP_DB_ACTIVE
@@ -54,7 +90,7 @@ spec:
 
             # mysql
             - name: KAPP_MYSQL_URL
-              value: 'kapp'
+              value: '127.0.0.1'
             - name: KAPP_MYSQL_PORT
               value: '3306'
             - name: KAPP_MYSQL_CNX_LIMIT
@@ -62,7 +98,37 @@ spec:
             - name: KAPP_MYSQL_DATABASE
               value: 'kapp'
             - name: KAPP_MYSQL_USER
-              value: 'myuser1'
+              value: '<user>'
             - name: KAPP_MYSQL_PASSWORD
-              value: 'mypwd1'
+              value: '<pwd>'
+            - name: KAPP_MYSQL_TIMEZONE
+              value: 'Z'
+
+            # pgsql
+            - name: KAPP_PGSQL_URL
+              value: '127.0.0.1'
+            - name: KAPP_PGSQL_PORT
+              value: '5432'
+            - name: KAPP_PGSQL_CNX_LIMIT
+              value: '50'
+            - name: KAPP_PGSQL_DATABASE
+              value: 'kapp'
+            - name: KAPP_PGSQL_USER
+              value: '<user>'
+            - name: KAPP_PGSQL_PASSWORD
+              value: '<pwd>'
+            - name: KAPP_PGSQL_TIMEZONE
+              value: 'Z'
+
+            # mongodb
+            - name: KAPP_MONGO_URL
+              value: '127.0.0.1:27017'
+            - name: KAPP_MONGO_DATABASE
+              value: 'testdb'
+            - name: KAPP_MONGO_USER
+              value: '<user>'
+            - name: KAPP_MONGO_PASSWORD
+              value: '<pwd>'
+            - name: KAPP_MONGO_CHANGE_STREAMS_ACTIVE
+              value: 'false'          
 # -- oOo --
