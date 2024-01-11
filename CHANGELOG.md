@@ -5,6 +5,7 @@
   . Removed Travis CI,
   . Added Github Actions,
   . Added .github folder,
+  . Added .env.js for Github Actions,
   . ...,
 
 
