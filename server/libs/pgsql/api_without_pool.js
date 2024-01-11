@@ -1,6 +1,6 @@
 /** ****************************************************************************
  *
- * Public interface for the MySQL database.
+ * Public interface for the PostgreSQL database.
  * (this api doesn't use a pool - it is not used)
  *
  * api.js is just a literal object that contains a set of functions.
@@ -30,11 +30,12 @@
 
 
 // -- Vendor Modules
-const mysql = require('mysql2');
+const PG = require('pg');
 
 
 // -- Local Modules
 const U1 = require('../../dbi/util')
+    , U2 = require('./util')
     ;
 
 
@@ -50,7 +51,7 @@ const U1 = require('../../dbi/util')
 
 // -- Public Static Methods ----------------------------------------------------
 
-const MQ = {
+const PGSQL = {
 
   /**
    * Returns the decoded passed-in arguments.
@@ -70,23 +71,22 @@ const MQ = {
   /**
    * Establishes a connection to the database.
    *
-   * @method (arg1, arg2, arg3, arg4, arg5)
+   * @method (arg1, arg2, arg3, arg4)
    * @public
    * @param {String}        the database server url,
    * @param {String}        the database,
    * @param {String}        the user,
    * @param {String}        the user's password,
-   * @param {String}        the timezone,
    * @returns {}            -,
    * @since 0.0.0
    */
-  createConnection(host, database, user, password, timezone) {
-    this.db = mysql.createConnection({
+  createConnection(host, database, user, password) {
+    this.db = new PG.Client({
       host,
+      port: 5432,
       database,
       user,
       password,
-      timezone,
     });
   },
 
@@ -128,7 +128,8 @@ const MQ = {
     const [params, convert, dump, callback] = this._getArgs(...args);
 
     let q = query;
-    q = convert ? U1.convert(q, 'mysql') : q;
+    q = convert ? U1.convert(q, 'pgsql') : q;
+    params.forEach((item, index) => { q = q.replace(/\?/, `$${index + 1}`); });
     if (dump) process.stdout.write(`${q}\n`);
 
     return new Promise((resolve, reject) => {
@@ -166,8 +167,24 @@ const MQ = {
       });
     });
   },
+
+
+  // -- Specific to PgSQL ------------------------------------------------------
+
+  /**
+   * Converts MySQL types to PgSQL.
+   *
+   * @method (arg1)
+   * @public
+   * @param {String}        the SQL command for creating a table,
+   * @returns {String}      returns the SQL command with PgSQL types,
+   * @since 0.0.0
+   */
+  convertTypes(sql) {
+    return U2.convertTypes(sql);
+  },
 };
 
 
 // -- Export
-module.exports = MQ;
+module.exports = PGSQL;

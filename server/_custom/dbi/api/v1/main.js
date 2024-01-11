@@ -1,6 +1,6 @@
 /** ****************************************************************************
  *
- * Overwrites the methods of './server/dbi/mysql.js'.
+ * Overwrites the methods of './server/dbi/dbi.js'.
  *
  * dbi.js is just a literal object that contains a set of functions.
  * It can't be instantiated.
@@ -28,6 +28,9 @@
 
 
 // -- Local Modules
+const miscellaneous = require('./private/miscellaneous')
+    , U             = require('../../../_util/util1')
+    ;
 
 
 // -- Local Constants
@@ -41,24 +44,10 @@
 
 
 // -- Public Static Methods ----------------------------------------------------
-
-const methods = {
-
-  /**
-   * Does ...
-   * (must ...)
-   *
-   * @method ()
-   * @public
-   * @param {}              -,
-   * @returns {}            -,
-   * @since 0.0.0
-   */
-  zzz() {
-    //
-  },
-};
+// none,
 
 
 // -- Export
-module.exports = methods;
+module.exports = U.extend(
+  miscellaneous,
+);

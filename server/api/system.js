@@ -15,7 +15,7 @@
  *
  * GET Api(s):
  *  . /api/v1/system/version      returns the version of the server,
- *  . /api/v1/system/kapp-version returns the version of Kapp server,
+ *  . /api/v1/system/kapp-version returns the version of KApp server,
  *
  *
  *

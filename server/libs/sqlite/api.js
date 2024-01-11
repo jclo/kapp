@@ -13,12 +13,15 @@
  * Public Static Methods:
  *  . _getArgs                    returns the decoded arguments (for testing),
  *  . open                        opens the database,
+ *  . getConnection               connects to the database (as mysql lib),
  *  . run                         executes a SQL query with no return,
  *  . get                         returns the first matching row,
  *  . all                         returns all the matching rows,
  *  . each                        returns the matching db rows one by one,
- *  . close                       closes the database,
  *  . query                       queries the database (as mysql lib),
+ *  . close                       closes the database,
+ *  . release                     releases the databas (as mysql lib)e,
+ *  . end                         frees the database (as mysql lib),
  *
  *
  *
@@ -177,6 +180,22 @@ const SQ = {
   },
 
   /**
+   * Connects to the database.
+   * (same as open - offer the same I/F as mysql)
+   *
+   * @method (arg1, [arg2])
+   * @public
+   * @param {String}        the database path,
+   * @param {Function}      the function to call at the completion,
+   * @returns {Object}      returns a promise,
+   * @since 0.0.0
+   */
+  getConnection(callback) {
+    const path = this._db;
+    return this.open(path, callback);
+  },
+
+  /**
    * Executes a SQL query that doesn't return a result.
    * ( like Insert, delete, update)
    *
@@ -288,6 +307,24 @@ const SQ = {
   },
 
   /**
+   * Queries the database as MySQL library.
+   *
+   * @method (arg1, arg2, [...args])
+   * @public
+   * @param {Object}        the connexion object,
+   * @param {String}        the SQL query
+   * @param {Function}      the function to call at the completion,
+   * @returns {Object}      returns a promise,
+   * @since 0.0.0
+   */
+  query(cn, query, ...args) {
+    if (query.trim().startsWith('SELECT')) {
+      return this.all(cn, query, ...args);
+    }
+    return this.run(cn, query, ...args);
+  },
+
+  /**
    * Closes the database.
    *
    * @method (arg1, [arg2])
@@ -312,21 +349,36 @@ const SQ = {
   },
 
   /**
-   * Queries the database as MySQL library.
+   * Releases the database.
+   * (same as open - offer the same I/F as mysql)
    *
-   * @method (arg1, arg2, [...args])
+   * @method (arg1, [arg2])
    * @public
-   * @param {Object}        the connexion object,
-   * @param {String}        the SQL query
+   * @param {Object}        the connection to the db,
    * @param {Function}      the function to call at the completion,
    * @returns {Object}      returns a promise,
    * @since 0.0.0
    */
-  query(cn, query, ...args) {
-    if (query.trim().startsWith('SELECT')) {
-      return this.all(cn, query, ...args);
-    }
-    return this.run(cn, query, ...args);
+  release(cn, callback) {
+    return this.close(cn, callback);
+  },
+
+  /**
+   * Frees the database.
+   * (offer the same I/F as mysql)
+   *
+   * @method (arg1, [arg2])
+   * @public
+   * @param {Object}        the connection to the db,
+   * @param {Function}      the function to call at the completion,
+   * @returns {Object}      returns a promise,
+   * @since 0.0.0
+   */
+  end(callback) {
+    return new Promise((resolve/* , reject */) => {
+      resolve(true);
+      if (callback) callback(null, true);
+    });
   },
 };
 

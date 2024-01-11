@@ -30,7 +30,9 @@ const KZlog   = require('@mobilabs/kzlog')
 
 
 // -- Local Modules
-const config = require('../../config')
+const config    = require('../../config')
+    , Watchdog  = require('./watchdog/main')
+    , Heartbeat = require('./heartbeat/main')
     ;
 
 
@@ -64,8 +66,10 @@ const Process = {
    * @returns {Object}      returns this,
    * @since 0.0.0
    */
-  start(/* app, i18n, dbi, dbn, dbm */) {
+  start(app, i18n, dbi, dbn, dbm) {
     log.trace('starting processes ...');
+    Watchdog.start(app, i18n, dbi, dbn, dbm);
+    Heartbeat.start(app, i18n, dbi, dbn, dbm);
     return this;
   },
 };

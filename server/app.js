@@ -124,6 +124,14 @@ const _setEnv = function(enviro, conf) {
   if (!process.env.KAPP_MYSQL_PASSWORD) process.env.KAPP_MYSQL_PASSWORD = enviro.db.mysql.password;
   if (!process.env.KAPP_MYSQL_TIMEZONE) process.env.KAPP_MYSQL_TIMEZONE = enviro.db.mysql.timezone;
 
+  if (!process.env.KAPP_PGSQL_URL) process.env.KAPP_PGSQL_URL = enviro.db.pgsql.host;
+  if (!process.env.KAPP_PGSQL_PORT) process.env.KAPP_PGSQL_PORT = enviro.db.pgsql.port || 5432;
+  if (!process.env.KAPP_PGSQL_CNX_LIMIT) process.env.KAPP_PGSQL_CNX_LIMIT = enviro.db.pgsql.connectionLimit;
+  if (!process.env.KAPP_PGSQL_DATABASE) process.env.KAPP_PGSQL_DATABASE = enviro.db.pgsql.database;
+  if (!process.env.KAPP_PGSQL_USER) process.env.KAPP_PGSQL_USER = enviro.db.pgsql.user;
+  if (!process.env.KAPP_PGSQL_PASSWORD) process.env.KAPP_PGSQL_PASSWORD = enviro.db.pgsql.password;
+  if (!process.env.KAPP_PGSQL_TIMEZONE) process.env.KAPP_PGSQL_TIMEZONE = enviro.db.pgsql.timezone;
+
   if (!process.env.KAPP_MONGO_URL) process.env.KAPP_MONGO_URL = enviro.mongodb.host;
   if (!process.env.KAPP_MONGO_DATABASE) process.env.KAPP_MONGO_DATABASE = enviro.mongodb.db.database;
   if (!process.env.KAPP_MONGO_USER) process.env.KAPP_MONGO_USER = enviro.mongodb.db.options.auth.user;

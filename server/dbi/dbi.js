@@ -18,6 +18,7 @@
  *
  * Public Methods:
  *  . end                         free the database (specific to mysql),
+ *  . isTableNoCnx                checks if a db has a table,
  *
  *  . isDbEmpty                   returns true if the database is empty,
  *  . isTable                     returns true if the table exists,
@@ -42,15 +43,11 @@
 
 
 // -- Local Modules
-const SQlite         = require('./sqlite')
-    , MySQL          = require('./mysql')
-    , { db }         = require('../../.env')
-    , pdbimethods    = require('../_custom/dbi/dbi')
-    , sqlitepmethods = require('../_custom/dbi/sqlite/api')
-    , mysqlpmethods  = require('../_custom/dbi/mysql/api')
-    // , pdbimethods    = require('../_kadmin/dbi')
-    // , sqlitepmethods = require('../_kadmin/sql').sqlite
-    // , mysqlpmethods  = require('../_kadmin/sql').mysql
+const SQlite             = require('./sqlite')
+    , MySQL              = require('./mysql')
+    , PgSQL              = require('./pgsql')
+    , { db }             = require('../../.env')
+    , custpdbimethods    = require('../_custom/sql')
     ;
 
 
@@ -105,14 +102,21 @@ function _get(type) {
       return [SQlite.Cstor, _extend(
         SQlite.methods,
         SQlite.tmethods,
-        sqlitepmethods,
+        custpdbimethods,
       )];
 
     case 'mysql':
       return [MySQL.Cstor, _extend(
         MySQL.methods,
         MySQL.tmethods,
-        mysqlpmethods,
+        custpdbimethods,
+      )];
+
+    case 'pgsql':
+      return [PgSQL.Cstor, _extend(
+        PgSQL.methods,
+        PgSQL.tmethods,
+        custpdbimethods,
       )];
 
     default:
@@ -138,7 +142,6 @@ const DBI = function(type) {
   const obj = Object.create(
     _extend(
       dbimethods,
-      pdbimethods,
       libmethods,
     ),
   );
@@ -163,6 +166,19 @@ dbimethods = {
    */
   async end() {
     //
+  },
+
+  /**
+   * Checks if a db has a table.
+   *
+   * @method (arg1)
+   * @public
+   * @param {String}        the requested table,
+   * @returns {Boolean}     returns true if the table exists,
+   * @since 0.0.0
+   */
+  async isTableNoCnx(/* table */) {
+    return this;
   },
 
 

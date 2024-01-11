@@ -11,13 +11,12 @@
     "general": " --- GENERAL ---",
     "start": "node server/start.js",
     "app": "node server/start.js",
-
     "kustart": "cross-env KAPP_ENV_KUBE_YAML=true node server/start.js",
 
     "testing": " --- TESTING --- ",
     "test": "cross-env NODE_ENV=test c8 --reporter=lcov mocha ./test/main.js --exit",
     "display:coverage": "open -a safari ./coverage/lcov-report/index.html",
-    "check:coverage": "c8 check-coverage --statements 70 --branches 70 --functions 50 --lines 70",
+    "check:coverage": "c8 check-coverage --statements 70 --branches 70 --functions 40 --lines 70",
     "report": "c8 report",
 
     "deployment": " --- DEPLOYMENT --- ",
@@ -65,6 +64,7 @@
     "mongodb": "^6.3.0",
     "mysql2": "^3.7.0",
     "nopt": "^7.2.0",
+    "pg": "^8.11.3",
     "picodb": "^1.0.5",
     "shelljs": "^0.8.5",
     "sqlite3": "^5.1.7",

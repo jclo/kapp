@@ -36,14 +36,14 @@ const KZlog   = require('@mobilabs/kzlog')
 
 
 // -- Local Modules
-const config = require('../../../config')
-    , MAuth = require('../../../middlewares/auth/main')
+const config = require('../../../../config')
+    , MAuth = require('../../../../middlewares/auth/main')
     ;
 
 
 // -- Local Constants
 const { level } = config
-    , log       = KZlog('api/i18n.js', level, false)
+    , log       = KZlog('_custom/api/v1/users/main.js', level, false)
     ;
 
 

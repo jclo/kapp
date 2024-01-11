@@ -60,7 +60,7 @@ const Watch = {
    * @returns {Object}      returns this,
    * @since 0.0.0
    */
-  start(app, i18n, dbi, dbn, dbm) {
+  start(/* app, i18n, dbi, dbn, dbm */) {
     log.trace('starting to listen database(s) events ...');
     return this;
   },

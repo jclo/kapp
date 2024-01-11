@@ -1,16 +1,16 @@
 /** ****************************************************************************
  *
- * Overwrites the methods of './server/dbi/dbi.js'.
+ * Extends the methods of './server/dbi/dbi.js' with the project methods.
  *
  * dbi.js is just a literal object that contains a set of functions.
  * It can't be instantiated.
  *
  * Private Functions:
- *  . none
+ *  . _extend
  *
  *
- * Public Static Methods:
- *  . zzz                         ...,
+ * Public Methods:
+ *  . none,
  *
  *
  *
@@ -28,8 +28,8 @@
 
 
 // -- Local Modules
-const v1 = require('./api/v1/main')
-    , U  = require('../_util/util1')
+const dbi = require('./dbi/dbi')
+    , U   = require('./_util/util1')
     ;
 
 
@@ -43,11 +43,11 @@ const v1 = require('./api/v1/main')
 // none,
 
 
-// -- Public Static Methods ----------------------------------------------------
+// -- Public Methods -----------------------------------------------------------
 // none,
 
 
 // -- Export
 module.exports = U.extend(
-  v1,
+  dbi,
 );

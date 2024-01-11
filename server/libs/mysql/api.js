@@ -6,7 +6,7 @@
  * It can't be instantiated.
  *
  * Private Functions:
- *  . _getArgs                    returns the decoded passed-in arguments,
+ *  . none,
  *
  *
  * Public Static Methods:
@@ -34,6 +34,8 @@ const mysql = require('mysql2');
 
 
 // -- Local Modules
+const U1 = require('../../dbi/util')
+    ;
 
 
 // -- Local Constants
@@ -43,31 +45,7 @@ const mysql = require('mysql2');
 
 
 // -- Private Functions --------------------------------------------------------
-
-/**
- * Returns the decoded passed-in arguments.
- *
- * @function ([arg1], [arg2])
- * @private
- * @param {Array}           the query values or null,
- * @param {Function}        the function to call at the completion,
- * @returns {Array}         returns an array with the query, params, and callback,
- * @since 0.0.0
- */
-function _getArgs(...args) {
-  let params = []
-    , fn = null
-    ;
-
-  for (let i = 0; i < args.length; i++) {
-    if (typeof args[i] === 'object') {
-      params = args[i];
-    } else if (typeof args[i] === 'function') {
-      fn = args[i];
-    }
-  }
-  return [params, fn];
-}
+// none,
 
 
 // -- Public Static Methods ----------------------------------------------------
@@ -86,23 +64,24 @@ const MQ = {
    * @since 0.0.0
    */
   _getArgs(...args) {
-    return _getArgs(...args);
+    return U1.getArgs(...args);
   },
 
   /**
    * Creates a pool of connections to the database.
    *
-   * @method (arg1, arg2, arg3, arg4, arg5)
+   * @method (arg1, arg2, arg3, arg4, arg5, arg6)
    * @public
    * @param {String}        the database server url,
    * @param {Number}        the port,
    * @param {String}        the database,
    * @param {String}        the user,
    * @param {String}        the user's password,
+   * @param {String}        the timezone,
    * @returns {}            -,
    * @since 0.0.0
    */
-  createPool(host, port, connectionLimit, database, user, password) {
+  createPool(host, port, connectionLimit, database, user, password, timezone) {
     this.pool = mysql.createPool({
       host,
       port,
@@ -110,6 +89,7 @@ const MQ = {
       database,
       user,
       password,
+      timezone,
     });
     // For testing purpose:
     return this.pool;
@@ -150,9 +130,14 @@ const MQ = {
    * @since 0.0.0
    */
   query(cn, query, ...args) {
-    const [params, callback] = _getArgs(...args);
+    const [params, convert, dump, callback] = this._getArgs(...args);
+
+    let q = query;
+    q = convert ? U1.convert(q, 'mysql') : q;
+    if (dump) process.stdout.write(`${q}\n`);
+
     return new Promise((resolve, reject) => {
-      cn.query(query, params, (err, results, fields) => {
+      cn.query(q, params, (err, results, fields) => {
         if (err) {
           reject(err);
           if (callback) callback(err);

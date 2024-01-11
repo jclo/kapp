@@ -1,6 +1,7 @@
 /** ****************************************************************************
  *
- * Overwrites the methods of './server/dbi/dbi.js'.
+ * Extends the methods of './server/dbi/sqlite.js' and './server/dbi/mysql.js'
+ * with the project methods.
  *
  * dbi.js is just a literal object that contains a set of functions.
  * It can't be instantiated.
@@ -10,7 +11,7 @@
  *
  *
  * Public Static Methods:
- *  . zzz                         ...,
+ *  . none,
  *
  *
  *
@@ -28,8 +29,7 @@
 
 
 // -- Local Modules
-const v1 = require('./api/v1/main')
-    , U  = require('../_util/util1')
+const dbi = require('./dbi')
     ;
 
 
@@ -43,11 +43,9 @@ const v1 = require('./api/v1/main')
 // none,
 
 
-// -- Public Static Methods ----------------------------------------------------
+// -- Public Methods -----------------------------------------------------------
 // none,
 
 
 // -- Export
-module.exports = U.extend(
-  v1,
-);
+module.exports = dbi;

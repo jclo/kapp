@@ -41,6 +41,16 @@ const env = {
       password: 'the username password',
       timezone: 'set the timezone',
     },
+    pgsql: {
+      host: 'the server domain name',
+      port: 'the listening port number',
+      connectionLimit: 'the number of simultaneous connections (number)',
+      database: 'the database name',
+      testdb: 'the test database name',
+      user: 'the username with the privileges to access to the database',
+      password: 'the username password',
+      timezone: 'set the timezone',
+    },
   },
 
   mongodb: {

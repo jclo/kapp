@@ -16,6 +16,8 @@
  *
  * Public Methods:
  *  . _query                      processes a query on db (only for testing),
+ *  . isTableNoCnx                checks if a db has a table,
+ *
  *  . end                         free the pool of connections to the database,
  *  . isDbEmpty                   returns true if the database is empty,
  *  . isTable                     returns true if the table exists,
@@ -89,6 +91,7 @@ const MySQL = function(params) {
     process.env.KAPP_MYSQL_DATABASE,
     process.env.KAPP_MYSQL_USER,
     process.env.KAPP_MYSQL_PASSWORD,
+    process.env.KAPP_MYSQL_TIMEZONE,
   );
 };
 
@@ -128,6 +131,22 @@ const methods = {
    */
   end() {
     return this._lib.end();
+  },
+
+  /**
+   * Checks if the table exists.
+   *
+   * @method (arg1)
+   * @public
+   * @param {String}        the name of the table,
+   * @returns {Boolean}     returns true if the table exists otherwise false,
+   * @since 0.0.0
+   */
+  async isTableNoCnx(table) {
+    const SQL = `SELECT * FROM information_schema.tables
+      WHERE table_schema = '${this._db}' AND table_name = '${table}'`;
+    const resp = await this._query(SQL, []);
+    return resp.length > 0;
   },
 
 

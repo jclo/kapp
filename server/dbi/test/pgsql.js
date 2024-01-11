@@ -1,8 +1,8 @@
 /** ****************************************************************************
  *
- * Extends MySQL/MariaDB with the testing methods.
+ * Extends PostgreSQL with the testing methods.
  *
- * mysql.js is just a literal object that contains a set of functions.
+ * pgsql.js is just a literal object that contains a set of functions.
  * It can't be instantiated.
  *
  * Private Functions:
@@ -38,7 +38,7 @@ const config = require('../../config')
 
 // -- Local Constants
 const { level } = config
-    , log       = KZlog('dbi/test/mysql.js', level, false)
+    , log       = KZlog('dbi/test/pgsql.js', level, false)
     ;
 
 
@@ -49,13 +49,13 @@ const { level } = config
 
 const users = `
   CREATE TABLE users(
-    id                            INTEGER        PRIMARY KEY AUTO_INCREMENT,
+    id                                           SERIAL PRIMARY KEY,
     user_name                     VARCHAR(100)   DEFAULT NULL,
     user_hash                     VARCHAR(100)   DEFAULT NULL,
     first_name                    VARCHAR(100)   DEFAULT NULL,
     last_name                     VARCHAR(100)   DEFAULT NULL,
-    is_deleted                    TINYINT(1)     NOT NULL DEFAULT 0,
-    is_locked                     TINYINT(1)     NOT NULL DEFAULT 0
+    is_deleted                    SMALLINT       NOT NULL DEFAULT 0,
+    is_locked                     SMALLINT       NOT NULL DEFAULT 0
   )
 `;
 
@@ -87,9 +87,10 @@ const methods = {
 
     // Check if the db has already been initialized with the
     // 'users table'. If it is the case, erase the previous content:
-    let sql = 'SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?';
-    let resp = await lib.query(cn, sql, ['kapp', 'users']);
-    if (resp.length > 0) {
+    let sql = 'SELECT table_name FROM information_schema.tables WHERE table_schema = $1';
+    let resp = await cn.query(sql, ['public']);
+
+    if (resp.rowCount > 0) {
       log.info('The database is already filled.');
       await lib.release(cn);
       return;
@@ -98,9 +99,10 @@ const methods = {
     // Create a fresh 'users' table:
     log.info('The database is empty.)');
     resp = await lib.query(cn, users);
+
     // Dump the table structure:
-    sql = 'SELECT COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, COLUMN_DEFAULT, EXTRA FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?';
-    resp = await lib.query(cn, sql, ['kapp', 'users']);
+    sql = 'SELECT table_name, column_name, data_type, character_maximum_length, column_default, is_nullable FROM information_schema.columns WHERE table_name = ?';
+    resp = await lib.query(cn, sql, ['users']);
     console.log(resp);
 
     // Fills the 'users' table:

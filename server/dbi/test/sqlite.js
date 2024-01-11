@@ -38,7 +38,7 @@ const config = require('../../config')
 
 // -- Local Constants
 const { level } = config
-    , log       = KZlog('dbi/sqlite.js', level, false)
+    , log       = KZlog('dbi/test/sqlite.js', level, false)
     ;
 
 

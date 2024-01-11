@@ -1,16 +1,16 @@
 /** ****************************************************************************
  *
- * Overwrites the methods of './server/dbi/sqlite.js'.
+ * Extends the methods of './server/dbi/dbi.js' with the project methods.
  *
- * dbi.js is just a literal object that contains a set of functions.
+ * miscellaneous.js is just a literal object that contains a set of functions.
  * It can't be instantiated.
  *
  * Private Functions:
- *  . none
+ *  . none,
  *
  *
  * Public Static Methods:
- *  . zzz                         ...,
+ *  . zzz                         does ...,
  *
  *
  *
@@ -40,22 +40,24 @@
 // none,
 
 
-// -- Public Static Methods ----------------------------------------------------
+// -- Public Methods -----------------------------------------------------------
 
 const methods = {
 
   /**
    * Does ...
-   * (must ...)
    *
    * @method ()
    * @public
    * @param {}              -,
-   * @returns {}            -,
+   * @returns {Object}      returns the response,
    * @since 0.0.0
    */
-  zzz() {
-    //
+  async zzz() {
+    const cn = await this._lib.getConnection();
+    const res = 'await COMM.zzz(this, cn)';
+    await this._lib.release(cn);
+    return res;
   },
 };
 

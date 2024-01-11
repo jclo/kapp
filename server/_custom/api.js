@@ -28,7 +28,7 @@
 
 
 // -- Local Modules
-const Users = require('./users/main')
+const Custom = require('./api/v1/main')
     ;
 
 
@@ -57,8 +57,7 @@ const Users = require('./users/main')
  * @since 0.0.0
  */
 function CAPIs(app, i18n, dbi, dbn) {
-  Users(app, i18n, dbi, dbn);
-  // ...
+  Custom(app, i18n, dbi, dbn);
 }
 
 
