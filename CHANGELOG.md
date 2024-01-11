@@ -1,5 +1,12 @@
 ### HEAD
 
+### 1.9.x (January 11, 2024)
+
+  . Removed Travis CI,
+  . Added Github Actions,
+  . ...,
+
+
 ### 1.9.1 (February 22, 2023)
 
   . Added a mechanism to watch login,

@@ -16,5 +16,5 @@ db/**/*
 !db/testdb.sqlite
 !db/README.md
 
-rmdstore.sh
+
 z_*
