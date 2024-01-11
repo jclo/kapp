@@ -55,7 +55,7 @@ if (process.env.GITHUB_ACTIONS || !config.env.https) {
 chai.use(chaiHttp);
 
 // Create the request object:
-const request = chai.request.agent(server);
+const request = chai.request.agent(server);console.log(request);
 
 // Start the server:
 /* eslint-disable-next-line no-unused-vars */

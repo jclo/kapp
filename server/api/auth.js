@@ -91,7 +91,7 @@ const Auth = function(app, i18n, dbi, dbn) {
 
 
   // POST
-  app.post('/api/v1/auth/login', (req, res) => {
+  app.post('/api/v1/auth/login', (req, res) => {console.log('login........................');
     CAuth.login(dbi, dbn, req, (err) => {
       if (err) {
         res.statusMessage = err;
