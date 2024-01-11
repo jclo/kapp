@@ -6,6 +6,7 @@
   . Added Github Actions,
   . Added .github folder,
   . Added .env.js for Github Actions,
+  . Fixed a typo in ci.yml,
   . ...,
 
 
