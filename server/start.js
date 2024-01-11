@@ -21,6 +21,7 @@
 
 
 // -- Vendor Modules
+const dns = require('node:dns');
 
 
 // -- Local Modules
@@ -65,6 +66,14 @@ function _setEnv() {
 
 
 // -- Main Section -------------------------------------------------------------
+
+// There was a breaking change in Node v17 which changed the default IP resolving.
+// ip6 is preferred by default. Thus, localhost is interpreted as an ip6 address
+// resulting in error of connection with a fetch at 'http://localhost'.
+// A workaroung is to replace localhost' by '127.0.0.1' or rechanging the
+// preferred default with this:
+// (see https://github.com/node-fetch/node-fetch/issues/1624)
+dns.setDefaultResultOrder('ipv4first');
 
 // Starts the server:
 if (process.env.KAPP_ENV_KUBE_YAML) {

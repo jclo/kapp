@@ -38,18 +38,19 @@ const os           = require('os')
 
 
 // -- Local Modules
-const config     = require('./config')
-    , Servers    = require('./core/http')
-    , Routes     = require('./core/routes')
-    , Watcher    = require('./core/watcher')
-    , Processor  = require('./core/process')
-    , Sock       = require('./core/socketservers')
-    , FilterIP   = require('./middlewares/ip/main')
-    , KillOutSe  = require('./middlewares/session/kill')
-    , I18N       = require('./libs/i18n/i18n')
-    , DBI        = require('./dbi/dbi')
-    , MongoDB    = require('./libs/mongodb/main')
-    , env        = require('../.env')
+const config        = require('./config')
+    , Servers       = require('./core/http')
+    , Routes        = require('./core/routes')
+    , Watcher       = require('./core/watcher')
+    , Processor     = require('./core/process')
+    , Sock          = require('./core/socketservers')
+    , FilterDomains = require('./middlewares/ip/filterdomains')
+    , FilterIPs     = require('./middlewares/ip/filterips')
+    , KillOutSe     = require('./middlewares/session/kill')
+    , I18N          = require('./libs/i18n/i18n')
+    , DBI           = require('./dbi/dbi')
+    // , MongoDB       = require('./libs/mongodb/main')
+    , env           = require('../.env')
     ;
 
 
@@ -213,9 +214,8 @@ function App() {
   app.use(_cors(config));
 
   // Here it is an example of middlware:
-  if (process.env.KAPP_NETWORK_FILTER_IP_DISABLED !== 'true') {
-    app.use(FilterIP(_findLocalIP()));
-  }
+  app.use(FilterDomains(_findLocalIP()));
+  app.use(FilterIPs(_findLocalIP()));
 
   // Serve the static pages:
   app.use(express.static(config.env.staticpage));
@@ -236,12 +236,15 @@ function App() {
   dbi.init();
 
   // Create a in-memory database to store tokens and sessions.
-  // It means that if the server crashes the tokens and sessins are lost and
+  // It means that if the server crashes the tokens and sessions are lost and
   // the user needs to login again. On the other side, it is almost
   // impossible to stole them.
-  // Besides, the middleware 'KillOutSe' acts as a garbage collector by
-  // destroying the outdated sessions (sessions with an inactive user).
   const dbn = PicoDB();
+  // Add when the system boot:
+  dbn.insertOne({ server_boot_time_stamp: (new Date()).getTime() });
+
+  // Initiates the middleware 'KillOutSe' that acts as a garbage collector by
+  // destroying the outdated sessions (sessions with an inactive user).
   app.use(KillOutSe(dbn));
 
   // Start the HTTP & HTTPS servers:

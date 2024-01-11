@@ -33,6 +33,7 @@
 // -- Local Constants
 const TIME_BETWEEN_TWO_CHECKS = 1000 * 60 * 5 // 5 minutes
     , OUTDATED_SESSION        = (1000 * 60 * 60) + (1000 * 60 * 15) // 1h 15m 00s
+    , OUTDATED_TOKEN          = (1000 * 60 * 60) + (1000 * 60 * 15) // 1h 15m 00s
     ;
 
 
@@ -81,11 +82,15 @@ function _killOld(dbn, req, next, docs) {
         _deleteSession(docs[i]._sessionID, req, docs[i].user_name);
         dbn.deleteOne({ _sessionID: docs[i]._sessionID });
       }
-    } else {
+    } else if (docs[i]._timestamp_login) {
       now = (new Date()).getTime();
       if (now - docs[i]._timestamp_login > OUTDATED_SESSION) {
         _deleteSession(docs[i]._sessionID, req, docs[i].user_name);
         dbn.deleteOne({ _sessionID: docs[i]._sessionID });
+      }
+    } else if (docs[i].token) {
+      if ((now - docs[i].token.expires_at) > OUTDATED_TOKEN) {
+        dbn.deleteOne({ _id: docs[i]._id });
       }
     }
   }

@@ -17,6 +17,7 @@
   * Added the support of PostgreSQL,
   * Reduced the coverage for functions,
   * Added kube-local.yaml to run KApp inside a kubernetes node,
+  * Added middlewares to filter IPs and domains,
   * ...,
 
 

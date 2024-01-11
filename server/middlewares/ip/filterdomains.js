@@ -1,8 +1,8 @@
 /** ****************************************************************************
  *
- * Defines the middleware that filters IPs.
+ * Defines the middleware that filters domains.
  *
- * main.js is just a literal object that contains a set of functions.
+ * filterdomains.js is just a literal object that contains a set of functions.
  * It can't be instantiated.
  *
  * Private Functions:
@@ -36,11 +36,15 @@ const config = require('../../config')
 
 // -- Local Constants
 const { level } = config
-    , log       = KZlog('middlewares/ip/main.js', level, false)
+    , log       = KZlog('middlewares/ip/filterdomains.js', level, false)
     ;
 
 
 // -- Local Variables
+
+
+// -- Private Functions --------------------------------------------------------
+// none,
 
 
 // -- Public -------------------------------------------------------------------
@@ -54,9 +58,11 @@ const { level } = config
  * @returns {Function}      returns the middleware that filters host access,
  * @since 0.0.0
  */
-function FilterIP(net) {
+function FilterDomains(net) {
+  const domains = process.env.KAPP_NETWORK_FILTER_DOMAINS.split(',');
+
   return function(req, res, next) {
-    if (!config.cors && !config.cors.hostname && !Array.isArray(config.cors.hostname)) {
+    if (process.env.KAPP_NETWORK_FILTER_DOMAINS === 'false') {
       log.trace(`1: the connection is accepted for ${req.hostname}.`);
       next();
       return;
@@ -72,18 +78,18 @@ function FilterIP(net) {
       return;
     }
 
-    for (let i = 0; i < config.cors.hostname.length; i++) {
-      if (req.hostname === config.cors.hostname[i]) {
-        log.trace(`3: the connection is accepted for ${req.hostname}.`);
-        next();
-        return;
-      }
+    // Authorize connections from listed domains:
+    if (domains.indexOf(req.hostname) > -1) {
+      log.trace(`3: the connection is accepted for ${req.hostname}.`);
+      next();
+      return;
     }
-    res.status(403).send({ status: 403, message: 'You are not authorized to access to this server!' });
+
+    res.status(403).send({ status: 403, message: 'You are not authorized to access this server!' });
     log.warn(`The connection from "${req.hostname}" was rejected!`);
   };
 }
 
 
 // -- Export
-module.exports = FilterIP;
+module.exports = FilterDomains;
