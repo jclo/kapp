@@ -12,7 +12,7 @@
     "kustart": "cross-env KAPP_ENV_KUBE_YAML=true node server/start.js",
     "test": "cross-env NODE_ENV=test nyc --reporter=lcov mocha ./test/main.js --exit",
     "display-coverage": "opener ./coverage/lcov-report/index.html",
-    "check-coverage": "nyc check-coverage --statements 0 --branches 0 --functions 0 --lines 0",
+    "check:coverage": "nyc check-coverage --statements 0 --branches 0 --functions 0 --lines 0",
     "report-coverage": "nyc report --reporter=text-lcov | coveralls",
     "report": "nyc report",
     "makeprod": "sh tasks/prod.sh _prod-$npm_package_version && node tasks/prod.js _prod-$npm_package_version",

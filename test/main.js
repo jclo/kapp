@@ -71,12 +71,12 @@ shell.exec('./test/init_test_db.sh 1');
 // Let's Go!
 describe('Test Kapp:', () => {
   apiauth(request, user, pack);
-  // apiex(request);
-  // apii18n(request, user);
-  // apiradio(request, user);
-  // apisys(request, user, pack);
-  // apitok(request, user, pack);
-  // apiuser(request, user, dbi);
+  apiex(request);
+  apii18n(request, user);
+  apiradio(request, user);
+  apisys(request, user, pack);
+  apitok(request, user, pack);
+  apiuser(request, user, dbi);
 });
 
 
