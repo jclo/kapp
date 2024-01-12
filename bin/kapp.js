@@ -661,7 +661,7 @@ function _populate(options) {
   _customize(baseboiler, baseapp, app, author, boilerlib);
 
   // Copy Husky Hook:
-  _addHuskyHook(baseboiler, baseapp, husky, app, boilerlib);
+  // _addHuskyHook(baseboiler, baseapp, husky, app, boilerlib);
 
   // Copy Public files:
   _addPublic(baseboiler, baseapp, publicdir);
@@ -683,7 +683,7 @@ function _populate(options) {
   _addDocker(baseboiler, baseapp, docker, app, boilerlib);
   _addDbScripts(baseboiler, baseapp, dbscripts, app, boilerlib);
   _addTCPClient(baseboiler, baseapp, tcpclient, app, boilerlib);
-  _addSQLiteAmal(baseboiler, baseapp, sqliteamal, app, boilerlib);
+  // _addSQLiteAmal(baseboiler, baseapp, sqliteamal, app, boilerlib);
   _addGithubActions(baseboiler, baseapp, '.github');
 
   process.stdout.write('Done. Enjoy!\n');

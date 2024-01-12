@@ -1,6 +1,6 @@
 ### HEAD
 
-### 1.9.x (January 11, 2024)
+### 2.x.x (January 12, 2024)
 
   * Removed Travis CI,
   * Added Github Actions,
@@ -19,6 +19,7 @@
   * Added kube-local.yaml to run KApp inside a kubernetes node,
   * Added middlewares to filter IPs and domains,
   * Updated bin/kapp.js script,
+  * Published 2.0.0-beta.1,
   * ...,
 
 
