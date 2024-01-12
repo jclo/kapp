@@ -1,6 +1,6 @@
 ### HEAD
 
-### 2.x.x (January 12, 2024)
+### 2.0.0 (January 12, 2024)
 
   * Removed Travis CI,
   * Added Github Actions,
@@ -21,7 +21,7 @@
   * Updated bin/kapp.js script,
   * Published 2.0.0-beta.1,
   * Fixed a few issues found during the creation of a KApp server,
-  * ...,
+  * Release.
 
 
 ### 1.9.1 (February 22, 2023)
