@@ -41,6 +41,9 @@ const sqlite3 = require('sqlite3').verbose()
 
 
 // -- Local Modules
+const env = require('../../../.env')
+    , U1  = require('../../dbi/util')
+    ;
 
 
 // -- Local Constants
@@ -56,39 +59,49 @@ const sqlite3 = require('sqlite3').verbose()
  *
  * Input could be:
  * (with params, f1, f1 optional)
- *  - param 1, param 2, ...  param n, f1, f2
- *  - [param 1, param 2, ..., param n], f1, f2
- *  - { p1: val, p1: val, ...}, f1, f2
+ *  - param 1, param 2, ...  param n, convert, dump, f1, f2
+ *  - [param 1, param 2, ..., param n], convert, dump, f1, f2
+ *  - { p1: val, p1: val, ...}, convert, dump, f1, f2
  *
  * @function (...args)
  * @private
  * @param {...}             list of params, or array or object,
+ * @param {Boolean}         if sql query must be processed,
+ * @param {Boolean}         if sql query must be printed,
  * @param {Function}        first callback function,
  * @param {Function}        second callback function,
  * @returns {Array}         returns an array with params and callbacks 1 and 2,
  * @since 0.0.0
  */
 function _getArgs(...args) {
-  let params = []
-    , f1     = null
-    , f2     = null
+  let params  = []
+    , convert = null
+    , dump    = null
+    , f1      = null
+    , f2      = null
     ;
 
   for (let i = 0; i < args.length; i++) {
-    if (typeof args[i] === 'function') {
+    if (Array.isArray(args[i]) || Object.prototype.toString.call(args[i]) === '[object Object]') {
+      params = args[i];
+    } else if (args[i] === true || args[i] === false || Object.prototype.toString.call(args[i]) === '[object Boolean]') {
+      if (convert !== true && convert !== false) {
+        convert = args[i];
+      } else {
+        dump = args[i];
+      }
+    } else if (Object.prototype.toString.call(args[i]) === '[object Function]') {
       if (!f1) {
         f1 = args[i];
       } else {
         f2 = args[i];
       }
-    } else if (typeof args[i] === 'object') {
-      params = args[i];
     } else {
       params.push(args[i]);
     }
   }
 
-  return [params, f1, f2];
+  return [params, convert, dump, f1, f2];
 }
 
 /**
@@ -103,7 +116,7 @@ function _getArgs(...args) {
  * @since 0.0.0
  */
 function _each(db, query, ...args) {
-  const [params, action, complete] = _getArgs(...args);
+  const [params, , , action, complete] = _getArgs(...args);
 
   return new Promise((resolve, reject) => {
     if (complete) {
@@ -146,6 +159,8 @@ const SQ = {
    * @method (...args)
    * @public
    * @param {...}           the sql params as a list or an array or an object,
+   * @param {Boolean}       if sql query must be processed,
+   * @param {Boolean}       if sql query must be printed,
    * @param {Function}      the first callback function,
    * @param {Function}      the second callback function,
    * @returns {Array}       returns an array with the params and the 2 callbacks,
@@ -191,7 +206,7 @@ const SQ = {
    * @since 0.0.0
    */
   getConnection(callback) {
-    const path = this._db;
+    const path = process.env.KAPP_TEST_MODE ? env.db.sqlite.testdb : env.db.sqlite.database;
     return this.open(path, callback);
   },
 
@@ -216,14 +231,21 @@ const SQ = {
    * @param {Object}        the connection to the db,
    * @param {String}        the SQL query,
    * @param {...}           the list of params,
+   * @param {Boolean}       if sql query must be processed,
+   * @param {Boolean}       if sql query must be printed,
    * @param {Function}      the function to call at the completion,
    * @returns {Object}      returns a promise,
    * @since 0.0.0
    */
   run(cn, query, ...args) {
-    const [params, callback] = _getArgs(...args);
+    const [params, convert, dump, callback] = _getArgs(...args);
+
+    let q = query;
+    q = convert ? U1.convert(q, 'sqlite') : q;
+    if (dump) process.stdout.write(`${q}\n`);
+
     return new Promise((resolve, reject) => {
-      cn.run(query, params, (err) => {
+      cn.run(q, params, (err) => {
         if (err) {
           reject(err);
           if (callback) callback(err);
@@ -243,14 +265,21 @@ const SQ = {
    * @param {Object}        the connection to the db,
    * @param {String}        the SQL query,
    * @param {...}           the list of params,
+   * @param {Boolean}       if sql query must be processed,
+   * @param {Boolean}       if sql query must be printed,
    * @param {Function}      the function to call at the completion,
    * @returns {Object}      returns a promise,
    * @since 0.0.0
    */
   get(cn, query, ...args) {
-    const [params, callback] = _getArgs(...args);
+    const [params, convert, dump, callback] = _getArgs(...args);
+
+    let q = query;
+    q = convert ? U1.convert(q, 'sqlite') : q;
+    if (dump) process.stdout.write(`${q}\n`);
+
     return new Promise((resolve, reject) => {
-      cn.get(query, params, (err, data) => {
+      cn.get(q, params, (err, data) => {
         if (err) {
           reject(err);
         } else {
@@ -269,14 +298,21 @@ const SQ = {
    * @param {Object}        the connection to the db,
    * @param {String}        the SQL query,
    * @param {...}           the list of params,
+   * @param {Boolean}       if sql query must be processed,
+   * @param {Boolean}       if sql query must be printed,
    * @param {Function}      the function to call at the completion,
    * @returns {Object}      returns a promise,
    * @since 0.0.0
    */
   all(cn, query, ...args) {
-    const [params, callback] = _getArgs(...args);
+    const [params, convert, dump, callback] = _getArgs(...args);
+
+    let q = query;
+    q = convert ? U1.convert(q, 'sqlite') : q;
+    if (dump) process.stdout.write(`${q}\n`);
+
     return new Promise((resolve, reject) => {
-      cn.all(query, params, (err, data) => {
+      cn.all(q, params, (err, data) => {
         if (err) {
           reject(err);
         } else {
@@ -313,6 +349,8 @@ const SQ = {
    * @public
    * @param {Object}        the connexion object,
    * @param {String}        the SQL query
+   * @param {Boolean}       if sql query must be processed,
+   * @param {Boolean}       if sql query must be printed,
    * @param {Function}      the function to call at the completion,
    * @returns {Object}      returns a promise,
    * @since 0.0.0

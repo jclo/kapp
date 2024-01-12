@@ -16,7 +16,7 @@ const DBI      = require('../server/dbi/dbi')
     , config   = require('../server/config')
     , env      = require('../.env')
     , pack     = require('../package.json')
-    // Kapp
+    // KApp
     , apiauth  = require('./int/api-auth')
     , apiex    = require('./int/api-examples')
     , apii18n  = require('./int/api-i18n')
@@ -82,8 +82,8 @@ const dbi = DBI(env.db.active);
 shell.exec('./test/init_test_db.sh 1');
 
 // Let's Go!
-describe('Test KApp Base Server:', () => {
-  describe('Test KApp Base Server:', () => {
+describe('Test KApp Server:', () => {
+  describe('Test KApp Server:', () => {
     apiauth(request, user, pack);
     apiex(request);
     apii18n(request, user);

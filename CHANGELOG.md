@@ -20,6 +20,7 @@
   * Added middlewares to filter IPs and domains,
   * Updated bin/kapp.js script,
   * Published 2.0.0-beta.1,
+  * Fixed a few issues found during the creation of a KApp server,
   * ...,
 
 

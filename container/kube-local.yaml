@@ -110,7 +110,7 @@ spec:
             - name: KAPP_PGSQL_PORT
               value: '5432'
             - name: KAPP_PGSQL_CNX_LIMIT
-              value: '50'
+              value: '10'
             - name: KAPP_PGSQL_DATABASE
               value: 'kapp'
             - name: KAPP_PGSQL_USER

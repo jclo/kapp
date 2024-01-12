@@ -1,7 +1,7 @@
 {
   "name": "@mobilabs/kapp",
-  "version": "2.0.0-beta.1",
-  "dbVersion": "2.0.0-beta.1",
+  "version": "2.0.0-beta.4",
+  "dbVersion": "2.0.0-beta.4",
   "description": "A boilerplate to build a basic app server tuned to run into kubernetes",
   "main": "",
   "bin": {
@@ -46,13 +46,6 @@
   "bugs": {
     "url": "https://github.com/jclo/kapp/issues"
   },
-  "c8": {
-    "include": [
-      "server/**/*.js"
-    ],
-    "exclude": [],
-    "all": true
-  },
   "homepage": "https://github.com/jclo/kapp",
   "dependencies": {
     "@mobilabs/kzlog": "^1.0.3",
@@ -81,6 +74,13 @@
     "husky": "^8.0.3",
     "js-yaml": "^4.1.0",
     "mocha": "^10.2.0"
+  },
+  "c8": {
+    "include": [
+      "server/**/*.js"
+    ],
+    "exclude": [],
+    "all": true
   },
   "publishConfig": {
     "access": "public"

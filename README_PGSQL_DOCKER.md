@@ -46,8 +46,8 @@ Then, create a new database with an associated user:
 
 ```bash
 postgres=# CREATE DATABASE testdb;
-postgres=# CREATE USER user WITH ENCRYPTED PASSWORD 'user';
-postgres=# ALTER DATABASE testdb OWNER TO user; 
+postgres=# CREATE USER <user> WITH ENCRYPTED PASSWORD '<pwd>';
+postgres=# ALTER DATABASE testdb OWNER TO <user>; 
 ```
 
 ### Useful commands
@@ -72,8 +72,8 @@ Type:
 ```bash
 docker pull dpage/pgadmin4
 docker run -p 8080:80 \
-    -e 'PGADMIN_DEFAULT_EMAIL=contact@mobilabs.fr' \
-    -e 'PGADMIN_DEFAULT_PASSWORD=root' \
+    -e 'PGADMIN_DEFAULT_EMAIL=<email>' \
+    -e 'PGADMIN_DEFAULT_PASSWORD=<rootpwd>' \
     -d dpage/pgadmin4
 ```
 

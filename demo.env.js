@@ -27,7 +27,7 @@ const env = {
   // Define here the credentials to access your database. This hidden file
   // is declared not to be exported in '.gitignore'.
   db: {
-    active: 'the name of the active database - currently "sqlite" or "mysql"',
+    active: 'the name of the active database - currently "sqlite" or "mysql" or "pgsql',
     sqlite: {
       database: 'the path to sqlite database',
       testdb: 'the path to sqlite test database',

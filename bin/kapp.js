@@ -96,6 +96,9 @@ const readme = [
   ' ',
   'MIT.',
   '',
+  '',
+  '-- oOo --',
+  '',
 ].join('\n');
 
 const license = [
@@ -134,7 +137,8 @@ const changelog = [
   '',
   '',
   '-- oOo --',
-  ''].join('\n');
+  '',
+].join('\n');
 
 const index = [''].join('\n');
 
@@ -308,13 +312,14 @@ function _duplicate(source, dest) {
     '.eslintrc', '.env.github.js', 'demo.env.js', 'rmdstore.sh',
     'README_KAPP_API.md',
     'README_LIB_MONGODB.md', 'README_PGSQL_DOCKER.md',
-    'README_SOCKETS.md',
+    'README_SOCKETS.md', 'README.md',
   ];
 
   for (let i = 0; i < dupFiles.length; i++) {
     process.stdout.write(`  copied ${dupFiles[i]}\n`);
     shell.cp(`${source}/${dupFiles[i]}`, `${dest}/.`);
   }
+  shell.mv(`${dest}/README.md`, `${dest}/README_KAPP.md`);
 
   shell.cp(`${dest}/demo.env.js`, `${dest}/.env.js`);
 }
@@ -358,6 +363,7 @@ function _customize(source, dest, app, owner, boilerlib) {
   pack.license = obj.license;
   pack.bugs = obj.bugs;
   pack.bugs.url = `https://github.com/${owner.acronym}/${app.toLowerCase()}/issues`;
+  pack.c8 = obj.c8;
   pack.homepage = `https://github.com/${owner.acronym}/${app.toLowerCase()}`;
   pack.dependencies = obj.dependencies;
   pack.devDependencies = obj.devDependencies;
@@ -365,7 +371,7 @@ function _customize(source, dest, app, owner, boilerlib) {
   pack.private = obj.private;
   pack.husky = obj.husky;
 
-  pack.devDependencies[`@mobilabs/${boilerlib.toLocaleLowerCase()}`] = `http://localhost/~dev/privatenpm/${boilerlib.toLocaleLowerCase()}/${version}/${boilerlib.toLocaleLowerCase()}.tgz`;
+  pack.devDependencies[`@mobilabs/${boilerlib.toLocaleLowerCase()}`] = `^${version}`;
 
   delete pack.dependencies.nopt;
   delete pack.dependencies.shelljs;

@@ -10,7 +10,6 @@ _prod-*
 db/**/*
 !docker.sh
 !db/db.sqlite
-!db/testdb.sqlite
 !db/README.md
 server/_kadmin/admin/dbi/_avatars/_clip_art_animals
 server/ssl/*.pem
