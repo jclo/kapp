@@ -2,8 +2,9 @@
 
 ### 2.0.x (January 20, 2024)
 
-  * Updated cryptokeys library,
+  * Updated the cryptokeys library,
   * Fixed a few typos,
+  * Updated the project with es6lib v2.1.1,
   * ...,
 
 

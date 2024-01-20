@@ -16,17 +16,13 @@
     "testing": " --- TESTING --- ",
     "test": "cross-env NODE_ENV=test c8 --reporter=lcov mocha ./test/main.js --exit",
     "display:coverage": "open -a safari ./coverage/lcov-report/index.html",
-    "check:coverage": "c8 check-coverage --statements 60 --branches 60 --functions 30 --lines 60",
+    "check:coverage": "c8 check-coverage --statements 80 --branches 70 --functions 40 --lines 80",
     "report": "c8 report",
 
     "deployment": " --- DEPLOYMENT --- ",
     "dep:prod": "sh tasks/prod.sh _prod-$npm_package_version && node tasks/prod.js _prod-$npm_package_version",
     "dep:private:package": "sh tasks/private.sh && sh tasks/compress.sh ${npm_package_name} ${npm_package_version} @mobilabs",
-
-    "doc:site:web": " --- DOCUMENT WEB SITE --- ",
-    "doc:site:init": "kasar xxx orion run once only",
-    "doc:site:build": "kasar build",
-    "doc:site:start": "kasar serve",
+    "dep:npm:private:package": "npm pack && sh scripts/dep.npm.private.sh ${npm_package_name} ${npm_package_version} @mobilabs",
 
     "others": " --- OTHERS ---",
     "prepare": "husky install",
@@ -55,7 +51,7 @@
     "express": "^4.18.2",
     "express-session": "^1.17.3",
     "mongodb": "^6.3.0",
-    "mysql2": "^3.7.0",
+    "mysql2": "^3.7.1",
     "nopt": "^7.2.0",
     "pg": "^8.11.3",
     "picodb": "^1.0.5",
@@ -73,13 +69,20 @@
     "eslint-plugin-import": "^2.29.1",
     "husky": "^8.0.3",
     "js-yaml": "^4.1.0",
-    "mocha": "^10.2.0"
+    "mocha": "^10.2.0",
+    "@mobilabs/es6lib": "2.1.1"
   },
   "c8": {
     "include": [
       "server/**/*.js"
     ],
-    "exclude": [],
+    "exclude": [
+      "server/libs/cryptokeys/**/*",
+      "server/libs/i18n/server/**/*",
+      "server/libs/mongodb/**/*",
+      "server/libs/mysql/**/*",
+      "server/libs/pgsql/**/*"
+    ],
     "all": true
   },
   "publishConfig": {

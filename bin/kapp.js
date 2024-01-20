@@ -33,10 +33,13 @@
 
 // -- Vendor Modules
 const fs    = require('fs')
-    , path  = require('path')
     , nopt  = require('nopt')
+    , path  = require('path')
     , shell = require('shelljs')
     ;
+
+
+// -- Local modules
 
 
 // -- Local Variables
@@ -51,7 +54,7 @@ const defBoilerLib  = 'kapp'
     , publicdir   = 'public'
     , serverdir   = 'server'
     , test        = 'test'
-    , tasks       = 'tasks'
+    , scripts     = 'scripts'
     // , docs        = 'docs'
     , db          = 'db'
     , examples    = 'examples'
@@ -140,7 +143,9 @@ const changelog = [
   '',
 ].join('\n');
 
-const index = [''].join('\n');
+const index = [
+  '',
+].join('\n');
 
 const gitignore = [
   '.DS_Store',
@@ -154,26 +159,32 @@ const gitignore = [
   '!db/README.md',
   'server/ssl/*.pem',
   '.env.js',
-  ''].join('\n');
+  '',
+].join('\n');
 
 const eslintignore = [
-  ''].join('\n');
+  '',
+].join('\n');
 
 const npmignore = [
   '*',
   '!_public/**/*',
   '!server/**/*',
   '!test/**/*',
-  ''].join('\n');
+  '',
+].join('\n');
 
 
 // -- Private Functions --------------------------------------------------------
 
 /**
- * Displays help message.
+ * Dispays the help message.
  *
  * @function ()
  * @private
+ * @param {}           -,
+ * @returns {}         -,
+ * @since 0.0.0
  */
 function _help() {
   const message = ['',
@@ -352,6 +363,7 @@ function _customize(source, dest, app, owner, boilerlib) {
   pack.scripts = obj.scripts;
   pack.scripts['check:coverage'] = 'c8 check-coverage --statements 100 --branches 100 --functions 100 --lines 100';
   delete pack.scripts['dep:private:package'];
+  delete pack.scripts['dep:npm:private:package'];
 
   pack.repository = obj.repository;
   pack.repository.url = `https://github.com/${owner.acronym}/${app.toLowerCase()}.git`;
@@ -371,7 +383,8 @@ function _customize(source, dest, app, owner, boilerlib) {
   pack.private = obj.private;
   pack.husky = obj.husky;
 
-  pack.devDependencies[`@mobilabs/${boilerlib.toLocaleLowerCase()}`] = `^${version}`;
+  delete pack.devDependencies['@mobilabs/es6lib'];
+  pack.devDependencies[`@mobilabs/${boilerlib.toLocaleLowerCase()}`] = version;
 
   delete pack.dependencies.nopt;
   delete pack.dependencies.shelljs;
@@ -379,21 +392,6 @@ function _customize(source, dest, app, owner, boilerlib) {
   process.stdout.write(`  updated ${npm}\n`);
   json.stdout = JSON.stringify(pack, null, 2);
   json.to(`${baseapp}/${npm}`);
-}
-
-/**
- * Adds Husky Hook.
- *
- * @function (arg1, arg2, arg3)
- * @private
- * @param {String}          the source path,
- * @param {String}          the destination path,
- * @param {String}          the destination folder,
- * @returns {}              -,
- */
-function _addHuskyHook(source, dest, folder) {
-  shell.mkdir('-p', `${dest}/${folder}`);
-  shell.cp('-r', `${source}/pre-commit`, `${dest}/${folder}/.`);
 }
 
 /**
@@ -414,7 +412,7 @@ function _addPublic(source, dest, folder) {
 }
 
 /**
- * Adds the task files.
+ * Adds the script files.
  *
  * @function (arg1, arg2, arg3, arg4, arg5)
  * @private
@@ -425,8 +423,10 @@ function _addPublic(source, dest, folder) {
  * @param {String}          the name of the boilerplate,
  * @returns {}              -,
  */
-function _addTasks(source, dest, folder/* , app, boilerlib */) {
+function _addScripts(source, dest, folder, app, boilerlib) {
   const exclude = []
+      , boiler  = '{{boiler:name}}'
+      , ver     = '{{boiler:name:version}}'
       ;
 
   process.stdout.write(`  duplicated the contents of ${folder}\n`);
@@ -436,6 +436,41 @@ function _addTasks(source, dest, folder/* , app, boilerlib */) {
   for (let i = 0; i < exclude.length; i++) {
     shell.rm('-f', `${dest}/${folder}/${exclude[i]}`);
   }
+
+  // Replace 'boilerlib' by 'app' to config.js and add the version
+  // of the boilerplate:
+  // shell.sed('-i', boilerlib, app, `${dest}/${folder}/config.js`);
+  // shell.sed('-i', boiler, boilerlib, `${dest}/${folder}/config.js`);
+  // shell.sed('-i', ver, version, `${dest}/${folder}/config.js`);
+}
+
+/**
+ * Adds Husky Hook.
+ *
+ * @function (arg1, arg2, arg3)
+ * @private
+ * @param {String}          the source path,
+ * @param {String}          the destination path,
+ * @param {String}          the destination folder,
+ * @returns {}              -,
+ */
+function _addHuskyHook(source, dest, folder) {
+  shell.mkdir('-p', `${dest}/${folder}`);
+  shell.cp('-r', `${source}/${folder}/pre-commit`, `${dest}/${folder}/.`);
+}
+
+/**
+ * Adds Github workfow.
+ *
+ * @function (arg1, arg2, arg3)
+ * @private
+ * @param {String}          the source path,
+ * @param {String}          the destination path,
+ * @param {String}          the destination folder,
+ * @returns {}              -,
+ */
+function _addGithub(source, dest, folder) {
+  shell.cp('-r', `${source}/${folder}`, `${dest}/.`);
 }
 
 /**
@@ -450,7 +485,7 @@ function _addTasks(source, dest, folder/* , app, boilerlib */) {
  * @param {String}          the name of the boilerplate,
  * @returns {}              -,
  */
-function _addTest(source, dest, folder /* , app, boilerlib */) {
+function _addTest(source, dest, folder/* , app, boilerlib */) {
   const exclude = [];
 
   process.stdout.write(`  duplicated the contents of ${folder}\n`);
@@ -460,6 +495,13 @@ function _addTest(source, dest, folder /* , app, boilerlib */) {
   for (let i = 0; i < exclude.length; i++) {
     shell.rm('-f', `${dest}/${folder}/${exclude[i]}`);
   }
+
+  // Replace the name 'boilerlib' by 'app' to dest:
+  // const re = new RegExp(boilerlib, 'g');
+  // const f = shell.find(`${dest}/${folder}`).filter((file) => file.match(/\.js$/));
+  // for (let i = 0; i < f.length; i++) {
+  //   shell.sed('-i', re, app, f[i]);
+  // }
 }
 
 /**
@@ -595,20 +637,6 @@ function _addSQLiteAmal(source, dest, folder) {
 }
 
 /**
- * Adds Github workfow.
- *
- * @function (arg1, arg2, arg3)
- * @private
- * @param {String}          the source path,
- * @param {String}          the destination path,
- * @param {String}          the destination folder,
- * @returns {}              -,
- */
-function _addGithubActions(source, dest, folder) {
-  shell.cp('-r', `${source}/${folder}`, `${dest}/.`);
-}
-
-/**
  * Creates and populates the web app.
  *
  * @function (arg1)
@@ -666,17 +694,23 @@ function _populate(options) {
   // Add and customize package.json:
   _customize(baseboiler, baseapp, app, author, boilerlib);
 
-  // Copy Husky Hook:
-  // _addHuskyHook(baseboiler, baseapp, husky, app, boilerlib);
-
   // Copy Public files:
   _addPublic(baseboiler, baseapp, publicdir);
 
+  // Add scripts:
+  _addScripts(baseboiler, baseapp, scripts, app, boilerlib);
+
+  // Copy Test Files:
+  _addTest(baseboiler, baseapp, test, app, boilerlib);
+
+  // Copy Husky Hook:
+  // _addHuskyHook(baseboiler, baseapp, husky, app, boilerlib);
+
+  // Copy .github/workflows:
+  _addGithub(baseboiler, baseapp, '.github');
+
   // Copy Server folder:
   _addServer(baseboiler, baseapp, serverdir, app);
-
-  // Add tasks:
-  _addTasks(baseboiler, baseapp, tasks, app, boilerlib);
 
   // Copy Test Files:
   _addTest(baseboiler, baseapp, test, app, boilerlib);
@@ -690,7 +724,6 @@ function _populate(options) {
   _addDbScripts(baseboiler, baseapp, dbscripts, app, boilerlib);
   _addTCPClient(baseboiler, baseapp, tcpclient, app, boilerlib);
   // _addSQLiteAmal(baseboiler, baseapp, sqliteamal, app, boilerlib);
-  _addGithubActions(baseboiler, baseapp, '.github');
 
   process.stdout.write('Done. Enjoy!\n');
 }
@@ -712,5 +745,6 @@ if (parsed.argv.remain[0] === 'populate') {
 } else {
   _help();
 }
+
 
 // -- oOo ---

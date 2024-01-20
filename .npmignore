@@ -6,9 +6,9 @@
 !dbscripts/**/*
 !examples/**/*
 !public/**/*
+!scripts/prod.js
+!scripts/prod.sh
 !server/**/*
-!tasks/prod.js
-!tasks/prod.sh
 !tcpclient/**/*
 !test/**/*
 
