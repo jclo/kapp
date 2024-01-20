@@ -1,5 +1,12 @@
 ### HEAD
 
+### 2.0.x (January 20, 2024)
+
+  * Updated cryptokeys library,
+  * Fixed a few typos,
+  * ...,
+
+
 ### 2.0.0 (January 12, 2024)
 
   * Removed Travis CI,

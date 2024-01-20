@@ -6,10 +6,13 @@
  * It can't be instantiated.
  *
  * Private Functions:
+ *  . _readKeys                   reads .env.js and returns the VAPID keys or null,
  *  . _getPublicKey               returns the VAPID public key,
  *  . _getKeys                    returns the VAPID public and private keys,
  *  . _generateKeys               generates the VAPID keys,
  *
+ * Public Objects:
+ *  . vapidKeys                   contains the VAPID keys,
  *
  * Public Static Methods:
  *  . generateKeys                generates and returns the VAPID keys,
@@ -30,12 +33,12 @@
 
 
 // -- Vendor Modules
-const crypto = require('crypto');
+const fs     = require('fs')
+    , crypto = require('crypto');
 
 
 // -- Local Modules
-const Env = require('../../../.env')
-    , P   = require('./keyenv')
+const P = require('./keyenv')
     ;
 
 
@@ -48,20 +51,54 @@ const Env = require('../../../.env')
 // -- Private Functions --------------------------------------------------------
 
 /**
- * Returns the VAPID public key.
+ * Reads .env.js and returns the VAPID keys or null.
  *
- * @method ()
- * @public
- * @param {}                -,
- * @returns {Object}        returns public and private keys,
+ * @function (arg1)
+ * @private
+ * @param {Object}          the library object,
+ * @returns {Object}        returns vapid keys or null,
  * @since 0.0.0
  */
-function _getPublicKey() {
-  if (Env.vapidKeys
-    && Env.vapidKeys.publicKey
-    && typeof Env.vapidKeys.publicKey === 'string'
+/* eslint-disable no-param-reassign */
+function _readKeys(that) {
+  // be care at the first start when vapidKeys of .env.js is empty,
+  // require('./env.js) returns a null vapidKeys even after .env.js
+  // has been updated with vapidKeys. Thus, the only way to read
+  // vapidKeys is through _readkeys!
+  /* eslint-disable-next-line global-require */
+  const env = require('../../../.env');
+  if (!env
+      || !env.vapidKeys
+      || !env.vapidKeys.publicKey
+      || !env.vapidKeys.privateKey
   ) {
-    return { publicKey: Env.vapidKeys.publicKey };
+    return null;
+  }
+
+  that.vapidKeys = env.vapidKeys;
+  return that.vapidKeys;
+}
+/* eslint-enable no-param-reassign */
+
+/**
+ * Returns the VAPID public key.
+ *
+ * @function (arg1)
+ * @private
+ * @param {Object}          the library object,
+ * @returns {Object}        returns the public key or null,
+ * @since 0.0.0
+ */
+function _getPublicKey(that) {
+  if (!that.vapidKeys) {
+    _readKeys(that);
+  }
+
+  if (that.vapidKeys
+    && that.vapidKeys.publicKey
+    && typeof that.vapidKeys.publicKey === 'string'
+  ) {
+    return { publicKey: that.vapidKeys.publicKey };
   }
 
   return null;
@@ -70,22 +107,26 @@ function _getPublicKey() {
 /**
  * Returns the VAPID public and private keys.
  *
- * @method ()
- * @public
- * @param {}                -,
- * @returns {Object}        returns public and private keys,
+ * @function (arg1)
+ * @private
+ * @param {Object}          the library object,
+ * @returns {Object}        returns public and private keys or null,
  * @since 0.0.0
  */
-function _getKeys() {
-  if (Env.vapidKeys
-    && Env.vapidKeys.publicKey
-    && typeof Env.vapidKeys.publicKey === 'string'
-    && Env.vapidKeys.privateKey
-    && typeof Env.vapidKeys.privateKey === 'string'
+function _getKeys(that) {
+  if (!that.vapidKeys) {
+    _readKeys(that);
+  }
+
+  if (that.vapidKeys
+    && that.vapidKeys.publicKey
+    && typeof that.vapidKeys.publicKey === 'string'
+    && that.vapidKeys.privateKey
+    && typeof that.vapidKeys.privateKey === 'string'
   ) {
     return {
-      publicKey: Env.vapidKeys.publicKey,
-      privateKey: Env.vapidKeys.privateKey,
+      publicKey: that.vapidKeys.publicKey,
+      privateKey: that.vapidKeys.privateKey,
     };
   }
 
@@ -95,8 +136,8 @@ function _getKeys() {
 /**
  * Generates the VAPID keys.
  *
- * @method ()
- * @public
+ * @function ()
+ * @private
  * @param {}                -,
  * @returns {Object}        returns public and private keys,
  * @since 0.0.0
@@ -133,6 +174,8 @@ function _generateKeys() {
 
 const CryptoKeys = {
 
+  vapidKeys: null,
+
   /**
    * Generates and returns the VAPID keys.
    *
@@ -160,7 +203,7 @@ const CryptoKeys = {
    * @since 0.0.0
    */
   getKeys() {
-    return _getKeys();
+    return _getKeys(this);
   },
 
   /**
@@ -173,7 +216,7 @@ const CryptoKeys = {
    * @since 0.0.0
    */
   getPublicKey() {
-    return _getPublicKey();
+    return _getPublicKey(this);
   },
 
   /**

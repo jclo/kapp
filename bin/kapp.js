@@ -363,10 +363,10 @@ function _customize(source, dest, app, owner, boilerlib) {
   pack.license = obj.license;
   pack.bugs = obj.bugs;
   pack.bugs.url = `https://github.com/${owner.acronym}/${app.toLowerCase()}/issues`;
-  pack.c8 = obj.c8;
   pack.homepage = `https://github.com/${owner.acronym}/${app.toLowerCase()}`;
   pack.dependencies = obj.dependencies;
   pack.devDependencies = obj.devDependencies;
+  pack.c8 = obj.c8;
   pack.publishConfig = obj.publishConfig;
   pack.private = obj.private;
   pack.husky = obj.husky;

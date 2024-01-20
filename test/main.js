@@ -84,15 +84,15 @@ shell.exec('./test/init_test_db.sh 1');
 // Let's Go!
 describe('Test KApp Server:', () => {
   describe('Test KApp Server:', () => {
+    apiradio(request, user);
+    tcpsock();
     apiauth(request, user, pack);
     apiex(request);
     apii18n(request, user);
-    apiradio(request, user);
     apisys(request, user, pack);
     apitok(request, user, pack);
     apitok2(request, user, user2, user3, pack);
     apiuser(request, user, dbi);
-    tcpsock();
     // This test requires a localhost MongoDB server running
     // with a vulcain_test database.
     // apimdb();

@@ -1,6 +1,6 @@
 /** ****************************************************************************
  *
- * Environment file for test on Travis-CI.
+ * Environment file for test on Github Actions.
  *
  *
  * @namespace    -

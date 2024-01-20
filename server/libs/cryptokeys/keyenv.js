@@ -118,8 +118,9 @@ function _updateEnv(keys, callback) {
  * @returns {}              -,
  * @since 0.0.0
  */
+/* eslint-disable no-param-reassign */
 function _addKeysToEnv(that, callback) {
-  let keys = that.getKeys();
+  const keys = that.getKeys();
   if (keys) {
     callback({
       error_code: null,
@@ -128,11 +129,12 @@ function _addKeysToEnv(that, callback) {
     return;
   }
 
-  keys = that.generateKeys();
-  _updateEnv(keys, (resp) => {
+  that.vapidKeys = that.generateKeys();
+  _updateEnv(that.vapidKeys, (resp) => {
     callback(resp);
   });
 }
+/* eslint-enable no-param-reassign */
 
 
 // -- Public Static Methods ----------------------------------------------------
