@@ -40,6 +40,7 @@ const env = {
       testdb: 'the test database name',
       user: 'the username with the privileges to access to the database',
       password: 'the username password',
+      timezone: 'set the timezone',
     },
     pgsql: {
       host: 'the server domain name',

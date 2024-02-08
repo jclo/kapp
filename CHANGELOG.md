@@ -1,5 +1,12 @@
 ### HEAD
 
+### 2.1.1 (February 8, 2024)
+
+  * Updated the project with es6lib v2.2.1,
+  * Added a few more tests to cryptokeys library,
+  * ...,
+
+
 ### 2.1.0 (January 20, 2024)
 
   * Updated the cryptokeys library,

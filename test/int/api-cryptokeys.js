@@ -12,6 +12,7 @@ const CKeys = require('../../server/libs/cryptokeys/main');
 
 
 // -- Local Constants
+const PROPS = 5;
 
 
 // -- Local Variables
@@ -24,8 +25,15 @@ module.exports = () => {
       expect(CKeys).to.be.an('object');
     });
 
-    it('Expects this object to own four properties.', () => {
-      expect(Object.keys(CKeys)).to.be.an('array').that.has.lengthOf(4);
+    it(`Expects this object to own ${PROPS} properties.`, () => {
+      expect(Object.keys(CKeys)).to.be.an('array').that.has.lengthOf(PROPS);
+    });
+
+    it('Expects this object to own "vapidKeys" property that is an object with "publicKey" and "privateKey" properties.', () => {
+      expect(CKeys).to.own.property('vapidKeys').that.is.an('object');
+      expect(Object.keys(CKeys.vapidKeys)).that.is.an('array').that.has.lengthOf(2);
+      expect(CKeys.vapidKeys).own.property('publicKey').that.is.a('string');
+      expect(CKeys.vapidKeys).own.property('privateKey').that.is.a('string');
     });
 
     it('Expects this object to own "generateKeys" property that is a function.', () => {

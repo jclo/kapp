@@ -26,8 +26,8 @@ cp -r ${SOURCE}/db ${NPM}/${TMP}/.
 cp -r ${SOURCE}/dbscripts ${NPM}/${TMP}/.
 cp -r ${SOURCE}/examples ${NPM}/${TMP}/.
 cp -r ${SOURCE}/public ${NPM}/${TMP}/.
+cp -r ${SOURCE}/scripts ${NPM}/${TMP}/.
 cp -r ${SOURCE}/server ${NPM}/${TMP}/.
-cp -r ${SOURCE}/tasks ${NPM}/${TMP}/.
 cp -r ${SOURCE}/tcpclient ${NPM}/${TMP}/.
 cp -r ${SOURCE}/test ${NPM}/${TMP}/.
 
@@ -53,7 +53,7 @@ cp ${SOURCE}/rmdstore.sh ${NPM}/${TMP}/.
 rm ${NPM}/${TMP}/db/db.sqlite
 rm ${NPM}/${TMP}/db/testdb.sqlite
 rm ${NPM}/${TMP}/server/ssl/*.pem
-rm ${NPM}/${TMP}/tasks/private.sh
-rm ${NPM}/${TMP}/tasks/compress.sh
+rm ${NPM}/${TMP}/scripts/private.sh
+rm ${NPM}/${TMP}/scripts/compress.sh
 
 # -- oOo --

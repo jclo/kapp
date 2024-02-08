@@ -19,14 +19,13 @@
     "check:coverage": "c8 check-coverage --statements 80 --branches 70 --functions 40 --lines 80",
     "report": "c8 report",
 
-    "deployment": " --- DEPLOYMENT --- ",
+    "deployment": " --- DEPLOYING --- ",
     "dep:prod": "sh tasks/prod.sh _prod-$npm_package_version && node tasks/prod.js _prod-$npm_package_version",
     "dep:private:package": "sh tasks/private.sh && sh tasks/compress.sh ${npm_package_name} ${npm_package_version} @mobilabs",
     "dep:npm:private:package": "npm pack && sh scripts/dep.npm.private.sh ${npm_package_name} ${npm_package_version} @mobilabs",
 
     "others": " --- OTHERS ---",
-    "prepare": "husky install",
-    "doc": ""
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -36,7 +35,7 @@
   "author": {
     "name": "Mobilabs",
     "email": "contact@mobilabs.fr",
-    "url": "http://www.mobilabs.fr"
+    "url": "https://www.mobilabs.fr"
   },
   "license": "MIT",
   "bugs": {
@@ -44,17 +43,17 @@
   },
   "homepage": "https://github.com/jclo/kapp",
   "dependencies": {
-    "@mobilabs/kzlog": "^1.0.3",
+    "@mobilabs/kzlog": "^1.0.4",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "cookie-parser": "^1.4.6",
     "express": "^4.18.2",
-    "express-session": "^1.17.3",
+    "express-session": "^1.18.0",
     "mongodb": "^6.3.0",
-    "mysql2": "^3.7.1",
+    "mysql2": "^3.9.1",
     "nopt": "^7.2.0",
     "pg": "^8.11.3",
-    "picodb": "^1.0.5",
+    "picodb": "^1.0.6",
     "shelljs": "^0.8.5",
     "sqlite3": "^5.1.7",
     "ws": "^8.16.0"
@@ -70,7 +69,7 @@
     "husky": "^8.0.3",
     "js-yaml": "^4.1.0",
     "mocha": "^10.2.0",
-    "@mobilabs/es6lib": "2.1.1"
+    "@mobilabs/es6lib": "2.2.1"
   },
   "c8": {
     "include": [

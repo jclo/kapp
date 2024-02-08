@@ -39,10 +39,10 @@ const fs    = require('fs')
     ;
 
 
-// -- Local modules
+// -- Local Modules
 
 
-// -- Local Variables
+// -- Local Constants
 const defBoilerLib  = 'kapp'
     /* eslint-disable-next-line object-curly-newline */
     , defAuthor   = { name: 'John Doe', acronym: 'jdo', email: 'jdo@johndoe.com', url: 'http://www.johndoe.com' }
@@ -78,15 +78,18 @@ const defBoilerLib  = 'kapp'
       h: ['--help'],
       v: ['--version', version],
       p: ['--path'],
-      b: ['--boilerlib'],
-      n: ['--name'],
-      a: ['--author'],
-      c: ['--acronym'],
-      e: ['--email'],
-      u: ['--url'],
+      b: ['--boilerlib', defBoilerLib],
+      n: ['--name', defAuthor.name],
+      a: ['--author', defAuthor.name],
+      c: ['--acronym', defAuthor.acronym],
+      e: ['--email', defAuthor.email],
+      u: ['--url', defAuthor.url],
     }
     , parsed = nopt(opts, shortOpts, process.argv, 2)
     ;
+
+
+// -- Local Variables
 
 
 // -- Templates
@@ -423,10 +426,10 @@ function _addPublic(source, dest, folder) {
  * @param {String}          the name of the boilerplate,
  * @returns {}              -,
  */
-function _addScripts(source, dest, folder, app, boilerlib) {
+function _addScripts(source, dest, folder/* , app, boilerlib */) {
   const exclude = []
-      , boiler  = '{{boiler:name}}'
-      , ver     = '{{boiler:name:version}}'
+      // , boiler  = '{{boiler:name}}'
+      // , ver     = '{{boiler:name:version}}'
       ;
 
   process.stdout.write(`  duplicated the contents of ${folder}\n`);
@@ -456,7 +459,7 @@ function _addScripts(source, dest, folder, app, boilerlib) {
  */
 function _addHuskyHook(source, dest, folder) {
   shell.mkdir('-p', `${dest}/${folder}`);
-  shell.cp('-r', `${source}/${folder}/pre-commit`, `${dest}/${folder}/.`);
+  shell.cp('-r', `${source}/pre-commit`, `${dest}/${folder}/.`);
 }
 
 /**
@@ -728,23 +731,66 @@ function _populate(options) {
   process.stdout.write('Done. Enjoy!\n');
 }
 
+/**
+ * Runs the script.
+ *
+ * @function ()
+ * @private
+ * @param {}           -,
+ * @returns {}         -,
+ * @since 0.0.0
+ */
+function _run() {
+  if (parsed.help) {
+    _help();
+  }
 
-// -- Main
-if (parsed.help) {
+  if (parsed.version) {
+    process.stdout.write(`version: ${parsed.version}\n`);
+    return;
+  }
+
+  if (parsed.boilerlib) {
+    process.stdout.write(`boilerlib: ${parsed.boilerlib}\n`);
+    if (!parsed.argv.remain[0]) return;
+  }
+
+  if (parsed.name) {
+    process.stdout.write(`name: ${parsed.name}\n`);
+    if (!parsed.argv.remain[0]) return;
+  }
+
+  if (parsed.author) {
+    process.stdout.write(`author: ${parsed.author}\n`);
+    if (!parsed.argv.remain[0]) return;
+  }
+
+  if (parsed.acronym) {
+    process.stdout.write(`acronym: ${parsed.acronym}\n`);
+    if (!parsed.argv.remain[0]) return;
+  }
+
+  if (parsed.email) {
+    process.stdout.write(`email: ${parsed.email}\n`);
+    if (!parsed.argv.remain[0]) return;
+  }
+
+  if (parsed.url) {
+    process.stdout.write(`url: ${parsed.url}\n`);
+    if (!parsed.argv.remain[0]) return;
+  }
+
+  if (parsed.argv.remain[0] === 'populate') {
+    _populate(parsed);
+    return;
+  }
+
   _help();
 }
 
-if (parsed.version) {
-  process.stdout.write(`version: ${parsed.version}\n`);
-  process.exit(0);
-}
 
-if (parsed.argv.remain[0] === 'populate') {
-  _populate(parsed);
-  _usage();
-} else {
-  _help();
-}
+// -- Where the script starts --------------------------------------------------
+_run();
 
 
 // -- oOo ---
