@@ -1,7 +1,7 @@
 {
   "name": "@mobilabs/kapp",
-  "version": "2.2.x",
-  "dbVersion": "2.2.x",
+  "version": "2.2.0",
+  "dbVersion": "2.2.0",
   "description": "A boilerplate to build a basic app server tuned to run into kubernetes",
   "main": "",
   "bin": {
