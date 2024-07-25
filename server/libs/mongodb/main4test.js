@@ -124,8 +124,8 @@ methods = {
     this._client = new MongoClient(
       this._uri,
       {
-        useUnifiedTopology: this._dbname.options.useUnifiedTopology,
-        useNewUrlParser: this._dbname.options.useNewUrlParser,
+        // useUnifiedTopology: this._dbname.options.useUnifiedTopology,
+        // useNewUrlParser: this._dbname.options.useNewUrlParser,
         connectTimeoutMS: this._dbname.options.connectTimeoutMS,
         // keepAlive: this._dbname.options.keepAlive,
       },
@@ -133,6 +133,7 @@ methods = {
 
     await this._client.connect();
     this._db = this._client.db(this._dbname.database);
+    return this;
   },
 
   /**

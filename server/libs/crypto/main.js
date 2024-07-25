@@ -87,7 +87,10 @@ const Crypto = {
    * @since 0.0.0
    */
   compare(userpass, hash) {
-    return bcrypt.compare(userpass, hash);
+    if (typeof userpass === 'string') {
+      return bcrypt.compare(userpass, hash);
+    }
+    return false;
   },
 };
 

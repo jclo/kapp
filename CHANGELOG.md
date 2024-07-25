@@ -1,5 +1,11 @@
 ### HEAD
 
+### 2.2.x (July 25, 2024)
+
+  * Enhanced libs/crypto/main.js & libs/mongodb/main4test.js,
+  * ...,
+
+
 ### 2.1.1 (February 8, 2024)
 
   * Updated the project with es6lib v2.2.1,
