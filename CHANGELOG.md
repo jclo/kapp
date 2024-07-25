@@ -3,6 +3,7 @@
 ### 2.2.x (July 25, 2024)
 
   * Enhanced libs/crypto/main.js & libs/mongodb/main4test.js,
+  * Updated the project with @mobilabs/es6lib v2.3.0 (updated dependencies),
   * ...,
 
 

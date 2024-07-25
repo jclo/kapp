@@ -1,7 +1,7 @@
 {
   "name": "@mobilabs/kapp",
-  "version": "2.1.1",
-  "dbVersion": "2.1.1",
+  "version": "2.2.x",
+  "dbVersion": "2.2.x",
   "description": "A boilerplate to build a basic app server tuned to run into kubernetes",
   "main": "",
   "bin": {
@@ -24,8 +24,13 @@
     "dep:private:package": "sh scripts/private.sh && sh scripts/compress.sh ${npm_package_name} ${npm_package_version} @mobilabs",
     "dep:npm:private:package": "npm pack && sh scripts/dep.npm.private.sh ${npm_package_name} ${npm_package_version} @mobilabs",
 
+    "doc:site:web": " --- DOCUMENT WEB SITE --- ",
+    "doc:site:init": "kasar xxx orion run once only",
+    "doc:site:build": "kasar build",
+    "doc:site:start": "kasar serve",
+
     "others": " --- OTHERS ---",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "repository": {
     "type": "git",
@@ -47,29 +52,29 @@
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "cookie-parser": "^1.4.6",
-    "express": "^4.18.2",
+    "express": "^4.19.2",
     "express-session": "^1.18.0",
-    "mongodb": "^6.3.0",
-    "mysql2": "^3.9.1",
-    "nopt": "^7.2.0",
-    "pg": "^8.11.3",
+    "mongodb": "^6.8.0",
+    "mysql2": "^3.10.3",
+    "nopt": "^7.2.1",
+    "pg": "^8.12.0",
     "picodb": "^1.0.6",
     "shelljs": "^0.8.5",
     "sqlite3": "^5.1.7",
-    "ws": "^8.16.0"
+    "ws": "^8.18.0"
   },
   "devDependencies": {
-    "c8": "^9.0.0",
-    "chai": "^4.4.0",
+    "c8": "^10.1.2",
+    "chai": "^4.5.0",
     "chai-http": "^4.4.0",
     "cross-env": "^7.0.3",
-    "eslint": "^8.56.0",
+    "eslint": "^8.57.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.29.1",
-    "husky": "^8.0.3",
+    "husky": "^9.1.2",
     "js-yaml": "^4.1.0",
-    "mocha": "^10.2.0",
-    "@mobilabs/es6lib": "2.2.1"
+    "mocha": "^10.7.0",
+    "@mobilabs/es6lib": "^2.3.0"
   },
   "c8": {
     "include": [
