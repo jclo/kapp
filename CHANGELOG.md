@@ -1,9 +1,9 @@
 ### HEAD
 
-### 2.x (August 8, 2024)
+### 2.3.0 (August 8, 2024)
 
   * Added the fetch2 library, which is based on the native Node.js fetch function,
-  * ...,
+  * Release.
 
 
 ### 2.2.0 (July 25, 2024)
