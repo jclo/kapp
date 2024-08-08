@@ -82,6 +82,8 @@
     ],
     "exclude": [
       "server/libs/cryptokeys/**/*",
+      "server/libs/fetch/**/*",
+      "server/libs/fetch2/**/*",
       "server/libs/i18n/server/**/*",
       "server/libs/mongodb/**/*",
       "server/libs/mysql/**/*",

@@ -1,5 +1,11 @@
 ### HEAD
 
+### 2.x (August 8, 2024)
+
+  * Added the fetch2 library, which is based on the native Node.js fetch function,
+  * ...,
+
+
 ### 2.2.0 (July 25, 2024)
 
   * Enhanced libs/crypto/main.js & libs/mongodb/main4test.js,
