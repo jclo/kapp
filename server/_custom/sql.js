@@ -29,8 +29,7 @@
 
 
 // -- Local Modules
-const dbi = require('./dbi')
-    ;
+import dbi from './dbi.js';
 
 
 // -- Local Constants
@@ -48,4 +47,4 @@ const dbi = require('./dbi')
 
 
 // -- Export
-module.exports = dbi;
+export default dbi;

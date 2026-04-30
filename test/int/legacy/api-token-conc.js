@@ -4,8 +4,8 @@
 
 
 // -- Vendor Modules
-const { expect } = require('chai')
-    ;
+import { expect } from 'chai';
+
 
 // -- Local Modules
 
@@ -17,7 +17,17 @@ const { expect } = require('chai')
 
 
 // -- Main section -
-module.exports = (request, user, user2, user3, pack) => {
+
+/**
+ * Starts the tests.
+ *
+ * @function ()
+ * @public
+ * @param {}                -,
+ * @returns {}              -,
+ * @since 0.0.0
+ */
+function TestToken(agent, user, user2, user3, pack) {
   describe('Test the token APIs, next ...:', () => {
     /**
      * Test concurrent tokens.
@@ -26,7 +36,7 @@ module.exports = (request, user, user2, user3, pack) => {
      */
     let token1;
     it('Expects "POST /api/v1/oauth2/token" to return a successful authentication for token 1.', (done) => {
-      request
+      agent
         .post('/api/v1/oauth2/token')
         .set('Authorization', `Basic ${Buffer.from(`${user.user}:${user.password}`).toString('base64')}`)
         .set('content-type', 'application/json')
@@ -41,7 +51,7 @@ module.exports = (request, user, user2, user3, pack) => {
 
     let token2;
     it('Expects "POST /api/v1/oauth2/token" to return a successful authentication for token 2.', (done) => {
-      request
+      agent
         .post('/api/v1/oauth2/token')
         .set('Authorization', `Basic ${Buffer.from(`${user.user}:${user.password}`).toString('base64')}`)
         .set('content-type', 'application/json')
@@ -55,7 +65,7 @@ module.exports = (request, user, user2, user3, pack) => {
     });
 
     it('Expects "GET /api/v1/system/version" to accept the request for token 1.', (done) => {
-      request
+      agent
         .get('/api/v1/system/version')
         .set('Authorization', `Bearer ${token1.access_token}`)
         .end((err, res) => {
@@ -66,7 +76,7 @@ module.exports = (request, user, user2, user3, pack) => {
     });
 
     it('Expects "GET /api/v1/system/version" to accept the request for token 2.', (done) => {
-      request
+      agent
         .get('/api/v1/system/version')
         .set('Authorization', `Bearer ${token2.access_token}`)
         .end((err, res) => {
@@ -77,7 +87,7 @@ module.exports = (request, user, user2, user3, pack) => {
     });
 
     it('Expects "GET /api/v1/oauth2/revoke" to revoke the access token 1.', (done) => {
-      request
+      agent
         .get('/api/v1/oauth2/revoke')
         .set('Authorization', `Bearer ${token1.access_token}`)
         .end((err, res) => {
@@ -88,7 +98,7 @@ module.exports = (request, user, user2, user3, pack) => {
     });
 
     it('Expects "GET /api/v1/system/version" to refuse the request for token 1.', (done) => {
-      request
+      agent
         .get('/api/v1/system/version')
         .set('Authorization', `Bearer ${token1.access_token}`)
         .end((err, res) => {
@@ -99,7 +109,7 @@ module.exports = (request, user, user2, user3, pack) => {
     });
 
     it('Expects "GET /api/v1/system/version" to accept the request for token 2.', (done) => {
-      request
+      agent
         .get('/api/v1/system/version')
         .set('Authorization', `Bearer ${token2.access_token}`)
         .end((err, res) => {
@@ -110,7 +120,7 @@ module.exports = (request, user, user2, user3, pack) => {
     });
 
     it('Expects "GET /api/v1/oauth2/revoke" to revoke the access token for token 2.', (done) => {
-      request
+      agent
         .get('/api/v1/oauth2/revoke')
         .set('Authorization', `Bearer ${token2.access_token}`)
         .end((err, res) => {
@@ -121,3 +131,7 @@ module.exports = (request, user, user2, user3, pack) => {
     });
   });
 };
+
+
+// -- Export
+export default TestToken;

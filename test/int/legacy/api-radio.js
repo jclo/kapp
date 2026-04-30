@@ -4,11 +4,11 @@
 
 
 // -- Vendor Modules
-const { expect } = require('chai')
-    ;
+import { expect } from 'chai';
+
 
 // -- Local Modules
-const Radio = require('../../server/libs/radio/main');
+import Radio from '../../../server/libs/radio/main.js';
 
 
 // -- Local Constants
@@ -18,7 +18,17 @@ const Radio = require('../../server/libs/radio/main');
 
 
 // -- Main section -
-module.exports = () => {
+
+/**
+ * Starts the tests.
+ *
+ * @function ()
+ * @public
+ * @param {}                -,
+ * @returns {}              -,
+ * @since 0.0.0
+ */
+function TestRadio() {
   describe('Test the Radio lib:', () => {
     it('Expects Radio._db to be an object.', () => {
       expect(Radio._db).to.be.an('object');
@@ -164,3 +174,7 @@ module.exports = () => {
     });
   });
 };
+
+
+// -- Export
+export default TestRadio;

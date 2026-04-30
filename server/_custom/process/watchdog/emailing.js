@@ -27,20 +27,15 @@
 
 
 // -- Vendor Modules
-const KZlog = require('@mobilabs/kzlog')
-    ;
 
 
 // -- Local Modules
-const config = require('../../../config')
-    , FTK    = require('../../../libs/fetch/token')
-    ;
+import CreateLogger from '../../../libs/logger/main.js';
+import FTK from '../../../libs/fetch2/token.js';
 
 
 // -- Local Constants
-const { level } = config
-    , log       = KZlog('_kmaster/process/watchdog/emailing.js', level, false)
-    ;
+const log = CreateLogger(import.meta.url);
 
 
 // -- Local Variables
@@ -188,4 +183,4 @@ const Email = {
 
 
 // -- Export
-module.exports = Email;
+export default Email;

@@ -36,7 +36,7 @@
 
 
 // -- Local Modules
-const R = require('./private/radio');
+import R from './private/radio.js';
 
 
 // -- Local Constants
@@ -174,4 +174,4 @@ const Radio = {
 
 
 // -- Export
-module.exports = Radio;
+export default Radio;

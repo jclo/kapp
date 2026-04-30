@@ -21,17 +21,21 @@
 
 
 // -- Vendor Modules
-const dns = require('node:dns');
+import dns from 'node:dns';
+import fs from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
+import yaml from 'js-yaml';
 
 
 // -- Local Modules
-const App = require('./app')
-    ;
+import App from './app.js';
 
 
 // -- Local Constants
-const yamlfile = './container/kube-local.yaml'
-    ;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const yamlfile = join(__dirname, './container/kube-local.yaml');
 
 
 // -- Local Variables
@@ -48,13 +52,9 @@ const yamlfile = './container/kube-local.yaml'
  * @returns {}              -,
  * @since 0.0.0
  */
-/* eslint-disable global-require, import/no-extraneous-dependencies */
 function _setEnv() {
   try {
-    const yaml = require('js-yaml')
-        , fs   = require('fs')
-        , doc  = yaml.load(fs.readFileSync(yamlfile, 'utf8')).spec.template.spec.containers[0].env
-        ;
+    const doc = yaml.load(fs.readFileSync(yamlfile, 'utf8')).spec.template.spec.containers[0].env;
 
     for (let i = 0; i < doc.length; i++) {
       process.env[doc[i].name] = doc[i].value;
@@ -80,7 +80,7 @@ if (process.env.KAPP_ENV_KUBE_YAML) {
   _setEnv();
 }
 
-App();
+App(__dirname);
 
 
 // -- Export

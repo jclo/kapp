@@ -31,21 +31,16 @@
 
 
 // -- Vendor Modules
-const KZlog   = require('@mobilabs/kzlog')
-    ;
 
 
 // -- Local Modules
-const config = require('../config')
-    , CI18N  = require('../controllers/i18n')
-    , MAuth = require('../middlewares/auth/main')
-    ;
+import CreateLogger from '../libs/logger/main.js';
+import CI18N from '../controllers/i18n.js';
+import MAuth from '../middlewares/auth/main.js';
 
 
 // -- Local Constants
-const { level } = config
-    , log       = KZlog('api/i18n.js', level, false)
-    ;
+const log = CreateLogger(import.meta.url);
 
 
 // -- Local Variables
@@ -60,15 +55,16 @@ const { level } = config
 /**
  * Starts listening for the system APIs.
  *
- * @function (arg1, arg2, arg3)
+ * @function (arg1, arg2, arg3, arg4)
  * @public
+ * @param {Object}          the express.js router for the api,
  * @param {Object}          the express.js app,
  * @param {Object}          the message translator,
  * @param {Object}          the db interface object,
  * @returns {}              -,
  * @since 0.0.0
  */
-const I18N = function(app, i18n, dbi, dbn) {
+const I18N = function(apiRouter, app, i18n, dbi, dbn) {
   // Gets the middleware that check if the client is
   // connected by opening a session through a login or by requesting
   // a token.
@@ -76,14 +72,14 @@ const I18N = function(app, i18n, dbi, dbn) {
 
 
   // GET
-  app.get('/api/v1/i18n/list', auth, (req, res) => {
+  apiRouter.get('/v1/i18n/list', auth, (req, res) => {
     const list = CI18N.getDictionaryList(i18n);
     res.status(200).send(list);
     log.trace('Accepted GET api: "/api/v1/i18n/list".');
   });
 
-  app.get('/api/v1/i18n/:lang', auth, (req, res) => {
-    const dico = CI18N.load(i18n, req, res);
+  apiRouter.get('/v1/i18n/:lang', auth, async (req, res) => {
+    const dico = await CI18N.load(i18n, req, res);
     res.status(200).send(dico);
     log.trace('Accepted GET api: "/api/v1/i18n/:lang".');
   });
@@ -91,4 +87,4 @@ const I18N = function(app, i18n, dbi, dbn) {
 
 
 // -- Export
-module.exports = I18N;
+export default I18N;

@@ -30,12 +30,11 @@
 
 
 // -- Vendor Modules
-const mysql = require('mysql2');
+import mysql from 'mysql2';
 
 
 // -- Local Modules
-const U1 = require('../../dbi/util')
-    ;
+import U1 from '../../dbi/util.js';
 
 
 // -- Local Constants
@@ -109,10 +108,10 @@ const MQ = {
       this.pool.getConnection((err, connection) => {
         if (err) {
           reject(err);
-          if (callback) callback(err);
+          if (callback) { callback(err); }
         } else {
           resolve(connection);
-          if (callback) callback(null, connection);
+          if (callback) { callback(null, connection); }
         }
       });
     });
@@ -134,16 +133,16 @@ const MQ = {
 
     let q = query;
     q = convert ? U1.convert(q, 'mysql') : q;
-    if (dump) process.stdout.write(`${q}\n`);
+    if (dump) { process.stdout.write(`${q}\n`); }
 
     return new Promise((resolve, reject) => {
       cn.query(q, params, (err, results, fields) => {
         if (err) {
           reject(err);
-          if (callback) callback(err);
+          if (callback) { callback(err); }
         } else {
           resolve(results);
-          if (callback) callback(null, results, fields);
+          if (callback) { callback(null, results, fields); }
         }
       });
     });
@@ -163,7 +162,7 @@ const MQ = {
     return new Promise((resolve) => {
       cn.release();
       resolve(true);
-      if (callback) callback(null, true);
+      if (callback) { callback(null, true); }
     });
   },
 
@@ -181,10 +180,10 @@ const MQ = {
       this.pool.end((err) => {
         if (err) {
           reject(err);
-          if (callback) callback(err);
+          if (callback) { callback(err); }
         } else {
           resolve(true);
-          if (callback) callback(null, true);
+          if (callback) { callback(null, true); }
         }
       });
     });
@@ -193,4 +192,4 @@ const MQ = {
 
 
 // -- Export
-module.exports = MQ;
+export default MQ;

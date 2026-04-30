@@ -4,25 +4,35 @@
 
 
 // -- Vendor Modules
-const { expect } = require('chai')
-    ;
+import { expect } from 'chai';
+
 
 // -- Local Modules
 
 
-const MongoLib = require('../../../server/libs/mongodb/main4test')
-    , env      = require('../../../.env').mongodb
-    ;
+import MongoLib from '../../../../server/libs/mongodb/main4test.js';
+import ENV from '../../../../.env.js';
 
 
 // -- Local Constants
+const env = ENV.mongodb;
 
 
 // -- Local Variables
 
 
 // -- Main section -
-module.exports = () => {
+
+/**
+ * Starts the tests.
+ *
+ * @function ()
+ * @public
+ * @param {}                -,
+ * @returns {}              -,
+ * @since 0.0.0
+ */
+function TestMongoDB() {
   describe('Test MongoDB Lib:', () => {
     let dbm;
     it('Expects MongoLib(env) to return an object.', () => {
@@ -119,3 +129,7 @@ module.exports = () => {
     });
   });
 };
+
+
+// -- Export
+export default TestMongoDB;

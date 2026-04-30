@@ -34,24 +34,19 @@
 
 
 // -- Vendor Modules
-const KZlog   = require('@mobilabs/kzlog')
-    ;
 
 
 // -- Local Modules
-const config  = require('../config')
-    , Auth    = require('./auth')
-    , OAuth2  = require('./oauth2')
-    , System  = require('./system')
-    , I18N    = require('./i18n')
-    , CAPIS   = require('../_custom/api/v1/main')
-    ;
+import CreateLogger from '../libs/logger/main.js';
+import Auth from './auth.js';
+import OAuth2 from './oauth2.js';
+import System from './system.js';
+import I18N from './i18n.js';
+import CAPIS from '../_custom/api/v1/main.js';
 
 
 // -- Local Constants
-const { level } = config
-    , log       = KZlog('api/main.js', level, false)
-    ;
+const log = CreateLogger(import.meta.url);
 
 
 // -- Local Variables
@@ -89,8 +84,9 @@ const Api = {
   /**
    * Starts listening requests from the client web site.
    *
-   * @method (arg1, arg2, arg3, arg4, arg5)
+   * @method (arg1, arg2, arg3, arg4, arg5, arg6)
    * @public
+   * @param {Object}        the express.js router for the api,
    * @param {Object}        the express.js app,
    * @param {Object}        the message translator,
    * @param {Object}        the db interface object,
@@ -99,13 +95,12 @@ const Api = {
    * @returns {}            -,
    * @since 0.0.0
    */
-  listen(app, i18n, dbi, dbn, dbm) {
-    Auth(app, i18n, dbi, dbn);
-    OAuth2(app, i18n, dbi, dbn);
-    System(app, i18n, dbi, dbn);
-    I18N(app, i18n, dbi, dbn);
-    CAPIS(app, i18n, dbi, dbn, dbm);
-
+  listen(apiRouter, app, i18n, dbi, dbn, dbm) {
+    Auth(apiRouter, app, i18n, dbi, dbn);
+    OAuth2(apiRouter, app, i18n, dbi, dbn);
+    System(apiRouter, app, i18n, dbi, dbn);
+    I18N(apiRouter, app, i18n, dbi, dbn);
+    CAPIS(apiRouter, app, i18n, dbi, dbn, dbm);
 
     // These are a few examples of apis. For the sake of simplicity,
     // they use a fake middleware for the authentication and
@@ -117,13 +112,13 @@ const Api = {
 
     // GET
     // This GET api returns a simple string.
-    app.get('/api/v1/text', _auth, (req, res) => {
+    apiRouter.get('/v1/text', _auth, (req, res) => {
       res.status(200).send('Hello Text World!');
       log.trace('Accepted GET api: "api/v1/text".');
     });
 
     // This GET api returns a json object.
-    app.get('/api/v1/json', _auth, (req, res) => {
+    apiRouter.get('/v1/json', _auth, (req, res) => {
       res.status(200).send({ a: 'Hello JSON World!' });
       log.trace('Accepted GET api: "api/v1/json".');
     });
@@ -131,7 +126,7 @@ const Api = {
     // POST
     // This POST api sends a payload in the body. The payload is
     // returned.
-    app.post('/api/v1/posto', _auth, (req, res) => {
+    apiRouter.post('/v1/posto', _auth, (req, res) => {
       res.status(200).send(req.body);
       log.trace('Accepted POST api: "api/v1/posto".');
       log.trace('got the payload!');
@@ -141,4 +136,4 @@ const Api = {
 
 
 // -- Export
-module.exports = Api;
+export default Api;

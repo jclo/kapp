@@ -37,7 +37,7 @@
 
 
 // -- Local Modules
-const F = require('./_fetch');
+import F from './_fetch.js';
 
 
 // -- Local Constants
@@ -254,4 +254,4 @@ const COOKFETCH = {
 
 
 // -- Export
-module.exports = COOKFETCH;
+export default COOKFETCH;

@@ -4,9 +4,9 @@
 
 
 // -- Vendor Modules
-const net        = require('net')
-    , { expect } = require('chai')
-    ;
+import net from 'net';
+import { expect } from 'chai';
+
 
 // -- Local Modules
 
@@ -18,7 +18,17 @@ const net        = require('net')
 
 
 // -- Main section -
-module.exports = () => {
+
+/**
+ * Starts the tests.
+ *
+ * @function ()
+ * @public
+ * @param {}                -,
+ * @returns {}              -,
+ * @since 0.0.0
+ */
+function TestTcpSocketServer() {
   describe('Test the Connection to the TCP Socket Server:', () => {
     it('Expects a connection to the TCP Socket Servers to be terminated by a "close" event.', (done) => {
       const client = net.connect({ host: '127.0.0.1', port: 5000 }, () => {
@@ -44,4 +54,5 @@ module.exports = () => {
 };
 
 
-/* -- oOo -- */
+// -- Export
+export default TestTcpSocketServer;

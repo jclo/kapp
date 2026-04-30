@@ -81,4 +81,4 @@ const PGSQL = {
 
 
 // -- Export
-module.exports = PGSQL;
+export default PGSQL;

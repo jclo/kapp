@@ -46,4 +46,4 @@ const French = {
 
 
 // -- Export
-module.exports = French;
+export default French;

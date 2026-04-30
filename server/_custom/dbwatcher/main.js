@@ -25,19 +25,14 @@
 
 
 // -- Vendor Modules
-const KZlog   = require('@mobilabs/kzlog')
-    ;
 
 
 // -- Local Modules
-const config = require('../../config')
-    ;
+import CreateLogger from '../../libs/logger/main.js';
 
 
 // -- Local Constants
-const { level } = config
-    , log       = KZlog('_custom/dbwatcher/main.js', level, false)
-    ;
+const log = CreateLogger(import.meta.url);
 
 
 // -- Local Variables
@@ -68,4 +63,4 @@ const Watch = {
 
 
 // -- Export
-module.exports = Watch;
+export default Watch;

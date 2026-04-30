@@ -30,21 +30,16 @@
 
 
 // -- Vendor Modules
-const KZlog   = require('@mobilabs/kzlog')
-    ;
 
 
 // -- Local Modules
-const config = require('../config')
-    , pack   = require('../../package.json')
-    , MAuth  = require('../middlewares/auth/main')
-    ;
+import CreateLogger from '../libs/logger/main.js';
+import pack from '../../package.json' with { type: 'json' };
+import MAuth from '../middlewares/auth/main.js';
 
 
 // -- Local Constants
-const { level } = config
-    , log       = KZlog('api/connect.js', level, false)
-    ;
+const log = CreateLogger(import.meta.url);
 
 
 // -- Local Variables
@@ -60,15 +55,16 @@ const { level } = config
  * (the answers are pretty straightforward, we don't implement controllers
  *  for these requests)
  *
- * @function (arg1, arg2, arg3)
+ * @function (arg1, arg2, arg3, arg4)
  * @public
+ * @param {Object}          the express.js router for the api,
  * @param {Object}          the express.js app,
  * @param {Object}          the message translator,
  * @param {Object}          the db interface object,
  * @returns {}              -,
  * @since 0.0.0
  */
-const System = function(app, i18n, dbi, dbn) {
+const System = function(apiRouter, app, i18n, dbi, dbn) {
   // Gets the middleware that check if the client is
   // connected by opening a session through a login or by requesting
   // a token.
@@ -76,12 +72,12 @@ const System = function(app, i18n, dbi, dbn) {
 
 
   // GET
-  app.get('/api/v1/system/version', auth, (req, res) => {
+  apiRouter.get('/v1/system/version', auth, (req, res) => {
     res.status(200).send({ version: `${pack.name} v${pack.version}` });
     log.trace('Accepted GET api: "/api/v1/sys/version".');
   });
 
-  app.get('/api/v1/system/kapp-version', auth, (req, res) => {
+  apiRouter.get('/v1/system/kapp-version', auth, (req, res) => {
     res.status(200).send({ version: 'KApp v{{kapp:version}}' });
     log.trace('Accepted GET api: "/api/v1/sys/kapp-version".');
   });
@@ -89,4 +85,4 @@ const System = function(app, i18n, dbi, dbn) {
 
 
 // -- Export
-module.exports = System;
+export default System;

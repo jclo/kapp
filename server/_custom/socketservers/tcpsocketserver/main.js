@@ -26,20 +26,15 @@
 
 
 // -- Vendor Modules
-const net   = require('net')
-    , KZlog = require('@mobilabs/kzlog')
-    ;
+import net from 'net';
 
 
 // -- Local Modules
-const config = require('../../../config')
-    ;
+import CreateLogger from '../../../libs/logger/main.js';
 
 
 // -- Local Constants
-const { level } = config
-    , log       = KZlog('_custom/socketservers/tcpsocketserver/main.js', level, false)
-    ;
+const log       = CreateLogger(import.meta.url);
 
 
 // -- Local Variables
@@ -194,4 +189,4 @@ const SOCK = {
 
 
 // -- Export
-module.exports = SOCK;
+export default SOCK;

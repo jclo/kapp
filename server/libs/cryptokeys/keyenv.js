@@ -26,7 +26,7 @@
 
 
 // -- Vendor Modules
-const fs = require('fs');
+import fs from 'fs';
 
 
 // -- Local Modules
@@ -118,7 +118,6 @@ function _updateEnv(keys, callback) {
  * @returns {}              -,
  * @since 0.0.0
  */
-/* eslint-disable no-param-reassign */
 function _addKeysToEnv(that, callback) {
   const keys = that.getKeys();
   if (keys) {
@@ -134,7 +133,6 @@ function _addKeysToEnv(that, callback) {
     callback(resp);
   });
 }
-/* eslint-enable no-param-reassign */
 
 
 // -- Public Static Methods ----------------------------------------------------
@@ -158,4 +156,4 @@ const PKeys = {
 
 
 // -- Export
-module.exports = PKeys;
+export default PKeys;

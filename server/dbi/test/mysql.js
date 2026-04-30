@@ -26,20 +26,15 @@
 
 
 // -- Vendor Modules
-const KZlog   = require('@mobilabs/kzlog')
-    ;
 
 
 // -- Local Modules
-const config = require('../../config')
-    , crypto = require('../../libs/crypto/main')
-    ;
+import CreateLogger from '../../libs/logger/main.js';
+import crypto from '../../libs/crypto/main.js';
 
 
 // -- Local Constants
-const { level } = config
-    , log       = KZlog('dbi/test/mysql.js', level, false)
-    ;
+const log = CreateLogger(import.meta.url);
 
 
 // -- Local Variables
@@ -60,11 +55,9 @@ const users = `
 `;
 
 const people = [
-  /* eslint-disable object-curly-newline */
   { user_name: 'jdo', user_pwd: 'jdo', first_name: 'John', last_name: 'Doe' },
   { user_name: 'jsn', user_pwd: 'jsn', first_name: 'John', last_name: 'Snow' },
   { user_name: 'jhe', user_pwd: 'jhe', first_name: 'John', last_name: 'Headache' },
-  /* eslint-enable object-curly-newline */
 ];
 
 
@@ -146,4 +139,4 @@ const methods = {
 
 
 // -- Export
-module.exports = methods;
+export default methods;

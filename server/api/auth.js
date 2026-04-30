@@ -33,21 +33,16 @@
 
 
 // -- Vendor Modules
-const KZlog   = require('@mobilabs/kzlog')
-    ;
 
 
 // -- Local Modules
-const config = require('../config')
-    , CAuth = require('../controllers/auth')
-    , MAuth = require('../middlewares/auth/main')
-    ;
+import CreateLogger from '../libs/logger/main.js';
+import CAuth from '../controllers/auth.js';
+import MAuth from '../middlewares/auth/main.js';
 
 
 // -- Local Constants
-const { level } = config
-    , log       = KZlog('api/auth.js', level, false)
-    ;
+const log = CreateLogger(import.meta.url);
 
 
 // -- Local Variables
@@ -58,15 +53,17 @@ const { level } = config
 /**
  * starts listening for login and logout APIs.
  *
- * @function (arg1, arg2, arg3)
+ * @function (arg1, arg2, arg3, arg4, arg5)
  * @public
+ * @param {Object}          the express.js router for the api,
  * @param {Object}          the express.js app,
  * @param {Object}          the message translator,
  * @param {Object}          the db interface object,
+ * @param {Object}          the db for storing doc in memory,
  * @returns {}              -,
  * @since 0.0.0
  */
-const Auth = function(app, i18n, dbi, dbn) {
+const Auth = function(apiRouter, app, i18n, dbi, dbn) {
   // Gets the middleware that check if the client is
   // connected by opening a session through a login or by requesting
   // a token.
@@ -74,7 +71,7 @@ const Auth = function(app, i18n, dbi, dbn) {
 
 
   // GET
-  app.get('/api/v1/auth/logout', auth, (req, res) => {
+  apiRouter.get('/v1/auth/logout', auth, (req, res) => {
     CAuth.logout(dbn, req, (err) => {
       if (err) {
         res.statusMessage = err;
@@ -91,7 +88,7 @@ const Auth = function(app, i18n, dbi, dbn) {
 
 
   // POST
-  app.post('/api/v1/auth/login', (req, res) => {
+  apiRouter.post('/v1/auth/login', (req, res) => {
     CAuth.login(dbi, dbn, req, (err) => {
       if (err) {
         res.statusMessage = err;
@@ -109,4 +106,4 @@ const Auth = function(app, i18n, dbi, dbn) {
 
 
 // -- Export
-module.exports = Auth;
+export default Auth;

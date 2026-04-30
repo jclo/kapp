@@ -48,7 +48,6 @@
  * @returns {Object}        returns an object of methods,
  * @since 0.0.0
  */
-/* eslint-disable no-restricted-syntax, guard-for-in */
 function _extend(...args) {
   const obj = {};
   let source
@@ -63,7 +62,6 @@ function _extend(...args) {
   }
   return obj;
 }
-/* eslint-enable no-restricted-syntax, guard-for-in */
 
 
 // -- Public Static Methods ----------------------------------------------------
@@ -86,4 +84,4 @@ const Util = {
 
 
 // -- Export
-module.exports = Util;
+export default Util;

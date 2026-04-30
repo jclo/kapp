@@ -34,9 +34,7 @@
 
 
 // -- Vendor Modules
-const { MongoClient } = require('mongodb')
-    , { ObjectId }    = require('mongodb')
-    ;
+import { MongoClient, ObjectId } from 'mongodb';
 
 
 // -- Local Modules
@@ -105,7 +103,6 @@ methods = {
   async _dropAllCollections() {
     const collections = await this._db.listCollections({}).toArray();
     for (let i = 0; i < collections.length; i++) {
-      /* eslint-disable-next-line */
       await this._db.dropCollection(collections[i].name);
     }
     return this;
@@ -167,4 +164,4 @@ methods = {
 
 
 // -- Export
-module.exports = MongoDB;
+export default MongoDB;

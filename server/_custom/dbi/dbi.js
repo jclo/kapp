@@ -28,9 +28,8 @@
 
 
 // -- Local Modules
-const v1 = require('./api/v1/main')
-    , U  = require('../_util/util1')
-    ;
+import v1 from './api/v1/main.js';
+import U from '../_util/util1.js';
 
 
 // -- Local Constants
@@ -48,6 +47,6 @@ const v1 = require('./api/v1/main')
 
 
 // -- Export
-module.exports = U.extend(
+export default U.extend(
   v1,
 );

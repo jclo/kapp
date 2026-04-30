@@ -4,8 +4,8 @@
 
 
 // -- Vendor Modules
-const { expect } = require('chai')
-    ;
+import { expect } from 'chai';
+
 
 // -- Local Modules
 
@@ -17,11 +17,21 @@ const { expect } = require('chai')
 
 
 // -- Main section -
-module.exports = (request, user, pack) => {
+
+/**
+ * Starts the tests.
+ *
+ * @function ()
+ * @public
+ * @param {}                -,
+ * @returns {}              -,
+ * @since 0.0.0
+ */
+function TestAuth(agent, user, pack) {
   describe('Test the Authentication APIs:', () => {
     it('Expects "POST /api/v1/auth/login" with a wrong username to be refused.', (done) => {
-      request
-        .post('/api/v1/auth/login')
+      agent
+        .post(`/api/v1/auth/login`)
         .set('content-type', 'application/json')
         .send({ user: `${user.user}x`, password: user.password })
         .end((err, res) => {
@@ -32,8 +42,8 @@ module.exports = (request, user, pack) => {
     });
 
     it('Expects "POST /api/v1/auth/login" with a wrong password to be refused.', (done) => {
-      request
-        .post('/api/v1/auth/login')
+      agent
+        .post(`/api/v1/auth/login`)
         .set('content-type', 'application/json')
         .send({ user: user.user, password: `${user.password}x` })
         .end((err, res) => {
@@ -44,8 +54,8 @@ module.exports = (request, user, pack) => {
     });
 
     it('Expects "POST /api/v1/auth/login" to return a successful authentication.', (done) => {
-      request
-        .post('/api/v1/auth/login')
+      agent
+        .post(`/api/v1/auth/login`)
         .set('content-type', 'application/json')
         .send(user)
         .end((err, res) => {
@@ -57,8 +67,8 @@ module.exports = (request, user, pack) => {
 
 
     it('Expects "GET /api/v1/system/version" to return the app version.', (done) => {
-      request
-        .get('/api/v1/system/version')
+      agent
+        .get(`/api/v1/system/version`)
         .end((err, res) => {
           expect(res).to.have.status(200);
           expect(res.text).to.contain(pack.name);
@@ -67,7 +77,7 @@ module.exports = (request, user, pack) => {
     });
 
     it('Expects "GET /api/v1/auth/logout" to confirm a logout.', (done) => {
-      request
+      agent
         .get('/api/v1/auth/logout')
         .end((err, res) => {
           expect(res).to.have.status(200);
@@ -77,7 +87,7 @@ module.exports = (request, user, pack) => {
     });
 
     it('Expects "GET /api/v1/system/version" to refuse the request.', (done) => {
-      request
+      agent
         .get('/api/v1/system/version')
         .end((err, res) => {
           expect(res).to.have.status(401);
@@ -87,7 +97,7 @@ module.exports = (request, user, pack) => {
     });
 
     it('Expects "POST /api/v1/auth/login" with a locked account to be refused.', (done) => {
-      request
+      agent
         .post('/api/v1/auth/login')
         .set('content-type', 'application/json')
         .send({ user: 'jhe', password: 'jhe' })
@@ -99,3 +109,7 @@ module.exports = (request, user, pack) => {
     });
   });
 };
+
+
+// -- Export
+export default TestAuth;

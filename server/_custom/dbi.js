@@ -28,9 +28,8 @@
 
 
 // -- Local Modules
-const dbi = require('./dbi/dbi')
-    , U   = require('./_util/util1')
-    ;
+import dbi from './dbi/dbi.js';
+import U from './_util/util1.js';
 
 
 // -- Local Constants
@@ -48,6 +47,6 @@ const dbi = require('./dbi/dbi')
 
 
 // -- Export
-module.exports = U.extend(
+export default U.extend(
   dbi,
 );

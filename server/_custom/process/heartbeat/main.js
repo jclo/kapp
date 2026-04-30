@@ -26,20 +26,16 @@
 
 
 // -- Vendor Modules
-const KZlog = require('@mobilabs/kzlog')
-    ;
 
 
 // -- Local Modules
-const config = require('../../../config')
-    , F      = require('../../../libs/fetch/cookie')
-    ;
+import CreateLogger from '../../../libs/logger/main.js';
+import F from '../../../libs/fetch2/cookie.js';
 
 
 // -- Local Constants
 const DEFAULT_DELAY = 1000 * 60
-    , { level }     = config
-    , log           = KZlog('_custom/process/hearteat/main.js', level, false)
+    , log           = CreateLogger(import.meta.url)
     ;
 
 
@@ -133,4 +129,4 @@ const Heartbeat = {
 
 
 // -- Export
-module.exports = Heartbeat;
+export default Heartbeat;

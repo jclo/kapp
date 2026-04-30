@@ -29,8 +29,7 @@
 
 
 // -- Local Modules
-const Sock = require('../_custom/socketservers/main')
-    ;
+import Sock from '../_custom/socketservers/main.js';
 
 
 // -- Local Constants
@@ -88,4 +87,4 @@ const SockServ = {
 
 
 // -- Export
-module.exports = SockServ;
+export default SockServ;

@@ -25,20 +25,15 @@
 
 
 // -- Vendor Modules
-const net     = require('net')
-    , KZlog   = require('@mobilabs/kzlog')
-    ;
+import net from 'net';
 
 
 // -- Local Modules
-const config = require('../../config')
-    ;
+import CreateLogger from '../../libs/logger/main.js';
 
 
 // -- Local Constants
-const { level } = config
-    , log       = KZlog('middlewares/ip/filterips.js', level, false)
-    ;
+const log = CreateLogger(import.meta.url);
 
 
 // -- Local Variables
@@ -148,4 +143,4 @@ function FilterIP(netip) {
 
 
 // -- Export
-module.exports = FilterIP;
+export default FilterIP;

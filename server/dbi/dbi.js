@@ -43,18 +43,19 @@
 
 
 // -- Local Modules
-const SQlite          = require('./sqlite')
-    , MySQL           = require('./mysql')
-    , PgSQL           = require('./pgsql')
-    , { db }          = require('../../.env')
-    , custpdbimethods = require('../_custom/sql')
-    ;
+import SQlite from './sqlite.js';
+import MySQL from './mysql.js';
+import PgSQL from './pgsql.js';
+import ENV from '../../.env.js';
+import custpdbimethods from '../_custom/sql.js';
 
 
 // -- Local Constants
+const { db } = ENV;
 
 
 // -- Local Variables
+/* eslint-disable-next-line */
 let dbimethods;
 
 
@@ -70,7 +71,6 @@ let dbimethods;
  * @returns {Object}        returns an object of methods,
  * @since 0.0.0
  */
-/* eslint-disable no-restricted-syntax, guard-for-in */
 function _extend(...args) {
   const obj = {};
   let source
@@ -85,7 +85,6 @@ function _extend(...args) {
   }
   return obj;
 }
-/* eslint-enable no-restricted-syntax, guard-for-in */
 
 /**
  * Returns the constructor and methods of the chosen db server.
@@ -272,4 +271,4 @@ dbimethods = {
 
 
 // -- Export
-module.exports = DBI;
+export default DBI;

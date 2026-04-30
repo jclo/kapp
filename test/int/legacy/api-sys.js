@@ -4,8 +4,8 @@
 
 
 // -- Vendor Modules
-const { expect } = require('chai')
-    ;
+import { expect } from 'chai';
+
 
 // -- Local Modules
 
@@ -17,10 +17,20 @@ const { expect } = require('chai')
 
 
 // -- Main section -
-module.exports = (request, user) => {
-  describe('Test the i18n APIs:', () => {
+
+/**
+ * Starts the tests.
+ *
+ * @function ()
+ * @public
+ * @param {}                -,
+ * @returns {}              -,
+ * @since 0.0.0
+ */
+function TestSystem(agent, user, pack) {
+  describe('Test the System APIs:', () => {
     it('Expects "POST /api/v1/auth/login" to return a successful authentication.', (done) => {
-      request
+      agent
         .post('/api/v1/auth/login')
         .set('content-type', 'application/json')
         .send(user)
@@ -31,38 +41,28 @@ module.exports = (request, user) => {
         });
     });
 
-    it('Expects "GET /api/v1/i18n/list" to return a list of dictionaries.', (done) => {
-      request
-        .get('/api/v1/i18n/list')
+    it('Expects "GET /api/v1/system/version" to return the app version.', (done) => {
+      agent
+        .get('/api/v1/system/version')
         .end((err, res) => {
           expect(res).to.have.status(200);
-          expect(res.body.fr).to.contain('French');
+          expect(res.text).to.contain(pack.name);
           done();
         });
     });
 
-    it('Expects "GET /api/v1/i18n/fr" to return the French dictionary.', (done) => {
-      request
-        .get('/api/v1/i18n/fr')
+    it('Expects "GET /api/v1/system/kapp-version" to return the Kapp version.', (done) => {
+      agent
+        .get('/api/v1/system/kapp-version')
         .end((err, res) => {
           expect(res).to.have.status(200);
-          expect(res.body.Hello).to.contain('Bonjour');
-          done();
-        });
-    });
-
-    it('Expects "GET /api/v1/i18n/de" to return a warning message.', (done) => {
-      request
-        .get('/api/v1/i18n/de')
-        .end((err, res) => {
-          expect(res).to.have.status(200);
-          expect(res.text).to.contain('This translation dictionary is not available yet!');
+          expect(res.text).to.contain('KApp');
           done();
         });
     });
 
     it('Expects "GET /api/v1/auth/logout" to confirm a logout.', (done) => {
-      request
+      agent
         .get('/api/v1/auth/logout')
         .end((err, res) => {
           expect(res).to.have.status(200);
@@ -72,3 +72,7 @@ module.exports = (request, user) => {
     });
   });
 };
+
+
+// -- Export
+export default TestSystem;

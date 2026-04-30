@@ -25,19 +25,14 @@
 
 
 // -- Vendor Modules
-const KZlog   = require('@mobilabs/kzlog')
-    ;
 
 
 // -- Local Modules
-const config = require('../../config')
-    ;
+import CreateLogger from '../../libs/logger/main.js';
 
 
 // -- Local Constants
-const { level } = config
-    , log       = KZlog('middlewares/ip/filterdomains.js', level, false)
-    ;
+const log = CreateLogger(import.meta.url);
 
 
 // -- Local Variables
@@ -92,4 +87,4 @@ function FilterDomains(net) {
 
 
 // -- Export
-module.exports = FilterDomains;
+export default FilterDomains;

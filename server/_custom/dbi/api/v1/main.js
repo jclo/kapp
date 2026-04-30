@@ -28,9 +28,8 @@
 
 
 // -- Local Modules
-const miscellaneous = require('./private/miscellaneous')
-    , U             = require('../../../_util/util1')
-    ;
+import miscellaneous from './private/miscellaneous.js';
+import U from '../../../_util/util1.js';
 
 
 // -- Local Constants
@@ -48,6 +47,6 @@ const miscellaneous = require('./private/miscellaneous')
 
 
 // -- Export
-module.exports = U.extend(
+export default U.extend(
   miscellaneous,
 );

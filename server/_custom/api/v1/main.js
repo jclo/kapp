@@ -28,8 +28,7 @@
 
 
 // -- Local Modules
-const Users = require('./users/main')
-    ;
+import Users from './users/main.js';
 
 
 // -- Local Constants
@@ -47,8 +46,9 @@ const Users = require('./users/main')
 /**
  * Starts listening for the project APIs.
  *
- * @function (arg1, arg2, arg3, arg4)
+ * @function (arg1, arg2, arg3, arg4, arg5)
  * @public
+ * @param {Object}          the express.js router for the api,
  * @param {Object}          express.js app,
  * @param {Object}          the message translator,
  * @param {Object}          the db interface object,
@@ -56,11 +56,11 @@ const Users = require('./users/main')
  * @returns {}              -,
  * @since 0.0.0
  */
-function CAPIs(app, i18n, dbi, dbn) {
-  Users(app, i18n, dbi, dbn);
+function CAPIs(apiRouter, app, i18n, dbi, dbn) {
+  Users(apiRouter, app, i18n, dbi, dbn);
   // ...
 }
 
 
 // -- Export
-module.exports = CAPIs;
+export default CAPIs;

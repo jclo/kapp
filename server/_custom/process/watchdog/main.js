@@ -27,22 +27,17 @@
 
 
 // -- Vendor Modules
-const KZlog = require('@mobilabs/kzlog')
-    ;
 
 
 // -- Local Modules
-const config = require('../../../config')
-    , F      = require('../../../libs/fetch/cookie')
-    , WDog   = require('../../../libs/radio/main')
-    , E      = require('./emailing')
-    ;
+import CreateLogger from '../../../libs/logger/main.js';
+import F from '../../../libs/fetch2/cookie.js';
+import WDog from '../../../libs/radio/main.js';
+import E from './emailing.js';
 
 
 // -- Local Constants
-const { level } = config
-    , log       = KZlog('_custom/process/watchdog/main.js', level, false)
-    ;
+const log = CreateLogger(import.meta.url);
 
 
 // -- Local Variables
@@ -175,4 +170,4 @@ const Watchdog = {
 
 
 // -- Export
-module.exports = Watchdog;
+export default Watchdog;

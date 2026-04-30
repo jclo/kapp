@@ -29,11 +29,10 @@
 
 
 // -- Local Modules
-const Crypto = require('../../libs/crypto/main')
-    , Token  = require('../../libs/token/main')
-    , config = require('../../config')
-    , Auth0  = require('./authserver')
-    ;
+import Crypto from '../../libs/crypto/main.js';
+import Token from '../../libs/token/main.js';
+import config from '../../config.js';
+import Auth0 from './authserver.js';
 
 
 // -- Local Constants
@@ -185,4 +184,4 @@ const TOK = {
 
 
 // -- Export
-module.exports = TOK;
+export default TOK;

@@ -29,9 +29,8 @@
 
 
 // -- Local Modules
-const CWebSock = require('./websocketserver/main')
-    , CTCPSock = require('./tcpsocketserver/main')
-    ;
+import CWebSock from './websocketserver/main.js';
+import CTCPSock from './tcpsocketserver/main.js';
 
 
 // -- Local Constants
@@ -89,4 +88,4 @@ const Sock = {
 
 
 // -- Export
-module.exports = Sock;
+export default Sock;

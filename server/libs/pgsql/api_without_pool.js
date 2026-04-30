@@ -30,13 +30,12 @@
 
 
 // -- Vendor Modules
-const PG = require('pg');
+import PG from 'pg';
 
 
 // -- Local Modules
-const U1 = require('../../dbi/util')
-    , U2 = require('./util')
-    ;
+import U1 from '../../dbi/util.js';
+import U2 from './util.js';
 
 
 // -- Local Constants
@@ -104,10 +103,10 @@ const PGSQL = {
       this.db.connect((err, result) => {
         if (err) {
           reject(err);
-          if (callback) callback(err);
+          if (callback) { callback(err); }
         } else {
           resolve(result);
-          if (callback) callback(null, result);
+          if (callback) { callback(null, result); }
         }
       });
     });
@@ -130,16 +129,16 @@ const PGSQL = {
     let q = query;
     q = convert ? U1.convert(q, 'pgsql') : q;
     params.forEach((item, index) => { q = q.replace(/\?/, `$${index + 1}`); });
-    if (dump) process.stdout.write(`${q}\n`);
+    if (dump) { process.stdout.write(`${q}\n`); }
 
     return new Promise((resolve, reject) => {
       this.db.query(query, params, (err, results, fields) => {
         if (err) {
           reject(err);
-          if (callback) callback(err);
+          if (callback) { callback(err); }
         } else {
           resolve(results);
-          if (callback) callback(null, results, fields);
+          if (callback) { callback(null, results, fields); }
         }
       });
     });
@@ -159,10 +158,10 @@ const PGSQL = {
       this.db.end((err) => {
         if (err) {
           reject(err);
-          if (callback) callback(err);
+          if (callback) { callback(err); }
         } else {
           resolve(true);
-          if (callback) callback(null);
+          if (callback) { callback(null); }
         }
       });
     });
@@ -187,4 +186,4 @@ const PGSQL = {
 
 
 // -- Export
-module.exports = PGSQL;
+export default PGSQL;

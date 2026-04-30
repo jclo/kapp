@@ -27,21 +27,16 @@
 
 
 // -- Vendor Modules
-const KZlog = require('@mobilabs/kzlog')
-    ;
 
 
 // -- Local Modules
-const config = require('../config')
-    , Crypto = require('../libs/crypto/main')
-    , WDog   = require('../libs/radio/main')
-    ;
+import CreateLogger from '../libs/logger/main.js';
+import Crypto from '../libs/crypto/main.js';
+import WDog from '../libs/radio/main.js';
 
 
 // -- Local Constants
-const { level } = config
-    , log       = KZlog('server/controllers/auth.js', level, false)
-    ;
+const log = CreateLogger(import.meta.url);
 
 
 // -- Local Variables
@@ -211,7 +206,7 @@ const Auth = {
       error_code: null,
       user: user ? user.user_name : undefined,
       ip: req.headers['x-real-ip'],
-      login: user._date_connection,
+      login: user ? user._date_connection : 'unknown user - no login date!',
       logout: new Date().toISOString(),
       timeZoneOffset: new Date().getTimezoneOffset(),
       timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
@@ -224,4 +219,4 @@ const Auth = {
 
 
 // -- Export
-module.exports = Auth;
+export default Auth;

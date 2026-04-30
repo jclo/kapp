@@ -4,8 +4,8 @@
 
 
 // -- Vendor Modules
-const { expect } = require('chai')
-    ;
+import { expect } from 'chai';
+
 
 // -- Local Modules
 
@@ -17,10 +17,20 @@ const { expect } = require('chai')
 
 
 // -- Main section -
-module.exports = (request) => {
+
+/**
+ * Starts the tests.
+ *
+ * @function ()
+ * @public
+ * @param {}                -,
+ * @returns {}              -,
+ * @since 0.0.0
+ */
+function TestExamples(agent) {
   describe('Test the APIs given in examples:', () => {
     it('Expects "GET /" to return the "index.html" file.', (done) => {
-      request
+      agent
         .get('/')
         .end((err, res) => {
           expect(res).to.have.status(200);
@@ -30,7 +40,7 @@ module.exports = (request) => {
     });
 
     it('Expects "GET /api/v1/text" to return the string "Hello Text World!".', (done) => {
-      request
+      agent
         .get('/api/v1/text')
         .end((err, res) => {
           expect(res).to.have.status(200);
@@ -40,7 +50,7 @@ module.exports = (request) => {
     });
 
     it('Expects "GET /api/v1/json" to return "{"status":200,"message":{"a":"Hello JSON World!"}}" .', (done) => {
-      request
+      agent
         .get('/api/v1/json')
         .end((err, res) => {
           expect(res).to.have.status(200);
@@ -50,7 +60,7 @@ module.exports = (request) => {
     });
 
     it('Expects "POST /api/v1/posto" to return the payload "{ a: 1, b: "This is a payload" }" .', (done) => {
-      request
+      agent
         .post('/api/v1/posto')
         .set('content-type', 'application/json')
         .send({ a: 1, b: 'This is a payload' })
@@ -64,3 +74,7 @@ module.exports = (request) => {
     });
   });
 };
+
+
+// -- Export
+export default TestExamples;

@@ -26,22 +26,17 @@
 
 
 // -- Vendor Modules
-const fs      = require('fs')
-    , http    = require('http')
-    , https   = require('https')
-    , KZlog   = require('@mobilabs/kzlog')
-    ;
+import fs from 'fs';
+import http from 'http';
+import https from 'https';
 
 
 // -- Local Modules
-const config = require('../config')
-    ;
+import CreateLogger from '../libs/logger/main.js';
 
 
 // -- Local Constants
-const { level } = config
-    , log       = KZlog('core/http.js', level, false)
-    ;
+const log = CreateLogger(import.meta.url);
 
 
 // -- Local Variables
@@ -134,4 +129,4 @@ const Servers = {
 
 
 // -- Export
-module.exports = Servers;
+export default Servers;

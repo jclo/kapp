@@ -33,16 +33,17 @@
 
 
 // -- Vendor Modules
-const fs     = require('fs')
-    , crypto = require('crypto');
+import fs from 'fs';
+import crypto from 'crypto';
+import { createRequire } from 'module';
 
 
 // -- Local Modules
-const P = require('./keyenv')
-    ;
+import P from './keyenv.js';
 
 
 // -- Local Constants
+const require = createRequire(import.meta.url);
 
 
 // -- Local Variables
@@ -59,14 +60,17 @@ const P = require('./keyenv')
  * @returns {Object}        returns vapid keys or null,
  * @since 0.0.0
  */
-/* eslint-disable no-param-reassign */
 function _readKeys(that) {
   // be care at the first start when vapidKeys of .env.js is empty,
   // require('./env.js) returns a null vapidKeys even after .env.js
   // has been updated with vapidKeys. Thus, the only way to read
   // vapidKeys is through _readkeys!
-  /* eslint-disable-next-line global-require */
-  const env = require('../../../.env');
+  // const env = require('../../../.env');
+
+  // suppress the cache to force re-reading
+  delete require.cache[require.resolve('../../../.env.js')];
+  const env = require('../../../.env.js');
+
   if (!env
       || !env.vapidKeys
       || !env.vapidKeys.publicKey
@@ -78,7 +82,6 @@ function _readKeys(that) {
   that.vapidKeys = env.vapidKeys;
   return that.vapidKeys;
 }
-/* eslint-enable no-param-reassign */
 
 /**
  * Returns the VAPID public key.
@@ -235,4 +238,4 @@ const CryptoKeys = {
 
 
 // -- Export
-module.exports = CryptoKeys;
+export default CryptoKeys;

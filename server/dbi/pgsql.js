@@ -39,13 +39,12 @@
 
 
 // -- Vendor Modules
-const PG = require('pg');
+import PG from 'pg';
 
 
 // -- Local Modules
-const PGQ      = require('../libs/pgsql/api')
-    , tmethods = require('./test/pgsql')
-    ;
+import PGQ from '../libs/pgsql/api.js';
+import tmethods from './test/pgsql.js';
 
 
 // -- Local Constants
@@ -299,4 +298,4 @@ const methods = {
 
 
 // -- Export
-module.exports = { Cstor: PgSQL, methods, tmethods };
+export default { Cstor: PgSQL, methods, tmethods };

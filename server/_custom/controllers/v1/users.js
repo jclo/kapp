@@ -60,4 +60,4 @@ const Users = {
 
 
 // -- Export
-module.exports = Users;
+export default Users;

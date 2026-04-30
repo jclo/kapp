@@ -35,10 +35,12 @@
 
 
 // -- Local Modules
-const list = require('./app/i18n.lang');
+import list from './app/i18n.lang.js';
+import { createRequire } from 'module';
 
 
 // -- Local Constants
+const require = createRequire(import.meta.url);
 
 
 // -- Local Variables
@@ -57,13 +59,13 @@ let methods;
  * @returns {Object}        returns the requested dictionary,
  * @since 0.0.0
  */
-function _getDictionary(lang, which) {
-  if (typeof lang !== 'string') return null;
+async function _getDictionary(lang, which) {
+  if (typeof lang !== 'string') { return null; }
 
   const folder = which === 'app' ? which : 'server';
   try {
-    /* eslint-disable-next-line global-require, import/no-dynamic-require */
-    return require(`./${folder}/i18n.${lang}.js`);
+    const module = await import(`./${folder}/i18n.${lang}.js`);
+    return module.default ?? module;
   } catch (e) {
     return null;
   }
@@ -82,9 +84,9 @@ function _getDictionary(lang, which) {
  * @returns {Object}        returns the i18n object,
  * @since 0.0.0
  */
-const i18N = function(lang) {
+async function i18N(lang) {
   const obj = Object.create(methods);
-  obj.dic = _getDictionary(lang);
+  obj.dic = await _getDictionary(lang);
   return obj;
 };
 
@@ -149,4 +151,4 @@ methods = {
 
 
 // -- Export
-module.exports = i18N;
+export default i18N;

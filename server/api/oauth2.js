@@ -32,21 +32,16 @@
 
 
 // -- Vendor Modules
-const KZlog   = require('@mobilabs/kzlog')
-    ;
 
 
 // -- Local Modules
-const config = require('../config')
-    , COAuth = require('../controllers/oauth2')
-    , MAuth  = require('../middlewares/auth/main')
-    ;
+import CreateLogger from '../libs/logger/main.js';
+import COAuth from '../controllers/oauth2.js';
+import MAuth from '../middlewares/auth/main.js';
 
 
 // -- Local Constants
-const { level } = config
-    , log = KZlog('api/oauth2.js', level, false)
-    ;
+const log = CreateLogger(import.meta.url);
 
 
 // -- Local Variables
@@ -61,8 +56,9 @@ const { level } = config
 /**
  * starts listening for a token authentication APIs.
  *
- * @function (arg1, arg2, arg3)
+ * @function (arg1, arg2, arg3, arg4, arg5)
  * @public
+ * @param {Object}          the express.js router for the api,
  * @param {Object}          the express.js app,
  * @param {Object}          the message translator,
  * @param {Object}          the db interface object,
@@ -70,14 +66,14 @@ const { level } = config
  * @return {}               -,
  * @since 0.0.0
  */
-function OAuth(app, i18n, dbi, dbn) {
+function OAuth(apiRouter, app, i18n, dbi, dbn) {
   // Gets the middleware that check if the client is
   // connected by opening a session through a login or by requesting
   // a token.
   const auth = MAuth(dbi, dbn);
 
   // GET
-  app.get('/api/v1/oauth2/revoke', auth, (req, res) => {
+  apiRouter.get('/v1/oauth2/revoke', auth, (req, res) => {
     COAuth.revoke(dbi, dbn, req, res, (err, resp) => {
       if (err) {
         res.statusMessage = err;
@@ -93,7 +89,7 @@ function OAuth(app, i18n, dbi, dbn) {
 
 
   // POST
-  app.post('/api/v1/oauth2/token', (req, res) => {
+  apiRouter.post('/v1/oauth2/token', (req, res) => {
     COAuth.get(dbi, dbn, req, res, (err, token) => {
       if (err) {
         res.statusMessage = err;
@@ -115,4 +111,4 @@ function OAuth(app, i18n, dbi, dbn) {
 
 
 // -- Export
-module.exports = OAuth;
+export default OAuth;

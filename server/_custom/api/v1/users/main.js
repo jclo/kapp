@@ -31,20 +31,15 @@
 
 
 // -- Vendor Modules
-const KZlog   = require('@mobilabs/kzlog')
-    ;
 
 
 // -- Local Modules
-const config = require('../../../../config')
-    , MAuth = require('../../../../middlewares/auth/main')
-    ;
+import CreateLogger from '../../../../libs/logger/main.js';
+import MAuth from '../../../../middlewares/auth/main.js';
 
 
 // -- Local Constants
-const { level } = config
-    , log       = KZlog('_custom/api/v1/users/main.js', level, false)
-    ;
+const log = CreateLogger(import.meta.url);
 
 
 // -- Local Variables
@@ -59,16 +54,18 @@ const { level } = config
 /**
  * Starts listening for the users APIs.
  *
- * @function (arg1, arg2, arg3)
+ * @function (arg1, arg2, arg3, arg4, arg5)
  * @public
+ * @param {Object}          the express.js router for the api,
  * @param {Object}          the express.js app,
  * @param {Object}          the message translator,
  * @param {Object}          the db interface object,
+ * @param {Object}          the db for storing doc in memory,
  * @returns {}              -,
  * @since 0.0.0
  */
 
-function Users(app, i18n, dbi, dbn) {
+function Users(apiRouter, app, i18n, dbi, dbn) {
   // Gets the middleware that check if the client is
   // connected by opening a session through a login or by requesting
   // a token.
@@ -76,14 +73,14 @@ function Users(app, i18n, dbi, dbn) {
 
   // GET
   // This GET api includes queries. It returns them.
-  app.get('/api/v1/users', auth, (req, res) => {
+  apiRouter.get('/v1/users', auth, (req, res) => {
     res.status(200).send({ status: 200, url: req.originalUrl, message: { query: req.query } });
     log.trace('Accepted GET api: "api/v1/users/".');
     log.trace(`Got the query: ${JSON.stringify(req.query)}.`);
   });
 
   // This GET api includes variables. They are returned in an object.
-  app.get('/api/v1/users/:id/:name/:other', auth, (req, res) => {
+  apiRouter.get('/v1/users/:id/:name/:other', auth, (req, res) => {
     res.status(200).send({
       status: 200,
       url: req.originalUrl,
@@ -96,4 +93,4 @@ function Users(app, i18n, dbi, dbn) {
 
 
 // -- Export
-module.exports = Users;
+export default Users;

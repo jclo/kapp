@@ -29,8 +29,7 @@
 
 
 // -- Local Modules
-const Token = require('./private/oauthtokens')
-    ;
+import Token from './private/oauthtokens.js';
 
 
 // -- Local Constants
@@ -170,4 +169,4 @@ const OAuth = {
 
 
 // -- Export
-module.exports = OAuth;
+export default OAuth;

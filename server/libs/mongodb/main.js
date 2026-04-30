@@ -33,9 +33,7 @@
 
 
 // -- Vendor Modules
-const { MongoClient } = require('mongodb')
-    , { ObjectId }    = require('mongodb')
-    ;
+import { MongoClient, ObjectId } from 'mongodb';
 
 
 // -- Local Modules
@@ -64,7 +62,6 @@ let methods;
  * @returns {Object}        returns the database object,
  * @since 0.0.0
  */
-/* eslint-disable max-len */
 async function MongoDB(env, callback) {
   const HOST      = process.env.KAPP_TEST_MODE ? env.host : process.env.KAPP_MONGO_URL
       , DATABASE  = process.env.KAPP_TEST_MODE ? env.testdb.database : process.env.KAPP_MONGO_DATABASE
@@ -101,7 +98,6 @@ async function MongoDB(env, callback) {
 
   return null;
 }
-/* eslint-enable max-len */
 
 
 // -- Public Methods -----------------------------------------------------------
@@ -170,4 +166,4 @@ methods = {
 
 
 // -- Export
-module.exports = MongoDB;
+export default MongoDB;

@@ -27,35 +27,32 @@
 
 
 // -- Vendor Modules
-const os           = require('os')
-    , express      = require('express')
-    , bodyParser   = require('body-parser')
-    , cookieParser = require('cookie-parser')
-    , session      = require('express-session')
-    , KZlog        = require('@mobilabs/kzlog')
-    , PicoDB       = require('picodb')
-    ;
+import os from 'os';
+import express from 'express';
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
+import PicoDB from 'picodb';
 
 
 // -- Local Modules
-const config        = require('./config')
-    , Servers       = require('./core/http')
-    , Routes        = require('./core/routes')
-    , Watcher       = require('./core/watcher')
-    , Processor     = require('./core/process')
-    , Sock          = require('./core/socketservers')
-    , FilterDomains = require('./middlewares/ip/filterdomains')
-    , FilterIPs     = require('./middlewares/ip/filterips')
-    , KillOutSe     = require('./middlewares/session/kill')
-    , I18N          = require('./libs/i18n/i18n')
-    , DBI           = require('./dbi/dbi')
-    // , MongoDB       = require('./libs/mongodb/main')
-    , env           = require('../.env')
-    ;
+import CreateLogger from './libs/logger/main.js';
+import config from './config.js';
+import Servers from './core/http.js';
+
+import Routes from './core/routes.js';
+import Watcher from './core/watcher.js';
+import Processor from './core/process.js';
+import Sock from './core/socketservers.js';
+import FilterDomains from './middlewares/ip/filterdomains.js';
+import FilterIPs from './middlewares/ip/filterips.js';
+import KillOutSe from './middlewares/session/kill.js';
+import I18N from './libs/i18n/i18n.js';
+import DBI from './dbi/dbi.js';
+// // import MongoDB from './libs/mongodb/main';
+import env from '../.env.js';
 
 
 // -- Local Constants
-const { level } = config;
 
 
 // -- Local Variables
@@ -91,55 +88,53 @@ const _cors = function(conf) {
  * @returns {}              -,
  * @since 0.0.0
  */
-/* eslint-disable max-len */
 const _setEnv = function(enviro, conf) {
-  if (!process.env.NODE_TLS_REJECT_UNAUTHORIZED) process.env.NODE_TLS_REJECT_UNAUTHORIZED = conf.env.tlsrejectunauthorized;
+  if (!process.env.NODE_TLS_REJECT_UNAUTHORIZED) { process.env.NODE_TLS_REJECT_UNAUTHORIZED = conf.env.tlsrejectunauthorized; }
 
-  if (!process.env.KAPP_POD_USERNAME) process.env.KAPP_POD_USERNAME = enviro.pod.auth.user;
-  if (!process.env.KAPP_POD_PASSWORD) process.env.KAPP_POD_PASSWORD = enviro.pod.auth.password;
-  if (!process.env.KAPP_POD_AUTH_SERVER) process.env.KAPP_POD_AUTH_SERVER = enviro.pod.authserver;
-  if (!process.env.KAPP_SERVER_NAME) process.env.KAPP_SERVER_NAME = conf.name;
-  if (!process.env.KAPP_HTTP_PORT) process.env.KAPP_HTTP_PORT = conf.env.httpport;
-  if (!process.env.KAPP_HTTPS_PORT) process.env.KAPP_HTTPS_PORT = conf.env.httpsport;
-  if (!process.env.KAPP_HTTPS) process.env.KAPP_HTTPS = conf.env.https.toString();
-  if (!process.env.KAPP_NETWORK) process.env.KAPP_NETWORK = conf.env.network;
-  if (!process.env.KAPP_NETWORK_FILTER_DOMAINS) process.env.KAPP_NETWORK_FILTER_DOMAINS = conf.cors.hostname || 'false';
-  if (!process.env.KAPP_NETWORK_FILTER_IPS) process.env.KAPP_NETWORK_FILTER_IPS = conf.env.ips || 'false';
-  if (!process.env.KAPP_NETWORK_KUBE_IP_RANGE) process.env.KAPP_NETWORK_KUBE_IP_RANGE = conf.env.kube || '10.0.0.0/16';
-  if (!process.env.KAPP_WEBSOCKET_SERVER_ENABLED) process.env.KAPP_WEBSOCKET_SERVER_ENABLED = conf.env.websocketEnabled.toString() || false;
-  if (!process.env.KAPP_WEBSOCKET_SERVER_HTTPS) process.env.KAPP_WEBSOCKET_SERVER_HTTPS = conf.env.websockethttps.toString() || false;
-  if (!process.env.KAPP_TCPSOCKET_SERVER_ENABLED) process.env.KAPP_TCPSOCKET_SERVER_ENABLED = conf.env.tcpsocketEnabled.toString() || false;
-  if (!process.env.KAPP_TCPSOCKET_SERVER_PORT) process.env.KAPP_TCPSOCKET_SERVER_PORT = conf.env.tcpsocketport || 5000;
-  if (!process.env.KAPP_WATCHDOG_ENABLED) process.env.KAPP_WATCHDOG_ENABLED = conf.env.watchdogEnabled.toString() || 'false';
-  if (!process.env.KAPP_LOGIN_LOCKED) process.env.KAPP_LOGIN_LOCKED = conf.env.loginDisabled.toString() || 'false';
-  if (!process.env.KAPP_HEARTBEAT_ENABLED) process.env.KAPP_HEARTBEAT_ENABLED = conf.env.heartbeatEnabled.toString() || 'false';
-  if (!process.env.KAPP_HEART_RATE) process.env.KAPP_HEART_RATE = conf.env.heartbeatRate || 1000 * 60 * 1;
+  if (!process.env.KAPP_POD_USERNAME) { process.env.KAPP_POD_USERNAME = enviro.pod.auth.user; }
+  if (!process.env.KAPP_POD_PASSWORD) { process.env.KAPP_POD_PASSWORD = enviro.pod.auth.password; }
+  if (!process.env.KAPP_POD_AUTH_SERVER) { process.env.KAPP_POD_AUTH_SERVER = enviro.pod.authserver; }
+  if (!process.env.KAPP_SERVER_NAME) { process.env.KAPP_SERVER_NAME = conf.name; }
+  if (!process.env.KAPP_HTTP_PORT) { process.env.KAPP_HTTP_PORT = conf.env.httpport; }
+  if (!process.env.KAPP_HTTPS_PORT) { process.env.KAPP_HTTPS_PORT = conf.env.httpsport; }
+  if (!process.env.KAPP_HTTPS) { process.env.KAPP_HTTPS = conf.env.https.toString(); }
+  if (!process.env.KAPP_NETWORK) { process.env.KAPP_NETWORK = conf.env.network; }
+  if (!process.env.KAPP_NETWORK_FILTER_DOMAINS) { process.env.KAPP_NETWORK_FILTER_DOMAINS = conf.cors.hostname || 'false'; }
+  if (!process.env.KAPP_NETWORK_FILTER_IPS) { process.env.KAPP_NETWORK_FILTER_IPS = conf.env.ips || 'false'; }
+  if (!process.env.KAPP_NETWORK_KUBE_IP_RANGE) { process.env.KAPP_NETWORK_KUBE_IP_RANGE = conf.env.kube || '10.0.0.0/16'; }
+  if (!process.env.KAPP_WEBSOCKET_SERVER_ENABLED) { process.env.KAPP_WEBSOCKET_SERVER_ENABLED = conf.env.websocketEnabled.toString() || false; }
+  if (!process.env.KAPP_WEBSOCKET_SERVER_HTTPS) { process.env.KAPP_WEBSOCKET_SERVER_HTTPS = conf.env.websockethttps.toString() || false; }
+  if (!process.env.KAPP_TCPSOCKET_SERVER_ENABLED) { process.env.KAPP_TCPSOCKET_SERVER_ENABLED = conf.env.tcpsocketEnabled.toString() || false; }
+  if (!process.env.KAPP_TCPSOCKET_SERVER_PORT) { process.env.KAPP_TCPSOCKET_SERVER_PORT = conf.env.tcpsocketport || 5000; }
+  if (!process.env.KAPP_WATCHDOG_ENABLED) { process.env.KAPP_WATCHDOG_ENABLED = conf.env.watchdogEnabled.toString() || 'false'; }
+  if (!process.env.KAPP_LOGIN_LOCKED) { process.env.KAPP_LOGIN_LOCKED = conf.env.loginDisabled.toString() || 'false'; }
+  if (!process.env.KAPP_HEARTBEAT_ENABLED) { process.env.KAPP_HEARTBEAT_ENABLED = conf.env.heartbeatEnabled.toString() || 'false'; }
+  if (!process.env.KAPP_HEART_RATE) { process.env.KAPP_HEART_RATE = conf.env.heartbeatRate || 1000 * 60 * 1; }
 
-  if (!process.env.KAPP_DB_ACTIVE) process.env.KAPP_DB_ACTIVE = enviro.db.active;
+  if (!process.env.KAPP_DB_ACTIVE) { process.env.KAPP_DB_ACTIVE = enviro.db.active; }
 
-  if (!process.env.KAPP_MYSQL_URL) process.env.KAPP_MYSQL_URL = enviro.db.mysql.host;
-  if (!process.env.KAPP_MYSQL_PORT) process.env.KAPP_MYSQL_PORT = enviro.db.mysql.port || 3306;
-  if (!process.env.KAPP_MYSQL_CNX_LIMIT) process.env.KAPP_MYSQL_CNX_LIMIT = enviro.db.mysql.connectionLimit;
-  if (!process.env.KAPP_MYSQL_DATABASE) process.env.KAPP_MYSQL_DATABASE = enviro.db.mysql.database;
-  if (!process.env.KAPP_MYSQL_USER) process.env.KAPP_MYSQL_USER = enviro.db.mysql.user;
-  if (!process.env.KAPP_MYSQL_PASSWORD) process.env.KAPP_MYSQL_PASSWORD = enviro.db.mysql.password;
-  if (!process.env.KAPP_MYSQL_TIMEZONE) process.env.KAPP_MYSQL_TIMEZONE = enviro.db.mysql.timezone;
+  if (!process.env.KAPP_MYSQL_URL) { process.env.KAPP_MYSQL_URL = enviro.db.mysql.host; }
+  if (!process.env.KAPP_MYSQL_PORT) { process.env.KAPP_MYSQL_PORT = enviro.db.mysql.port || 3306; }
+  if (!process.env.KAPP_MYSQL_CNX_LIMIT) { process.env.KAPP_MYSQL_CNX_LIMIT = enviro.db.mysql.connectionLimit; }
+  if (!process.env.KAPP_MYSQL_DATABASE) { process.env.KAPP_MYSQL_DATABASE = enviro.db.mysql.database; }
+  if (!process.env.KAPP_MYSQL_USER) { process.env.KAPP_MYSQL_USER = enviro.db.mysql.user; }
+  if (!process.env.KAPP_MYSQL_PASSWORD) { process.env.KAPP_MYSQL_PASSWORD = enviro.db.mysql.password; }
+  if (!process.env.KAPP_MYSQL_TIMEZONE) { process.env.KAPP_MYSQL_TIMEZONE = enviro.db.mysql.timezone; }
 
-  if (!process.env.KAPP_PGSQL_URL) process.env.KAPP_PGSQL_URL = enviro.db.pgsql.host;
-  if (!process.env.KAPP_PGSQL_PORT) process.env.KAPP_PGSQL_PORT = enviro.db.pgsql.port || 5432;
-  if (!process.env.KAPP_PGSQL_CNX_LIMIT) process.env.KAPP_PGSQL_CNX_LIMIT = enviro.db.pgsql.connectionLimit;
-  if (!process.env.KAPP_PGSQL_DATABASE) process.env.KAPP_PGSQL_DATABASE = enviro.db.pgsql.database;
-  if (!process.env.KAPP_PGSQL_USER) process.env.KAPP_PGSQL_USER = enviro.db.pgsql.user;
-  if (!process.env.KAPP_PGSQL_PASSWORD) process.env.KAPP_PGSQL_PASSWORD = enviro.db.pgsql.password;
-  if (!process.env.KAPP_PGSQL_TIMEZONE) process.env.KAPP_PGSQL_TIMEZONE = enviro.db.pgsql.timezone;
+  if (!process.env.KAPP_PGSQL_URL) { process.env.KAPP_PGSQL_URL = enviro.db.pgsql.host; }
+  if (!process.env.KAPP_PGSQL_PORT) { process.env.KAPP_PGSQL_PORT = enviro.db.pgsql.port || 5432; }
+  if (!process.env.KAPP_PGSQL_CNX_LIMIT) { process.env.KAPP_PGSQL_CNX_LIMIT = enviro.db.pgsql.connectionLimit; }
+  if (!process.env.KAPP_PGSQL_DATABASE) { process.env.KAPP_PGSQL_DATABASE = enviro.db.pgsql.database; }
+  if (!process.env.KAPP_PGSQL_USER) { process.env.KAPP_PGSQL_USER = enviro.db.pgsql.user; }
+  if (!process.env.KAPP_PGSQL_PASSWORD) { process.env.KAPP_PGSQL_PASSWORD = enviro.db.pgsql.password; }
+  if (!process.env.KAPP_PGSQL_TIMEZONE) { process.env.KAPP_PGSQL_TIMEZONE = enviro.db.pgsql.timezone; }
 
-  if (!process.env.KAPP_MONGO_URL) process.env.KAPP_MONGO_URL = enviro.mongodb.host;
-  if (!process.env.KAPP_MONGO_DATABASE) process.env.KAPP_MONGO_DATABASE = enviro.mongodb.db.database;
-  if (!process.env.KAPP_MONGO_USER) process.env.KAPP_MONGO_USER = enviro.mongodb.db.options.auth.user;
-  if (!process.env.KAPP_MONGO_PASSWORD) process.env.KAPP_MONGO_PASSWORD = enviro.mongodb.db.options.auth.password;
-  if (!process.env.KAPP_MONGO_CHANGE_STREAMS_ACTIVE) process.env.KAPP_MONGO_CHANGE_STREAMS_ACTIVE = enviro.mongodb.db.options.changeStreamsActive.toString();
+  if (!process.env.KAPP_MONGO_URL) { process.env.KAPP_MONGO_URL = enviro.mongodb.host; }
+  if (!process.env.KAPP_MONGO_DATABASE) { process.env.KAPP_MONGO_DATABASE = enviro.mongodb.db.database; }
+  if (!process.env.KAPP_MONGO_USER) { process.env.KAPP_MONGO_USER = enviro.mongodb.db.options.auth.user; }
+  if (!process.env.KAPP_MONGO_PASSWORD) { process.env.KAPP_MONGO_PASSWORD = enviro.mongodb.db.options.auth.password; }
+  if (!process.env.KAPP_MONGO_CHANGE_STREAMS_ACTIVE) { process.env.KAPP_MONGO_CHANGE_STREAMS_ACTIVE = enviro.mongodb.db.options.changeStreamsActive.toString(); }
 };
-/* eslint-enable max-len */
 
 /**
  * Finds the server network I/F.
@@ -176,14 +171,14 @@ const _findLocalIP = function() {
 /**
  * Starts the App server.
  *
- * @function ()
+ * @function (arg1)
  * @public
- * @param {}                -,
+ * @param {String}          the path of the server folder.
  * @returns {}              -,
  * @since 0.0.0
  */
-function App() {
-  const log = KZlog('app.js', level, false);
+async function App(pathBase) {
+  const log = CreateLogger(import.meta.url);
   log.info('starts the app server ...');
 
   // Initialize the environment variables for the databases.
@@ -192,8 +187,11 @@ function App() {
   // Here we configure 'app' to accept both JSON and url encoded payloads
   // and to serve the static page 'public/index.html'.
   const app = express();
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
+
+  // Create a router for the API
+  const apiRouter = express.Router();
 
   // This block implements a session connection from a client web app. if
   // your App doesn't implement a login session, you can safely remove
@@ -202,8 +200,8 @@ function App() {
   app.use(session({
     name: config.session.name,
     secret: config.session.secret,
-    resave: true,
-    saveUninitialized: true,
+    resave: false,
+    saveUninitialized: false,
     cookie: {
       path: config.session.path,
       httponly: config.session.httponly,
@@ -222,7 +220,7 @@ function App() {
 
   // Initialize the english-x dictionary:
   const lang = config.i18n && config.i18n.lang ? config.i18n.lang : null;
-  const i18n = I18N(lang);
+  const i18n = await I18N(lang);
   if (lang) {
     log.info(`Loaded the ${config.i18n.name}.`);
   }
@@ -248,11 +246,11 @@ function App() {
   app.use(KillOutSe(dbn));
 
   // Start the HTTP & HTTPS servers:
-  Routes.start(app, i18n, dbi, dbn);
+  Routes.start(apiRouter, app, i18n, dbi, dbn);
   Watcher.start(app, i18n, dbi, dbn);
   Processor.start(app, i18n, dbi, dbn);
   const http = Servers.startHttp(app);
-  const https = Servers.startHttps(app, __dirname);
+  const https = Servers.startHttps(app, pathBase);
   Sock.startWebSocketServer(http, https, app, i18n, dbi, dbn);
   Sock.startTCPSocketServer(app, i18n, dbi, dbn);
 
@@ -275,4 +273,4 @@ function App() {
 
 
 // -- Export
-module.exports = App;
+export default App;

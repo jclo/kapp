@@ -1,5 +1,11 @@
 ### HEAD
 
+### 3.0.0 (April 30, 2026)
+
+  * Migrated the server to ESM,
+  * ...
+
+
 ### 2.3.0 (August 8, 2024)
 
   * Added the fetch2 library, which is based on the native Node.js fetch function,

@@ -79,4 +79,4 @@ const Auth0 = {
 
 
 // -- Export
-module.exports = Auth0;
+export default Auth0;

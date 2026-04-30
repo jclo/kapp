@@ -128,4 +128,4 @@ function RemoveInactiveUsers(dbn) {
 
 
 // -- Export
-module.exports = RemoveInactiveUsers;
+export default RemoveInactiveUsers;

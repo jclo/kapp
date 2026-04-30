@@ -25,20 +25,15 @@
 
 
 // -- Vendor Modules
-const KZlog   = require('@mobilabs/kzlog')
-    ;
 
 
 // -- Local Modules
-const config = require('../config')
-    , C      = require('../_custom/process/main')
-    ;
+import CreateLogger from '../libs/logger/main.js';
+import C from '../_custom/process/main.js';
 
 
 // -- Local Constants
-const { level } = config
-    , log       = KZlog('core/processes.js', level, false)
-    ;
+const log = CreateLogger(import.meta.url);
 
 
 // -- Local Variables
@@ -74,4 +69,4 @@ const Process = {
 
 
 // -- Export
-module.exports = Process;
+export default Process;

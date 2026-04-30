@@ -63,4 +63,4 @@ const methods = {
 
 
 // -- Export
-module.exports = methods;
+export default methods;

@@ -30,12 +30,11 @@
 
 
 // -- Vendor Modules
-const mysql = require('mysql2');
+import mysql from 'mysql2';
 
 
 // -- Local Modules
-const U1 = require('../../dbi/util')
-    ;
+import U1 from '../../dbi/util.js';
 
 
 // -- Local Constants
@@ -104,10 +103,10 @@ const MQ = {
       this.db.connect((err, result) => {
         if (err) {
           reject(err);
-          if (callback) callback(err);
+          if (callback) { callback(err); }
         } else {
           resolve(result);
-          if (callback) callback(null, result);
+          if (callback) { callback(null, result); }
         }
       });
     });
@@ -129,16 +128,16 @@ const MQ = {
 
     let q = query;
     q = convert ? U1.convert(q, 'mysql') : q;
-    if (dump) process.stdout.write(`${q}\n`);
+    if (dump) { process.stdout.write(`${q}\n`); }
 
     return new Promise((resolve, reject) => {
       this.db.query(query, params, (err, results, fields) => {
         if (err) {
           reject(err);
-          if (callback) callback(err);
+          if (callback) { callback(err); }
         } else {
           resolve(results);
-          if (callback) callback(null, results, fields);
+          if (callback) { callback(null, results, fields); }
         }
       });
     });
@@ -158,10 +157,10 @@ const MQ = {
       this.db.end((err) => {
         if (err) {
           reject(err);
-          if (callback) callback(err);
+          if (callback) { callback(err); }
         } else {
           resolve(true);
-          if (callback) callback(null);
+          if (callback) { callback(null); }
         }
       });
     });
@@ -170,4 +169,4 @@ const MQ = {
 
 
 // -- Export
-module.exports = MQ;
+export default MQ;

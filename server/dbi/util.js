@@ -165,4 +165,4 @@ const U = {
 
 
 // -- Export
-module.exports = U;
+export default U;

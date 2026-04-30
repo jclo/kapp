@@ -93,4 +93,4 @@ const FETCH = {
 
 
 // -- Export
-module.exports = FETCH;
+export default FETCH;

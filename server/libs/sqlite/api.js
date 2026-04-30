@@ -36,14 +36,12 @@
 
 
 // -- Vendor Modules
-const sqlite3 = require('sqlite3').verbose()
-    ;
+import sqlite3 from 'sqlite3';
 
 
 // -- Local Modules
-const env = require('../../../.env')
-    , U1  = require('../../dbi/util')
-    ;
+import env from '../../../.env.js';
+import U1 from '../../dbi/util.js';
 
 
 // -- Local Constants
@@ -124,10 +122,10 @@ function _each(db, query, ...args) {
       db.each(query, params, (err, row) => {
         if (err) {
           reject(err);
-          if (action) action(err);
+          if (action) { action(err); }
         } else {
           resolve(row);
-          if (action) action(null, row);
+          if (action) { action(null, row); }
         }
       }, (err, resp) => {
         complete(err, resp);
@@ -137,10 +135,10 @@ function _each(db, query, ...args) {
       db.each(query, params, (err, row) => {
         if (err) {
           reject(err);
-          if (action) action(err);
+          if (action) { action(err); }
         } else {
           resolve(row);
-          if (action) action(null, row);
+          if (action) { action(null, row); }
         }
       });
     }
@@ -181,14 +179,16 @@ const SQ = {
    * @since 0.0.0
    */
   open(path, callback) {
+    const sqlite = sqlite3.verbose();
+
     return new Promise((resolve, reject) => {
-      const cn = new sqlite3.Database(path, (err) => {
+      const cn = new sqlite.Database(path, (err) => {
         if (err) {
           reject(err);
-          if (callback) callback(err);
+          if (callback) { callback(err); }
         } else {
           resolve(cn);
-          if (callback) callback(null, cn);
+          if (callback) { callback(null, cn); }
         }
       });
     });
@@ -242,16 +242,16 @@ const SQ = {
 
     let q = query;
     q = convert ? U1.convert(q, 'sqlite') : q;
-    if (dump) process.stdout.write(`${q}\n`);
+    if (dump) { process.stdout.write(`${q}\n`); }
 
     return new Promise((resolve, reject) => {
       cn.run(q, params, (err) => {
         if (err) {
           reject(err);
-          if (callback) callback(err);
+          if (callback) { callback(err); }
         } else {
           resolve(true);
-          if (callback) callback(null, true);
+          if (callback) { callback(null, true); }
         }
       });
     });
@@ -276,7 +276,7 @@ const SQ = {
 
     let q = query;
     q = convert ? U1.convert(q, 'sqlite') : q;
-    if (dump) process.stdout.write(`${q}\n`);
+    if (dump) { process.stdout.write(`${q}\n`); }
 
     return new Promise((resolve, reject) => {
       cn.get(q, params, (err, data) => {
@@ -285,7 +285,7 @@ const SQ = {
         } else {
           resolve(data);
         }
-        if (callback) callback(err, data);
+        if (callback) { callback(err, data); }
       });
     });
   },
@@ -309,7 +309,7 @@ const SQ = {
 
     let q = query;
     q = convert ? U1.convert(q, 'sqlite') : q;
-    if (dump) process.stdout.write(`${q}\n`);
+    if (dump) { process.stdout.write(`${q}\n`); }
 
     return new Promise((resolve, reject) => {
       cn.all(q, params, (err, data) => {
@@ -318,7 +318,7 @@ const SQ = {
         } else {
           resolve(data);
         }
-        if (callback) callback(err, data);
+        if (callback) { callback(err, data); }
       });
     });
   },
@@ -377,10 +377,10 @@ const SQ = {
       cn.close((err) => {
         if (err) {
           reject(err);
-          if (callback) callback(err);
+          if (callback) { callback(err); }
         } else {
           resolve(true);
-          if (callback) callback(null, true);
+          if (callback) { callback(null, true); }
         }
       });
     });
@@ -415,11 +415,11 @@ const SQ = {
   end(callback) {
     return new Promise((resolve/* , reject */) => {
       resolve(true);
-      if (callback) callback(null, true);
+      if (callback) { callback(null, true); }
     });
   },
 };
 
 
 // -- Export
-module.exports = SQ;
+export default SQ;

@@ -25,20 +25,15 @@
 
 
 // -- Vendor Modules
-const KZlog = require('@mobilabs/kzlog')
-    , WS    = require('ws')
-    ;
+import WS from 'ws';
 
 
 // -- Local Modules
-const config = require('../../../config')
-    ;
+import CreateLogger from '../../../libs/logger/main.js';
 
 
 // -- Local Constants
-const { level } = config
-    , log       = KZlog('_custom/socketservers/websocketserver/main.js', level, false)
-    ;
+const log = CreateLogger(import.meta.url);
 
 
 // -- Local Variables
@@ -142,4 +137,4 @@ const WebSock = {
 
 
 // -- Export
-module.exports = WebSock;
+export default WebSock;

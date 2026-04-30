@@ -37,7 +37,7 @@
 
 
 // -- Local Modules
-const F = require('./_fetch');
+import F from './_fetch.js';
 
 
 // -- Local Constants
@@ -245,4 +245,4 @@ const TOKFETCH = {
 
 
 // -- Export
-module.exports = TOKFETCH;
+export default TOKFETCH;

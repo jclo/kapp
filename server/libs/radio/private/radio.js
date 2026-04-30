@@ -249,4 +249,4 @@ const Radio = {
 
 
 // -- Export
-module.exports = Radio;
+export default Radio;

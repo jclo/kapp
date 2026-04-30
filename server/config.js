@@ -14,12 +14,16 @@
 
 
 // -- Vendor Modules
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
 
 
 // -- Local Modules
 
 
 // -- Local Constants
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 
 // -- Local Variables
@@ -128,4 +132,4 @@ const config = {
 
 
 // -- Export
-module.exports = config;
+export default config;

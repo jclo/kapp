@@ -33,11 +33,11 @@
 // 'bcrypt' by a version written in pure Javascript (compatible but slower).
 let bcrypt;
 try {
-  bcrypt = require('bcrypt');
+  bcrypt = await import('bcrypt');
 } catch (e) {
-  bcrypt = require('bcryptjs');
+  bcrypt = await import('bcryptjs');
   try {
-    bcrypt = require('bcryptjs');
+    bcrypt = await import('bcryptjs');
   } catch (ee) {
     throw new Error(e);
   }
@@ -96,4 +96,4 @@ const Crypto = {
 
 
 // -- Export
-module.exports = Crypto;
+export default Crypto;

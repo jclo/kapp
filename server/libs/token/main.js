@@ -102,4 +102,4 @@ const TK = {
 
 
 // -- Export
-module.exports = TK;
+export default TK;

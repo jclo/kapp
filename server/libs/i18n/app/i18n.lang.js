@@ -48,4 +48,4 @@ const List = {
 
 
 // -- Export
-module.exports = List;
+export default List;

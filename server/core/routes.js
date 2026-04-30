@@ -25,20 +25,15 @@
 
 
 // -- Vendor Modules
-const KZlog   = require('@mobilabs/kzlog')
-    ;
 
 
 // -- Local Modules
-const config = require('../config')
-    , Api    = require('../api/main')
-    ;
+import CreateLogger from '../libs/logger/main.js';
+import Api from '../api/main.js';
 
 
 // -- Local Constants
-const { level } = config
-    , log       = KZlog('core/routes.js', level, false)
-    ;
+const log = CreateLogger(import.meta.url);
 
 
 // -- Local Variables
@@ -51,8 +46,9 @@ const Routes = {
   /**
    * Starts listening requests from the client web site.
    *
-   * @method (arg1, arg2, arg3, arg4, arg5)
+   * @method (arg1, arg2, arg3, arg4, arg5, arg6)
    * @public
+   * @param {Object}        the express.js router for the api,
    * @param {Object}        the express.js app,
    * @param {Object}        the message translator,
    * @param {Object}        the db interface object,
@@ -61,9 +57,9 @@ const Routes = {
    * @returns {}            -,
    * @since 0.0.0
    */
-  start(app, i18n, dbi, dbn, dbm) {
+  start(apiRouter, app, i18n, dbi, dbn, dbm) {
     // Check if it is an https request:
-    app.all('/api/*', (req, res, next) => {
+    app.use('/api', (req, res, next) => {
       if (process.env.KAPP_HTTPS !== 'true') {
         log.info('KApp is running in test mode, HTTP accesses are exceptionally authorized!');
         next();
@@ -81,17 +77,20 @@ const Routes = {
     });
 
     // Listen for the implemented api routes:
-    Api.listen(app, i18n, dbi, dbn, dbm);
+    Api.listen(apiRouter, app, i18n, dbi, dbn, dbm);
+
+    // Mount the API router
+    app.use('/api', apiRouter);
 
     // Unknown api:
-    app.all('/api/*', (req, res) => {
+    app.use('/api', (req, res) => {
       res.statusMessage = `${req.method} api "${req.url}" does not exist!`;
       res.status(403).send({ status: 403, message: `${req.method} api "${req.url}" does not exist!` });
       log.warn(`${req.method} api "${req.url}" does not exist!`);
     });
 
     // Forbidden routes:
-    app.all('/*', (req, res) => {
+    app.use((req, res) => {
       res.statusMessage = `The route "${req.originalUrl}" is forbidden!`;
       res.status(403).send({ status: 403, message: `The route "${req.originalUrl}" is forbidden!` });
       log.warn(`The route "${req.originalUrl}" is forbidden!`);
@@ -101,4 +100,4 @@ const Routes = {
 
 
 // -- Export
-module.exports = Routes;
+export default Routes;

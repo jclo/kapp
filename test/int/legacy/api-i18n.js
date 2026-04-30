@@ -4,8 +4,8 @@
 
 
 // -- Vendor Modules
-const { expect } = require('chai')
-    ;
+import { expect } from 'chai';
+
 
 // -- Local Modules
 
@@ -17,10 +17,20 @@ const { expect } = require('chai')
 
 
 // -- Main section -
-module.exports = (request, user) => {
-  describe('Test the users APIs:', () => {
+
+/**
+ * Starts the tests.
+ *
+ * @function ()
+ * @public
+ * @param {}                -,
+ * @returns {}              -,
+ * @since 0.0.0
+ */
+function TestI18n(agent, user) {
+  describe('Test the i18n APIs:', () => {
     it('Expects "POST /api/v1/auth/login" to return a successful authentication.', (done) => {
-      request
+      agent
         .post('/api/v1/auth/login')
         .set('content-type', 'application/json')
         .send(user)
@@ -31,33 +41,38 @@ module.exports = (request, user) => {
         });
     });
 
-    it('Expects "GET /api/v1/users?id=1&name=Doe" to return "{..., message: {query: {id: "1", name: "Doe"}}}" .', (done) => {
-      request
-        .get('/api/v1/users?id=1&name=Doe')
+    it('Expects "GET /api/v1/i18n/list" to return a list of dictionaries.', (done) => {
+      agent
+        .get('/api/v1/i18n/list')
         .end((err, res) => {
           expect(res).to.have.status(200);
-          expect(res.body).to.be.a('object');
-          expect(res.body.message.query.id).to.be.a('string').that.is.equal('1');
-          expect(res.body.message.query.name).to.be.a('string').that.is.equal('Doe');
+          expect(res.body.fr).to.contain('French');
           done();
         });
     });
 
-    it('Expects "GET /api/v1/users/:id/:name/:other" to return "{..., message: {variables: {id: "1", name: "Doe", other: "3"}}}" .', (done) => {
-      request
-        .get('/api/v1/users/1/Doe/3')
+    it('Expects "GET /api/v1/i18n/fr" to return the French dictionary.', (done) => {
+      agent
+        .get('/api/v1/i18n/fr')
         .end((err, res) => {
           expect(res).to.have.status(200);
-          expect(res.body).to.be.a('object');
-          expect(res.body.message.variables.id).to.be.a('string').that.is.equal('1');
-          expect(res.body.message.variables.name).to.be.a('string').that.is.equal('Doe');
-          expect(res.body.message.variables.other).to.be.a('string').that.is.equal('3');
+          expect(res.body.Hello).to.contain('Bonjour');
+          done();
+        });
+    });
+
+    it('Expects "GET /api/v1/i18n/de" to return a warning message.', (done) => {
+      agent
+        .get('/api/v1/i18n/de')
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.text).to.contain('This translation dictionary is not available yet!');
           done();
         });
     });
 
     it('Expects "GET /api/v1/auth/logout" to confirm a logout.', (done) => {
-      request
+      agent
         .get('/api/v1/auth/logout')
         .end((err, res) => {
           expect(res).to.have.status(200);
@@ -67,3 +82,7 @@ module.exports = (request, user) => {
     });
   });
 };
+
+
+// -- Export
+export default TestI18n;

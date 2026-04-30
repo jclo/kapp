@@ -4,8 +4,9 @@
 
 
 // -- Vendor Modules
-const { expect } = require('chai')
-    ;
+import { expect } from 'chai';
+import { Test } from 'mocha';
+
 
 // -- Local Modules
 
@@ -17,7 +18,17 @@ const { expect } = require('chai')
 
 
 // -- Main section -
-module.exports = (request, user, pack) => {
+
+/**
+ * Starts the tests.
+ *
+ * @function ()
+ * @public
+ * @param {}                -,
+ * @returns {}              -,
+ * @since 0.0.0
+ */
+function TestToken(agent, user, pack) {
   describe('Test the token APIs:', () => {
     // This is what should be returned:
     /*
@@ -37,7 +48,7 @@ module.exports = (request, user, pack) => {
 
     let token;
     it('Expects "POST /api/v1/oauth2/token" to return a successful authentication.', (done) => {
-      request
+      agent
         .post('/api/v1/oauth2/token')
         .set('Authorization', `Basic ${Buffer.from(`${user.user}:${user.password}`).toString('base64')}`)
         .set('content-type', 'application/json')
@@ -51,7 +62,7 @@ module.exports = (request, user, pack) => {
     });
 
     it('Expects "GET /api/v1/system/version" to accept the request.', (done) => {
-      request
+      agent
         .get('/api/v1/system/version')
         .set('Authorization', `Bearer ${token.access_token}`)
         .end((err, res) => {
@@ -62,7 +73,7 @@ module.exports = (request, user, pack) => {
     });
 
     it('Expects "GET /api/v1/oauth2/revoke" to revoke the access token.', (done) => {
-      request
+      agent
         .get('/api/v1/oauth2/revoke')
         .set('Authorization', `Bearer ${token.access_token}`)
         .end((err, res) => {
@@ -73,7 +84,7 @@ module.exports = (request, user, pack) => {
     });
 
     it('Expects "GET /api/v1/system/version" to refuse the request.', (done) => {
-      request
+      agent
         .get('/api/v1/system/version')
         .set('Authorization', `Bearer ${token.access_token}`)
         .end((err, res) => {
@@ -100,7 +111,7 @@ module.exports = (request, user, pack) => {
 
     let newtoken;
     it('Expects "POST /api/v1/oauth2/token" to return a new access token.', (done) => {
-      request
+      agent
         .post('/api/v1/oauth2/token')
         .set('Authorization', `Basic ${Buffer.from(`${user.user}:${user.password}`).toString('base64')}`)
         .set('refresh_token', token.refresh_token)
@@ -115,7 +126,7 @@ module.exports = (request, user, pack) => {
     });
 
     it('Expects "GET /api/v1/system/version" to accept the request.', (done) => {
-      request
+      agent
         .get('/api/v1/system/version')
         .set('Authorization', `Bearer ${newtoken.access_token}`)
         .end((err, res) => {
@@ -126,7 +137,7 @@ module.exports = (request, user, pack) => {
     });
 
     it('Expects "GET /api/v1/oauth2/revoke" to revoke the access token.', (done) => {
-      request
+      agent
         .get('/api/v1/oauth2/revoke')
         .set('Authorization', `Bearer ${newtoken.access_token}`)
         .end((err, res) => {
@@ -140,7 +151,7 @@ module.exports = (request, user, pack) => {
     // Anomalies on token requests:
 
     it('Expects "POST /api/v1/oauth2/token" to return an error as the user credential are missing.', (done) => {
-      request
+      agent
         .post('/api/v1/oauth2/token')
         .set('content-type', 'application/json')
         .send({ grant_type: 'client_credentials' })
@@ -152,7 +163,7 @@ module.exports = (request, user, pack) => {
     });
 
     it('Expects "POST /api/v1/oauth2/token" to return an error as the grant_type is wrong.', (done) => {
-      request
+      agent
         .post('/api/v1/oauth2/token')
         .set('Authorization', `Basic ${Buffer.from(`${user.user}:${user.password}`).toString('base64')}`)
         .set('content-type', 'application/json')
@@ -165,7 +176,7 @@ module.exports = (request, user, pack) => {
     });
 
     it('Expects "POST /api/v1/oauth2/token" to return an error as the grant_type is mising.', (done) => {
-      request
+      agent
         .post('/api/v1/oauth2/token')
         .set('Authorization', `Basic ${Buffer.from(`${user.user}:${user.password}`).toString('base64')}`)
         .set('content-type', 'application/json')
@@ -178,7 +189,7 @@ module.exports = (request, user, pack) => {
     });
 
     it('Expects "POST /api/v1/oauth2/token" to return an error as the user name is wrong.', (done) => {
-      request
+      agent
         .post('/api/v1/oauth2/token')
         .set('Authorization', `Basic ${Buffer.from(`${user.user}x:${user.password}`).toString('base64')}`)
         .set('content-type', 'application/json')
@@ -191,7 +202,7 @@ module.exports = (request, user, pack) => {
     });
 
     it('Expects "POST /api/v1/oauth2/token" to return an error as the user password is wrong.', (done) => {
-      request
+      agent
         .post('/api/v1/oauth2/token')
         .set('Authorization', `Basic ${Buffer.from(`${user.user}:${user.password}x`).toString('base64')}`)
         .set('content-type', 'application/json')
@@ -205,7 +216,7 @@ module.exports = (request, user, pack) => {
 
     // Anomalies on refresh requests:
     it('Expects "POST /api/v1/oauth2/token" to return a successful authentication.', (done) => {
-      request
+      agent
         .post('/api/v1/oauth2/token')
         .set('Authorization', `Basic ${Buffer.from(`${user.user}:${user.password}`).toString('base64')}`)
         .set('content-type', 'application/json')
@@ -219,7 +230,7 @@ module.exports = (request, user, pack) => {
     });
 
     it('Expects "POST /api/v1/oauth2/token" to return an error as the username is wrong.', (done) => {
-      request
+      agent
         .post('/api/v1/oauth2/token')
         .set('Authorization', `Basic ${Buffer.from(`${user.user}x:${user.password}`).toString('base64')}`)
         .set('refresh_token', token.refresh_token)
@@ -233,7 +244,7 @@ module.exports = (request, user, pack) => {
     });
 
     it('Expects "POST /api/v1/oauth2/token" to return an error as the username password is wrong.', (done) => {
-      request
+      agent
         .post('/api/v1/oauth2/token')
         .set('Authorization', `Basic ${Buffer.from(`${user.user}:${user.password}x`).toString('base64')}`)
         .set('refresh_token', token.refresh_token)
@@ -247,7 +258,7 @@ module.exports = (request, user, pack) => {
     });
 
     it('Expects "POST /api/v1/oauth2/token" to return an error as the account is locked.', (done) => {
-      request
+      agent
         .post('/api/v1/oauth2/token')
         .set('Authorization', `Basic ${Buffer.from(`${'jhe'}:${'jhe'}`).toString('base64')}`)
         .set('content-type', 'application/json')
@@ -260,7 +271,7 @@ module.exports = (request, user, pack) => {
     });
 
     it('Expects "POST /api/v1/oauth2/token" to return an error as the refresh token is wrong.', (done) => {
-      request
+      agent
         .post('/api/v1/oauth2/token')
         .set('Authorization', `Basic ${Buffer.from(`${user.user}:${user.password}`).toString('base64')}`)
         .set('refresh_token', 'aaa')
@@ -277,7 +288,7 @@ module.exports = (request, user, pack) => {
     // Anomalies on token for requests requiring authentication:
 
     it('Expects "POST /api/v1/oauth2/token" to return a successful authentication.', (done) => {
-      request
+      agent
         .post('/api/v1/oauth2/token')
         .set('Authorization', `Basic ${Buffer.from(`${user.user}:${user.password}`).toString('base64')}`)
         .set('content-type', 'application/json')
@@ -291,7 +302,7 @@ module.exports = (request, user, pack) => {
     });
 
     it('Expects "GET /api/v1/system/version" to refuse this request as the token is missing.', (done) => {
-      request
+      agent
         .get('/api/v1/system/version')
         // .set('Authorization', `Bearer ${token.access_token}`)
         .set('Authorization', 'Bearer')
@@ -303,7 +314,7 @@ module.exports = (request, user, pack) => {
     });
 
     it('Expects "GET /api/v1/system/version" to refuse this request as a wrong token is provided.', (done) => {
-      request
+      agent
         .get('/api/v1/system/version')
         // .set('Authorization', `Bearer ${token.access_token}`)
         .set('Authorization', `Bearer ${'token.access_token'}`)
@@ -315,3 +326,7 @@ module.exports = (request, user, pack) => {
     });
   });
 };
+
+
+// -- Export
+export default TestToken;

@@ -26,20 +26,16 @@
 
 
 // -- Vendor Modules
-const KZlog   = require('@mobilabs/kzlog')
-    ;
 
 
 // -- Local Modules
-const config = require('../../config')
-    , crypto = require('../../libs/crypto/main')
-    ;
+import CreateLogger from '../../libs/logger/main.js';
+import crypto from '../../libs/crypto/main.js';
+import e from 'express';
 
 
 // -- Local Constants
-const { level } = config
-    , log       = KZlog('dbi/test/sqlite.js', level, false)
-    ;
+const log = CreateLogger(import.meta.url);
 
 
 // -- Local Variables
@@ -60,11 +56,9 @@ const users = `
 `;
 
 const people = [
-  /* eslint-disable object-curly-newline */
   { user_name: 'jdo', user_pwd: 'jdo', first_name: 'John', last_name: 'Doe' },
   { user_name: 'jsn', user_pwd: 'jsn', first_name: 'John', last_name: 'Snow' },
   { user_name: 'jhe', user_pwd: 'jhe', first_name: 'John', last_name: 'Headache' },
-  /* eslint-enable object-curly-newline */
 ];
 
 
@@ -92,7 +86,7 @@ const methods = {
     if (resp && resp.name === 'users') {
       await lib.close(cn);
       log.info('The database is already filled.');
-      if (callback) callback();
+      if (callback) { callback(); }
       return;
     }
 
@@ -124,7 +118,7 @@ const methods = {
 
     log.info('we created the users table.)');
     await lib.close(cn);
-    if (callback) callback();
+    if (callback) { callback(); }
   },
 
   /**
@@ -146,4 +140,4 @@ const methods = {
 
 
 // -- Export
-module.exports = methods;
+export default methods;

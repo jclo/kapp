@@ -32,13 +32,12 @@
 
 
 // -- Vendor Modules
-const PG = require('pg');
+import PG from 'pg';
 
 
 // -- Local Modules
-const U1 = require('../../dbi/util')
-    , U2 = require('./util')
-    ;
+import U1 from '../../dbi/util.js';
+import U2 from './util.js';
 
 
 // -- Local Constants
@@ -114,10 +113,10 @@ const PGSQL = {
       this.pool.connect((err, connection) => {
         if (err) {
           reject(err);
-          if (callback) callback(err);
+          if (callback) { callback(err); }
         } else {
           resolve(connection);
-          if (callback) callback(null, connection);
+          if (callback) { callback(null, connection); }
         }
       });
     });
@@ -140,16 +139,16 @@ const PGSQL = {
     let q = query;
     q = convert ? U1.convert(q, 'pgsql') : q;
     params.forEach((item, index) => { q = q.replace(/\?/, `$${index + 1}`); });
-    if (dump) process.stdout.write(`${q}\n`);
+    if (dump) { process.stdout.write(`${q}\n`); }
 
     return new Promise((resolve, reject) => {
       cn.query(q, params, (err, results) => {
         if (err) {
           reject(err);
-          if (callback) callback(err);
+          if (callback) { callback(err); }
         } else {
           resolve(results.rows);
-          if (callback) callback(null, results.rows, results);
+          if (callback) { callback(null, results.rows, results); }
         }
       });
     });
@@ -169,7 +168,7 @@ const PGSQL = {
     return new Promise((resolve) => {
       cn.release();
       resolve(true);
-      if (callback) callback(null, true);
+      if (callback) { callback(null, true); }
     });
   },
 
@@ -187,10 +186,10 @@ const PGSQL = {
       this.pool.end((err) => {
         if (err) {
           reject(err);
-          if (callback) callback(err);
+          if (callback) { callback(err); }
         } else {
           resolve(true);
-          if (callback) callback(null, true);
+          if (callback) { callback(null, true); }
         }
       });
     });
@@ -214,4 +213,4 @@ const PGSQL = {
 
 
 // -- Export
-module.exports = PGSQL;
+export default PGSQL;

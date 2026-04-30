@@ -70,12 +70,12 @@ const I18N = {
    * @returns {Object}      returns the requested dictionary or empty,
    * @since 0.0.0
    */
-  load(i18n, req /* , res */) {
-    const dic = i18n.load(req.params.lang);
+  async load(i18n, req /* , res */) {
+    const dic = await i18n.load(req.params.lang);
     return dic || { message: 'This translation dictionary is not available yet!' };
   },
 };
 
 
 // -- Export
-module.exports = I18N;
+export default I18N;
