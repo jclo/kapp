@@ -46,7 +46,7 @@ const user  = { user: 'jdo', password: 'jdo' }
 process.env.KAPP_TEST_MODE = 1;
 process.env.KAPP_HTTPS= false;
 
-// Set the server URL
+// Set the server URL & create the agent
 const server = `http://127.0.0.1:${config.env.httpport}`;
 const agent = request.agent(server);
 

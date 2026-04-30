@@ -89,4 +89,4 @@ const env = {
 
 
 // -- Export
-module.exports = env;
+export default env;

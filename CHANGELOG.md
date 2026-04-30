@@ -3,6 +3,7 @@
 ### 3.0.0 (April 30, 2026)
 
   * Migrated the server to ESM,
+  * Updated .env.github.js and demo.env.js with "export default env" instead of "module.exports = env",
   * ...
 
 
