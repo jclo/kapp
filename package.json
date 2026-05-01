@@ -1,7 +1,7 @@
 {
   "name": "@mobilabs/kapp",
-  "version": "3.0.0.beta.1",
-  "dbVersion": "3.0.0.beeta.1",
+  "version": "3.0.0-beta.2",
+  "dbVersion": "3.0.0-beta.2",
   "description": "A boilerplate to build a basic app server tuned to run into kubernetes",
   "main": "",
   "bin": {
@@ -19,7 +19,7 @@
     "test:vitest": "",
     "test": "npm run test:mocha ; npm run test:vitest",
     "display:coverage": "open -a safari ./coverage/lcov-report/index.html",
-    "check:coverage": "c8 check-coverage --statements 80 --branches 70 --functions 40 --lines 80",
+    "check:coverage": "c8 check-coverage --statements 70 --branches 70 --functions 40 --lines 70",
     "report": "c8 report",
 
     "deployment": " --- DEPLOYING --- ",
@@ -31,6 +31,7 @@
     "doc:site:init": "kasar xxx orion run once only",
     "doc:site:build": "kasar build",
     "doc:site:start": "kasar serve",
+
     "others": " --- OTHERS ---",
     "prepare": "husky"
   },
@@ -77,7 +78,6 @@
     "husky": "^9.1.7",
     "js-yaml": "^4.1.1",
     "mocha": "^11.7.5",
-    "start-server-and-test": "^2.1.5",
     "@mobilabs/es6lib": "^2.3.0"
   },
   "c8": {

@@ -118,8 +118,8 @@ function _updateEnv(keys, callback) {
  * @returns {}              -,
  * @since 0.0.0
  */
-function _addKeysToEnv(that, callback) {
-  const keys = that.getKeys();
+async function _addKeysToEnv(that, callback) {
+  const keys = await that.getKeys();
   if (keys) {
     callback({
       error_code: null,
@@ -128,7 +128,7 @@ function _addKeysToEnv(that, callback) {
     return;
   }
 
-  that.vapidKeys = that.generateKeys();
+  that.vapidKeys = await that.generateKeys();
   _updateEnv(that.vapidKeys, (resp) => {
     callback(resp);
   });

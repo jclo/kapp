@@ -108,6 +108,12 @@ This is the address you should enter [see here for more explanations](https://st
 Each time you restart Docker, the IP address of the db server change. You must update the server by modifying its parameters (in fact iits IP address) otherwise you cannot login to the db server.
 
 
+### Credentials
+
+  . login: contact@mobilabs.fr
+  . pwd: root
+
+
 # Appendix
 
   - [PostgreSQL on Docker](https://hub.docker.com/_/postgres),

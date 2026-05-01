@@ -33,9 +33,7 @@
 
 
 // -- Vendor Modules
-import fs from 'fs';
 import crypto from 'crypto';
-import { createRequire } from 'module';
 
 
 // -- Local Modules
@@ -43,7 +41,6 @@ import P from './keyenv.js';
 
 
 // -- Local Constants
-const require = createRequire(import.meta.url);
 
 
 // -- Local Variables
@@ -60,17 +57,15 @@ const require = createRequire(import.meta.url);
  * @returns {Object}        returns vapid keys or null,
  * @since 0.0.0
  */
-function _readKeys(that) {
+async function _readKeys(that) {
   // be care at the first start when vapidKeys of .env.js is empty,
   // require('./env.js) returns a null vapidKeys even after .env.js
   // has been updated with vapidKeys. Thus, the only way to read
   // vapidKeys is through _readkeys!
   // const env = require('../../../.env');
 
-  // suppress the cache to force re-reading
-  delete require.cache[require.resolve('../../../.env.js')];
-  const env = require('../../../.env.js');
-
+  const module = await import('../../../.env.js');
+  const env = module.default;
   if (!env
       || !env.vapidKeys
       || !env.vapidKeys.publicKey
@@ -92,9 +87,9 @@ function _readKeys(that) {
  * @returns {Object}        returns the public key or null,
  * @since 0.0.0
  */
-function _getPublicKey(that) {
+async function _getPublicKey(that) {
   if (!that.vapidKeys) {
-    _readKeys(that);
+    await _readKeys(that);
   }
 
   if (that.vapidKeys
@@ -116,9 +111,9 @@ function _getPublicKey(that) {
  * @returns {Object}        returns public and private keys or null,
  * @since 0.0.0
  */
-function _getKeys(that) {
+async function _getKeys(that) {
   if (!that.vapidKeys) {
-    _readKeys(that);
+    await _readKeys(that);
   }
 
   if (that.vapidKeys
@@ -188,8 +183,8 @@ const CryptoKeys = {
    * @returns {Object}      returns public and private keys,
    * @since 0.0.0
    */
-  generateKeys() {
-    const keys = this.getKeys();
+  async generateKeys() {
+    const keys = await this.getKeys();
     if (keys) {
       return keys;
     }

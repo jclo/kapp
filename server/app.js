@@ -38,7 +38,6 @@ import PicoDB from 'picodb';
 import CreateLogger from './libs/logger/main.js';
 import config from './config.js';
 import Servers from './core/http.js';
-
 import Routes from './core/routes.js';
 import Watcher from './core/watcher.js';
 import Processor from './core/process.js';
@@ -110,6 +109,9 @@ const _setEnv = function(enviro, conf) {
   if (!process.env.KAPP_LOGIN_LOCKED) { process.env.KAPP_LOGIN_LOCKED = conf.env.loginDisabled.toString() || 'false'; }
   if (!process.env.KAPP_HEARTBEAT_ENABLED) { process.env.KAPP_HEARTBEAT_ENABLED = conf.env.heartbeatEnabled.toString() || 'false'; }
   if (!process.env.KAPP_HEART_RATE) { process.env.KAPP_HEART_RATE = conf.env.heartbeatRate || 1000 * 60 * 1; }
+  if (!process.env.KAPP_CONTAINER_PROTOCOL) { process.env.KAPP_CONTAINER_PROTOCOL = conf.env.container && conf.env.container.protocol ? conf.env.container.protocol : 'http';}
+  if (!process.env.KAPP_CONTAINER_DOMAIN) { process.env.KAPP_CONTAINER_DOMAIN = conf.env.container && conf.env.container.domain ? conf.env.container.domain : 'localhost';}
+  if (!process.env.KAPP_CONTAINER_PORT) { process.env.KAPP_CONTAINER_PORT = conf.env.container && conf.env.container.port ? conf.env.container.port : 1080; }
 
   if (!process.env.KAPP_DB_ACTIVE) { process.env.KAPP_DB_ACTIVE = enviro.db.active; }
 

@@ -30,7 +30,7 @@
 
 // -- Local Modules
 import Crypto from '../../libs/crypto/main.js';
-import Token from '../../libs/token/main.js';
+import Token from '../../libs/tokenandpass/main.js';
 import config from '../../config.js';
 import Auth0 from './authserver.js';
 
@@ -100,11 +100,11 @@ const TOK = {
     const newtoken = {
       scope: '',
       token_type: 'Bearer',
-      access_token: Token.get(TK.length, TK.base),
+      access_token: Token.generateToken(TK.length, TK.base),
       expires_in: TK.lifetime * 1000,
       expires_at: Date.now() + TK.lifetime * 1000,
       is_access_token_revoked: false,
-      refresh_token: Token.get(TK.length, TK.base),
+      refresh_token: Token.generateToken(TK.length, TK.base),
       refresh_expires_at: Date.now() + TK.refreshTokenLifetime * 1000,
     };
 
@@ -168,7 +168,7 @@ const TOK = {
 
     // Update the token:
     let { token } = suser;
-    token.access_token = Token.get(TK.length, TK.base);
+    token.access_token = Token.generateToken(TK.length, TK.base);
     token.expires_in = TK.lifetime * 1000;
     token.expires_at = Date.now() + TK.lifetime * 1000;
     token.is_access_token_revoked = false;

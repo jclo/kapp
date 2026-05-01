@@ -3,7 +3,7 @@
 
 
 // -- Vendor Modules
-const shell = require('shelljs');
+import shell from 'shelljs';
 
 
 // -- Local Modules

@@ -8,7 +8,7 @@
  *
  * The MIT License (MIT)
  *
- * Copyright (c) 2024 Mobilabs <contact@mobilabs.fr> (http://www.mobilabs.fr)
+ * Copyright (c) 2026 Mobilabs <contact@mobilabs.fr> (http://www.mobilabs.fr)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,24 +32,27 @@
 
 
 // -- Vendor Modules
-const fs    = require('fs')
-    , nopt  = require('nopt')
-    , path  = require('path')
-    , shell = require('shelljs')
-    ;
+import fs from 'fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
+import nopt from 'nopt';
+import path from 'path';
+import shell from 'shelljs';
 
 
 // -- Local Modules
+import pack from '../package.json' with { type: 'json' };
 
 
 // -- Local Constants
 const defBoilerLib  = 'kapp'
-    /* eslint-disable-next-line object-curly-newline */
+    , __filename = fileURLToPath(import.meta.url)
+    , __dirname = dirname(__filename)
     , defAuthor   = { name: 'John Doe', acronym: 'jdo', email: 'jdo@johndoe.com', url: 'http://www.johndoe.com' }
     , copyright   = `Copyright (c) ${new Date().getFullYear()} {{author:name}} <{{author:email}}> ({{author:url}})`
     , baseapp     = process.cwd()
     , baseboiler  = __dirname.replace('/bin', '')
-    , { version } = require('../package.json')
+    , { version } = pack
     , husky       = '.husky'
     , publicdir   = 'public'
     , serverdir   = 'server'
@@ -362,6 +365,7 @@ function _customize(source, dest, app, owner, boilerlib) {
   pack.description = `${app} ...`;
   pack.main = '';
   pack.bin = {};
+  pack.type = 'module';
 
   pack.scripts = obj.scripts;
   pack.scripts['check:coverage'] = 'c8 check-coverage --statements 100 --branches 100 --functions 100 --lines 100';

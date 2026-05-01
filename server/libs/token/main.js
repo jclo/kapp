@@ -42,6 +42,10 @@
 /**
  * Returns a token or a password generated randomly.
  *
+ * Nota:
+ * The number of tokens is given by the formula:
+ *  - (length of the string to use for encoding) ^ (length of the token)
+ *
  * @function (arg1, arg2)
  * @private
  * @param {Number}          the length of the token or password,

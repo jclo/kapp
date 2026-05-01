@@ -83,6 +83,13 @@ spec:
               value: 'false'
             - name: KAPP_HEART_RATE
               value: '60000'
+            # container info (landing page)
+            - name: KAPP_CONTAINER_PROTOCOL
+              value: 'http'
+            - name: KAPP_CONTAINER_DOMAIN
+              value: 'localhost'
+            - name: KAPP_CONTAINER_PORT
+              value: '1080'
 
             # active db
             - name: KAPP_DB_ACTIVE
@@ -130,5 +137,5 @@ spec:
             - name: KAPP_MONGO_PASSWORD
               value: '<pwd>'
             - name: KAPP_MONGO_CHANGE_STREAMS_ACTIVE
-              value: 'false'          
+              value: 'false'
 # -- oOo --

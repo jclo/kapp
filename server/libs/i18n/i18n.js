@@ -28,7 +28,7 @@
  * @since        0.0.0
  * @version      -
  * ************************************************************************** */
-/* eslint no-underscore-dangle: 0 */
+/* eslint no-underscore-dangle: 0, prefer-const: 0 */
 
 
 // -- Vendor Modules
@@ -36,11 +36,9 @@
 
 // -- Local Modules
 import list from './app/i18n.lang.js';
-import { createRequire } from 'module';
 
 
 // -- Local Constants
-const require = createRequire(import.meta.url);
 
 
 // -- Local Variables

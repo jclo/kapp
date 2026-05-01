@@ -18,6 +18,7 @@ Then, you just need to create a **package.json** file that contains:
 ```json
 {
   "name": "NameOfYourProject",
+  "type": "module",
   "scripts": {
     "create": "npm install @mobilabs/kapp && npm run populate",
     "populate": "kapp populate --name $npm_package_name --author $npm_package_config_name --acronym $npm_package_config_acronym --email $npm_package_config_email --url $npm_package_config_url && npm install"

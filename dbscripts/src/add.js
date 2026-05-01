@@ -97,9 +97,9 @@ async function _addColumn(dbi, column, table) {
   const sql = dbi._name === 'sqlite'
     ? `ALTER TABLE ${table} ADD COLUMN ${column} VARCHAR(50) DEFAULT NULL`
     : `
-    ALTER TABLE ${table}
-    ADD COLUMN ${column}_first VARCHAR(50) DEFAULT NULL FIRST,
-    ADD COLUMN ${column}_after VARCHAR(50) DEFAULT NULL AFTER db_version
+      ALTER TABLE ${table}
+      ADD COLUMN ${column}_first VARCHAR(50) DEFAULT NULL FIRST,
+      ADD COLUMN ${column}_after VARCHAR(50) DEFAULT NULL AFTER db_version
     `;
 
   const resp = await dbi._query(sql, []);

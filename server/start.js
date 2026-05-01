@@ -30,6 +30,7 @@ import yaml from 'js-yaml';
 
 // -- Local Modules
 import App from './app.js';
+import CKeys from './libs/cryptokeys/main.js';
 
 
 // -- Local Constants
@@ -75,12 +76,19 @@ function _setEnv() {
 // (see https://github.com/node-fetch/node-fetch/issues/1624)
 dns.setDefaultResultOrder('ipv4first');
 
-// Starts the server:
-if (process.env.KAPP_ENV_KUBE_YAML) {
-  _setEnv();
-}
+// Adds Web Push notifications keys to .env.js if they do not exist.
+CKeys.addKeysToEnv((resp) => {
+  if (resp.error_code) {
+    process.stdout.write('Could NOT generate Web Push Notification keys. The server must not to be started!');
+    return;
+  }
 
-App(__dirname);
+  // Starts the server:
+  if (process.env.KAPP_ENV_KUBE_YAML) {
+    _setEnv();
+  }
+  App(__dirname);
+});
 
 
 // -- Export
