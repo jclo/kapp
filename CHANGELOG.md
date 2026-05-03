@@ -1,10 +1,11 @@
 ### HEAD
 
-### 3.0.0 (May 1, 2026)
+### 3.0.0 (May 3, 2026)
 
   * Migrated the server to ESM,
   * Updated .env.github.js and demo.env.js with "export default env" instead of "module.exports = env",
   * Fixed a few issues found during the integration of the first server,
+  * Fixed a few other issues,
   * ...
 
 

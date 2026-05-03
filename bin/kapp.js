@@ -326,7 +326,7 @@ function _addSkeleton(base, app, owner, cright) {
  */
 function _duplicate(source, dest) {
   const dupFiles = [
-    '.eslintrc', '.env.github.js', 'demo.env.js', 'rmdstore.sh',
+    'eslint.config.js', '.env.github.js', 'demo.env.js', 'rmdstore.sh',
     'README_KAPP_API.md',
     'README_LIB_MONGODB.md', 'README_PGSQL_DOCKER.md',
     'README_SOCKETS.md', 'README.md',

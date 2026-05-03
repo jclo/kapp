@@ -4,11 +4,11 @@
 
 
 // -- Vendor Modules
-const { expect } = require('chai')
-    ;
+import { expect } from 'chai';
+
 
 // -- Local Modules
-const CKeys = require('../../../server/libs/cryptokeys/main');
+import CKeys from '../../../server/libs/cryptokeys/main.js';
 
 
 // -- Local Constants
@@ -19,7 +19,7 @@ const PROPS = 5;
 
 
 // -- Main section -
-module.exports = () => {
+export default () => {
   describe('Test the CryptoKeys lib:', () => {
     it('Expects the library to be an object.', () => {
       expect(CKeys).to.be.an('object');
@@ -53,9 +53,9 @@ module.exports = () => {
     });
 
     let VAPidKeys;
-    it('Expects CryptoKeys.getKeys to return an object.', () => {
-      VAPidKeys = CKeys.getKeys();
-      expect(CKeys.getKeys()).to.be.an('object');
+    it('Expects CryptoKeys.getKeys to return an object.', async () => {
+      VAPidKeys = await CKeys.getKeys();
+      expect(VAPidKeys).to.be.an('object');
     });
 
     it('Expects this object to own two properties.', () => {
@@ -71,8 +71,8 @@ module.exports = () => {
     });
 
     let GENKeys;
-    it('Expects CryptoKeys.generateKeys() to return an object.', () => {
-      GENKeys = CKeys.generateKeys();
+    it('Expects CryptoKeys.generateKeys() to return an object.', async () => {
+      GENKeys = await CKeys.generateKeys();
       expect(GENKeys).to.be.an('object');
     });
 
@@ -84,8 +84,8 @@ module.exports = () => {
       expect(GENKeys).to.own.property('privateKey').that.is.equal(VAPidKeys.privateKey);
     });
 
-    it('Expects CryptoKeys.getPublicKey() to return the publicKey returned by getKeys.', () => {
-      expect(CKeys.getPublicKey()).to.own.property('publicKey').that.is.equal(VAPidKeys.publicKey);
+    it('Expects CryptoKeys.getPublicKey() to return the publicKey returned by getKeys.', async () => {
+      expect(await CKeys.getPublicKey()).to.own.property('publicKey').that.is.equal(VAPidKeys.publicKey);
     });
 
     let addKeysToEnvResp;
@@ -110,7 +110,3 @@ module.exports = () => {
     });
   });
 };
-
-
-// -- Export
-export default Test...;

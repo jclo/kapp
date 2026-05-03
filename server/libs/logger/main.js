@@ -53,16 +53,17 @@ const level = config.level || 'info';
  * @function (arg1, [arg2])
  * @public
  * @param {String}        the name of the file,
- * @param {Boolean}       the ...,
+ * @param {Object}        the optional parameters (level and highlight),
  * @returns {Object}      returns the logger instance,
  * @since 0.0.0
  */
 function CreateLogger(metaUrl, option) {
-  const filename = basename(fileURLToPath(metaUrl))
-      , type     = option && option === true ? option : false
+  const filename  = basename(fileURLToPath(metaUrl))
+      , klevel    = option && option.level ? option.level : level
+      , highlight = option && option.highlight === true ? true : false
       ;
 
-  return KZlog(filename, level, type);
+  return KZlog(filename, klevel, highlight);
 }
 
 

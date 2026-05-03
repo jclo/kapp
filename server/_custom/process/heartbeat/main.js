@@ -65,7 +65,7 @@ async function _send(dbn) {
   }
 
   try {
-    const res = await F.POST(null, `${server}/api/v1/pods/state`, {
+    const [, res] = await F.POST(null, `${server}/api/v1/pods/state`, {
       pod_name: process.env.KAPP_POD_USERNAME,
       pod_pwd: process.env.KAPP_POD_PASSWORD,
       pod_boot_time: doc[0].server_boot_time_stamp,

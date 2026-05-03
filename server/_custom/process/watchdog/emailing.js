@@ -46,15 +46,14 @@ const log = CreateLogger(import.meta.url);
 /**
  * Requests a connection to Hermes.
  *
- * @function ()
+ * @function (arg1)
  * @private
- * @param {}                -,
+ * @param {String}          the server url,
  * @returns {Array}         return the connection token or an error,
  * @since 0.0.0
  */
-async function _login() {
-  const server     = `${process.env.HERMES_PROTOCOL}://${process.env.HERMES_URL}:${process.env.HERMES_PORT}`
-      , authserver = process.env.KAPP_POD_AUTH_SERVER
+async function _login(server) {
+  const authserver = process.env.KAPP_POD_AUTH_SERVER
       , user       = process.env.KAPP_POD_USERNAME
       , password   = process.env.KAPP_POD_PASSWORD
       ;
@@ -91,15 +90,16 @@ async function _login() {
 /**
  * Releases the connection from Hermes.
  *
- * @function (arg1)
+ * @function (arg1, arg2)
  * @private
+ * @param {String}          the server url,
  * @param {String}          the connection token,
  * @returns {Array}         return a response or error,
  * @since 0.0.0
  */
-async function _logout(token) {
+async function _logout(server, token) {
   try {
-    await FTK.logout(token.access_token, `${process.env.HERMES_PROTOCOL}://${process.env.HERMES_URL}:${process.env.HERMES_PORT}`);
+    await FTK.logout(token.access_token, server);
   } catch (e) {
     log.warn(`error_code: ${e.code}, message: The connection to Hermes server fails!`);
     return [{
@@ -124,14 +124,14 @@ async function _logout(token) {
 async function _send(subject, html) {
   const hserver = `${process.env.HERMES_PROTOCOL}://${process.env.HERMES_URL}:${process.env.HERMES_PORT}`;
 
-  const [err1, token] = await _login();
+  const [err1, token] = await _login(hserver);
   if (err1) {
     return [err1];
   }
 
   let resp;
   try {
-    resp = await FTK.POST(token.access_token, `${hserver}/api/v1/pods/emails/one`, {
+    [, resp] = await FTK.POST(token.access_token, `${hserver}/api/v1/pods/emails/one`, {
       to: process.env.HERMES_ALERT_RECIPIENT,
       subject,
       html,
@@ -153,7 +153,7 @@ async function _send(subject, html) {
     return [resp];
   }
 
-  const [err] = await _logout(token);
+  const [err] = await _logout(hserver, token);
   if (err) {
     return [err];
   }

@@ -28,8 +28,7 @@
 
 
 // -- Local Modules
-const Custom = require('./api/v1/main')
-    ;
+import Custom from './api/v1/main.js';
 
 
 // -- Local Constants
@@ -62,4 +61,4 @@ function CAPIs(app, i18n, dbi, dbn) {
 
 
 // -- Export
-module.exports = CAPIs;
+export default CAPIs;

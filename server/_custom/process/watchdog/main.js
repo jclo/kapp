@@ -59,7 +59,7 @@ async function _getIPLocation(ip) {
       ;
 
   try {
-    const resp = await F.GET(null, `${server}/api/v1/ip/one/${ip}`);
+    const [, resp] = await F.GET(null, `${server}/api/v1/ip/one/${ip}`);
     if (resp.status === 401) {
       log.error(`status: ${resp.status}, error_code: ${resp.message.error_code}, message: ${resp.message.message}`);
       return null;
