@@ -144,4 +144,4 @@ const ADD = {
 
 
 // -- Export
-module.exports = ADD;
+export default ADD;

@@ -21,6 +21,7 @@ fi
 # Copy from source
 # cp -r ${SOURCE}/__SQLite-amalgamation ${NPM}/${TMP}/.
 cp -r ${SOURCE}/bin ${NPM}/${TMP}/.
+cp -r ${SOURCE}/.github ${NPM}/${TMP}/.
 cp -r ${SOURCE}/container ${NPM}/${TMP}/.
 cp -r ${SOURCE}/db ${NPM}/${TMP}/.
 cp -r ${SOURCE}/dbscripts ${NPM}/${TMP}/.
@@ -33,7 +34,7 @@ cp -r ${SOURCE}/test ${NPM}/${TMP}/.
 
 cp ${SOURCE}/.env.github.js ${NPM}/${TMP}/.
 cp ${SOURCE}/.eslintignore ${NPM}/${TMP}/.
-cp ${SOURCE}/.eslintrc ${NPM}/${TMP}/.
+cp ${SOURCE}/eslint.config.js ${NPM}/${TMP}/.
 cp ${SOURCE}/.gitignore ${NPM}/${TMP}/.
 cp ${SOURCE}/.npmignore ${NPM}/${TMP}/.
 cp ${SOURCE}/demo.env.js ${NPM}/${TMP}/.

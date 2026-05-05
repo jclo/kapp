@@ -1,20 +1,18 @@
 #!/usr/bin/env node
 // ESLint declarations
 /* global */
-/* eslint one-var: 0, semi-style: 0, no-underscore-dangle: 0 */
+/* eslint one-var: 0, semi-style: 0, no-underscore-dangle: 0, curly: 0 */
 
 
 // -- Node modules
-const nopt = require('nopt')
-    ;
+import nopt from 'nopt';
 
 
 // -- Local modules
-const pk     = require('../package.json')
-    , enviro = require('../.env')
-    , DBI    = require('../server/dbi/dbi')
-    , A      = require('./src/add')
-    ;
+import pk from '../package.json' with { type: 'json' };
+import enviro from '../.env.js';
+import DBI from '../server/dbi/dbi.js';
+import A from './src/add.js';
 
 
 // -- Local constants

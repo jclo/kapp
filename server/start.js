@@ -36,7 +36,7 @@ import CKeys from './libs/cryptokeys/main.js';
 // -- Local Constants
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const yamlfile = join(__dirname, './container/kube-local.yaml');
+const yamlfile = join(__dirname, '../container/kube-local.yaml');
 
 
 // -- Local Variables
