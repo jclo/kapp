@@ -9,6 +9,7 @@
   * Fixed a path issue in start.js,
   * Modified priivate.sh script to copy eslint.config.js,
   * Updated dbscripts to ESM,
+  * Moved to node-version: 20 in ci.yml,
   * ...
 
 
